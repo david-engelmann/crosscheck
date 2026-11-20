@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = ["crates/retrial-core", "crates/retrial-cli"]
+
+[workspace.package]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.91"
+
+[workspace.lints.clippy]
+all = "warn"

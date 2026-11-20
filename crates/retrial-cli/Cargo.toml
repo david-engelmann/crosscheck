@@ -1,0 +1,17 @@
+[package]
+name = "retrial-cli"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Command line front end for retrial, the deterministic verifier for agent work reports."
+
+[[bin]]
+name = "retrial"
+path = "src/main.rs"
+
+[dependencies]
+retrial-core = { path = "../retrial-core" }
+
+[lints]
+workspace = true
