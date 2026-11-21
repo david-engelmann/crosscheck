@@ -5,14 +5,81 @@
 //! Exit codes are the verdict contract in DECISIONS.md D5: 0 verified,
 //! 1 contradicted, 2 malformed, 3 unverifiable, 64 usage, 66 input
 //! unreadable.
+//!
+//! Git claims are checked when the bundle carries a repository in
+//! its `repo` directory. The adapter below is the product's only
+//! process surface: it invokes the auditor's git with a fixed
+//! subcommand set and argument vectors, never a shell, and the only
+//! report-derived values it passes are commit identifiers the core
+//! has already validated as hex (INV-1, INV-8).
 
 use std::path::{Path, PathBuf};
-use std::process::ExitCode;
+use std::process::{Command, ExitCode};
 
-use retrial_core::{Status, verify_report};
+use retrial_core::{RepoFacts, Status, Tri, verify_report_repo};
 
-const LIMIT_LINE: &str = "Note: retrial proves that cited spans exist, hashes match, and counts \
-recompute. It does not prove a span supports the sentence it is attached to.";
+/// RepoFacts supplied by the auditor's git, run against the
+/// repository bundled at `dir`.
+struct GitRepo {
+    dir: PathBuf,
+}
+
+impl GitRepo {
+    /// Run git with the given arguments. Returns the exit code and
+    /// stdout, or None when git could not be run at all.
+    fn run(&self, args: &[&str]) -> Option<(i32, String)> {
+        let out = Command::new("git")
+            .arg("-C")
+            .arg(&self.dir)
+            .args(args)
+            .output()
+            .ok()?;
+        Some((
+            out.status.code().unwrap_or(-1),
+            String::from_utf8_lossy(&out.stdout).into_owned(),
+        ))
+    }
+}
+
+impl RepoFacts for GitRepo {
+    fn resolves_to_commit(&self, sha: &str) -> Tri {
+        let spec = format!("{sha}^{{commit}}");
+        match self.run(&["rev-parse", "--verify", "--quiet", &spec]) {
+            Some((0, _)) => Tri::Yes,
+            Some(_) => Tri::No,
+            None => Tri::Unknown,
+        }
+    }
+
+    fn is_ancestor(&self, anc: &str, desc: &str) -> Tri {
+        if self.resolves_to_commit(anc) != Tri::Yes
+            || self.resolves_to_commit(desc) != Tri::Yes
+        {
+            return Tri::Unknown;
+        }
+        match self.run(&["merge-base", "--is-ancestor", anc, desc]) {
+            Some((0, _)) => Tri::Yes,
+            Some((1, _)) => Tri::No,
+            _ => Tri::Unknown,
+        }
+    }
+
+    fn diff_files(&self, a: &str, b: &str) -> Option<Vec<String>> {
+        let (code, out) = self.run(&["diff", "--name-only", a, b])?;
+        if code != 0 {
+            return None;
+        }
+        Some(
+            out.lines()
+                .filter(|l| !l.is_empty())
+                .map(str::to_string)
+                .collect(),
+        )
+    }
+}
+
+const LIMIT_LINE: &str = "Note: retrial proves that cited spans exist, hashes match, counts \
+recompute, and cited commits resolve. It does not prove a span supports the sentence it is attached to.";
 
 fn usage() -> ExitCode {
     eprintln!("usage: retrial verify REPORT --bundle DIR [--json]");
@@ -75,7 +142,19 @@ fn main() -> ExitCode {
         return ExitCode::from(66);
     }
 
-    let verdict = verify_report(&report_text, &bundle_dir);
+    let repo_dir = bundle_dir.join("repo");
+    let repo = if repo_dir.is_dir()
+        && (repo_dir.join(".git").exists() || repo_dir.join("HEAD").exists())
+    {
+        Some(GitRepo { dir: repo_dir })
+    } else {
+        None
+    };
+    let verdict = verify_report_repo(
+        &report_text,
+        &bundle_dir,
+        repo.as_ref().map(|r| r as &dyn RepoFacts),
+    );
     if json {
         let mut out = String::from("{\"claims\":[");
         for (n, r) in verdict.results.iter().enumerate() {
