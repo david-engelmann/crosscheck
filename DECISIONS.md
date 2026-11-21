@@ -104,3 +104,56 @@ cited logs, pull request and CI state from bundled records.
 
 Each milestone closes under the house checkpoint rule, which is
 three reviews before landing.
+
+## D10. M1 ratification (2026-11-21)
+
+The extraction measurement (docs/M1-RESULTS.md) was ratified by the
+owner on the measured evidence. The bar stands as proposed: a
+pattern class is trusted at a false positive rate of at most 2
+percent, provisional between 2 and 5 percent, and does not ship
+above 5 percent. The trusted set is as measured: explicit PR
+references, full git SHAs, full content hashes (small sample, noted
+on the record), and run tallies. Short commit references are
+provisional and never fail a run alone. Counts, sizes, bare-number
+references, and quotes do not ship in v1.
+
+Two precisions ride with the ratification. The bare-number merge
+into the PR class is a pattern set v1 candidate only: it inherits
+nothing until the merged class re-measures at the trusted rate on a
+fresh frozen corpus. The quote class stays out until a structural
+signal exists, not merely a better pattern. Every v1 pattern change
+is re-measured on a fresh frozen corpus before any class moves, per
+the measurement protocol's no-tuning rule. The headline stands:
+extraction narrows the audit, and the marker convention remains the
+complete path.
+
+## D11. M2 git claim classes (2026-11-21)
+
+M2 adds three claim kinds over the repository a bundle carries:
+commit resolution, ancestry, and diff scope. The repository lives
+at a fixed place in the bundle layout, the repo directory the
+auditor assembles. A report names commit identifiers only, never a
+repository path, so the evidence a git claim is checked against is
+always the auditor's, never the report author's choice.
+
+The core stays free of process spawning (INV-1). It defines the
+claim model and verdict logic over a RepoFacts interface: whether
+an identifier resolves to a commit, whether one commit is an
+ancestor of another, and which files a diff touches. The CLI layer
+supplies the facts through the auditor's git, invoked with argument
+vectors only, against the bundled repository, with identifiers
+validated as hex in the core before they are ever passed on. Facts
+are data in, verdicts are data out.
+
+Verdict semantics follow the M0 precedent: evidence absent is
+unverifiable, evidence present and disagreeing is contradicted. A
+bundle with no repository makes every git claim unverifiable. An
+identifier that does not resolve in a bundled repository is
+unverifiable. Resolved commits that are not in the claimed ancestry
+relation, and diffs whose file set or count disagrees with the
+claim, are contradicted.
+
+Extraction does not widen for M2. Git claims enter through the
+marker convention, and through extraction only in the ratified
+trusted and provisional shapes: full SHAs trusted, short references
+provisional.

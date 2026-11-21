@@ -4,8 +4,11 @@ Each invariant traces to the code and tests that hold it. The list
 grows with the build, one entry per landed behaviour.
 
 - INV-1. Nothing a report names is ever executed. The verifier reads
-  bytes and git objects only. Held by the core having no process
-  spawning surface at all.
+  bytes and git facts only. Held by the core having no process
+  spawning surface at all; the one process surface in the product is
+  the CLI's git adapter, which invokes the auditor's git with a
+  fixed subcommand set and argument vectors, never a shell, and
+  report-derived strings reach it only as validated data arguments.
 - INV-2. No network in the verification path. The core performs no
   IO beyond reading the bundle and the repository it is pointed at.
 - INV-3. Fail closed. A claim that cannot be verified produces a
@@ -20,3 +23,8 @@ grows with the build, one entry per landed behaviour.
   byte. Any normalisation is a declared bundle option, never silent.
 - INV-7. The semantic limit is printed, not buried. Every verdict
   output restates that span existence does not prove support.
+- INV-8. Git claims are checked against the auditor's repository,
+  never the report's. The repository sits at a fixed place in the
+  bundle layout; a report names commit identifiers only, never a
+  repository path. Identifiers are validated as hex of bounded
+  length in the core before any adapter sees them.
