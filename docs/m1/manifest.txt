@@ -1,0 +1,34 @@
+M1 corpus manifest, frozen by hash 2026-11-21
+Deviation from the plan, recorded: corpus copies were attempted
+through shell and Python writes and were zeroed by the box write
+fault. The corpus is therefore frozen by recorded SHA-256 of the
+source files, measured read-only at freeze time. Any later drift
+of a source is detectable against these hashes. Copies will be
+materialized when writes recover, verified against this manifest.
+
+c01 gate    d0392be951e02fa6357877e4f97e1018fec9b7f4dd8e5c840c6ab3a74305b05b 12733 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr232.md
+c02 gate    73d2e40f67b0550814f99ee27836d19b0851d6e48794179cec95ca3e7add58f2 8950  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr240.md
+c03 gate    8659355cd55225074639e5a871e88760cf090e40c9ec2f09b2b088cc60a6585c 5925  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr247.md
+c04 gate    38c1618b5543a0ebb51edd9018b465fa1ea98600b1e09d8488b9b57611327a42 4347  goals/peira-decision-model-robustness-benchmark/hidden_files/r13-r14-gate-report.md
+c05 gate    5d718074a20db649476927617fcf50379e8b1e65858f44ed0de11e8bac0591ac 5285  goals/peira-decision-model-robustness-benchmark/hidden_files/fixforward-gate-report-20260930.md
+c06 gate    cb13adb484fc993f054fd26079784aa7a7613ad5e4d0490a900835aac05159fb 4955  goals/peira-decision-model-robustness-benchmark/hidden_files/pr442-gate-report.md
+c07 gate    affc7579bd4f2e7de8954bddd9a8580ada19d978e89eb3738426265931bfe665 11223 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr449-dashboard-publish-2026-10-13.md
+c08 gate    53b83509c345e7b2351e502e540ed02af49ee6c8a1c42ea8d63069a604d8eed2 6599  goals/peira-decision-model-robustness-benchmark/hidden_files/metrics-bootstrap-gate-report.md
+c09 audit   aa38eed5f21b04a426cbd0749039141ef48018288e02ce0094032fa87eb04f37 15308 goals/peira-decision-model-robustness-benchmark/hidden_files/FINAL-AUDIT-2026-10-03.md
+c10 audit   ebd7a723f6ae408b260bfe7cdcc91635714c7a015190d1a4b3e98944b85cc101 9735  goals/peira-decision-model-robustness-benchmark/hidden_files/PILOT-AUDIT-2026-10-03.md
+c11 audit   8d1c4fff82837d7014d67f2dd1128a1524817e05502102cba21c37037706563a 6686  goals/peira-decision-model-robustness-benchmark/hidden_files/POST-PILOT-AUDIT-2026-10-03.md
+c12 audit   ead180612460e3db5075eaf9e83c559e6987e221f3097425206f4d76891f7315 8393  goals/peira-decision-model-robustness-benchmark/hidden_files/dataset-independent-audit-2026-09-24.md
+c13 audit   8769ac5fbbc4e328e0db6e9f709f34e651b2f44ac0f8b1c4cb04b5368856b58d 7529  goals/peira-decision-model-robustness-benchmark/hidden_files/goal-audit-2026-09-29.md
+c14 audit   8c3ef5ce7a549013fa0954adb3d5930f204b186b85bda360fc634441b6548b99 7347  goals/peira-decision-model-robustness-benchmark/hidden_files/v2-draft-audit-report-20261001.md
+c15 audit   0158e837fe464b673f51f46661cb47efb17f33698abbe89c98243d59ee79fafd 8176  goals/peira-decision-model-robustness-benchmark/hidden_files/distractor_flooding-audit-2026-09-24.md
+c16 audit   48e6d178ebab2eb8a4c5935d6ea61016c70969662a90af8957d17623bc7eed02 10754 goals/peira-decision-model-robustness-benchmark/hidden_files/eb-fairness-redteam-report-20261001.md
+c17 closure b68c63dbdebe52e1bab9220d84f8cc00bee26b6bde084de0692b4be6e18caaa1 18026 github-app-hub/hygiene/cleanup-log-2026-11-20.md
+c18 closure 9f71cc5ec6287b2b176a574164e9c263afc017e301a1ef63af69a1fd31199191 12726 github-app-hub/hygiene/prune-log-2026-11-20.md
+c19 closure 486f40b3b8408e682cee8650f3711173ca33017c5ad9e6d0c7fbf616bcf687af 6770  goals/peira-decision-model-robustness-benchmark/hidden_files/anthropic-workspace-lane/BUILDER_REPORT.md
+c20 closure a7d27086d073e0feaef9496a209bbb31626690746eb480ee118e9a6dc13fc892 11096 goals/peira-decision-model-robustness-benchmark/hidden_files/dashkey-lane/BUILDER_REPORT.md
+c21 closure b2c7c1081321f7bd7abd3e25d4e68c21050873d7dce5de707520441ae14715be 6975  goals/peira-decision-model-robustness-benchmark/hidden_files/canary-rerun-report-2026-10-15.md
+c22 closure e23d14de8aebc865840e7dffa1d328afc1d85a3fd68288b8f1b345d85f884353 49340 goals/peira-decision-model-robustness-benchmark/hidden_files/vast-sweep-report-2026-10-15.md
+c23 closure 78f520fb1d142e637ac41385b15987ecd57983d7562d02bd9783ee0ddb627021 9531  goals/peira-decision-model-robustness-benchmark/hidden_files/board-review/board-report.md
+c24 closure bac871db9106534064ae97b16e34cbfb28fbc8e6ced839f2c194ad042e1e1350 7644  goals/peira-decision-model-robustness-benchmark/hidden_files/EB27-EB47-three-review-record.md
+
+Paths are relative to ~/workspace. Total 238,077 bytes.
