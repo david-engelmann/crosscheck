@@ -38,7 +38,7 @@ import sys
 from pathlib import Path
 
 HOME = Path.home()
-REPO = HOME / "workspace/retrial"
+REPO = HOME / "workspace/crosscheck"
 WEB = REPO / "web"
 REPORT = WEB / "data/report.md"
 RECORDS = WEB / "data/bundle/records/github-records.json"

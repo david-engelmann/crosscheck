@@ -157,3 +157,24 @@ Extraction does not widen for M2. Git claims enter through the
 marker convention, and through extraction only in the ratified
 trusted and provisional shapes: full SHAs trusted, short references
 provisional.
+
+## D12. The post-scope pass landed (2026-11-22)
+
+The repository carries its final name. David's dedicated token
+for the six new flagship repos (connector custom.github-flagships)
+replaced the exhausted fleet token for this repo. On 2026-11-22
+the seat renamed the repository from retrial to crosscheck
+through the API, registered the per-repo deploy key (key id
+170768117, read and write) under the title deploy-crosscheck,
+fingerprint SHA256:wTE8XICtda+XWT8p2UiFsGG9VvPWe3XK5EI+6BXcNp8,
+and pushed the banked local history over SSH with that key. The
+first hosted gate ran on the pushed head e42e312d: run 45062633931,
+conclusion success, covering the workspace test suite and the
+verdict viewer build. The local workspace directory is now
+~/workspace/crosscheck.
+
+Still owed under the rename: the crate and binary names
+(retrial-core, retrial-cli, the retrial binary) and the product
+name inside the documentation. That sweep is its own change,
+gated by the hosted suite like any other, and lands after the
+first green verdict on the code as banked.
