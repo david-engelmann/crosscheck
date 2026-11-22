@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  rust:
+    name: cargo test (pinned toolchain)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the pinned toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.91.1"
+      - name: Run the workspace test suite
+        run: cargo test --workspace
+
+  web:
+    name: verdict viewer build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install and build the viewer
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+      - name: Keep the static export
+        uses: actions/upload-artifact@v4
+        with:
+          name: verdict-viewer
+          path: web/out/
+          if-no-files-found: error
