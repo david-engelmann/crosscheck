@@ -1,0 +1,391 @@
+:root {
+  --bg: #0b0e13;
+  --panel: #11151d;
+  --panel-2: #151a24;
+  --border: #232b38;
+  --text: #dbe2ec;
+  --muted: #8b96a5;
+  --faint: #5b6575;
+  --ok: #34d399;
+  --prov: #fbbf24;
+  --bad: #f87171;
+  --unk: #94a3b8;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.mono {
+  font-family: var(--mono);
+}
+
+.shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.wordmark-sub {
+  margin-left: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--prov);
+  vertical-align: middle;
+}
+
+.tagline {
+  margin: 8px 0 0;
+  max-width: 620px;
+  color: var(--muted);
+}
+
+.runmeta {
+  text-align: right;
+  color: var(--faint);
+  font-size: 13px;
+}
+
+.summarybar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin: 26px 0 18px;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stat-num {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-right: 6px;
+}
+
+.stat.ok .stat-num {
+  color: var(--ok);
+}
+
+.stat.prov .stat-num {
+  color: var(--prov);
+}
+
+.stat.bad .stat-num {
+  color: var(--bad);
+}
+
+.stat.unk .stat-num {
+  color: var(--unk);
+}
+
+.exitbox {
+  margin-left: auto;
+  border: 1px solid var(--bad);
+  color: var(--bad);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  background: rgba(248, 113, 113, 0.06);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .exitbox {
+    margin-left: 0;
+  }
+}
+
+.pane {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pane-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pane-head-note {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--faint);
+}
+
+.report-body {
+  padding: 18px 20px 22px;
+}
+
+.r-h1 {
+  font-size: 20px;
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+
+.r-h2 {
+  font-size: 15px;
+  margin: 18px 0 4px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.r-blank {
+  height: 10px;
+}
+
+.r-line {
+  margin: 0;
+  display: flex;
+  gap: 12px;
+  color: #b9c3d0;
+}
+
+.lineno {
+  flex: 0 0 26px;
+  text-align: right;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding-top: 3px;
+  user-select: none;
+}
+
+button.span {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 0.92em;
+  background: none;
+  border: none;
+  border-bottom: 2px solid var(--unk);
+  color: inherit;
+  padding: 0 1px;
+  cursor: pointer;
+  border-radius: 3px 3px 0 0;
+}
+
+button.span.verified {
+  border-bottom-color: var(--ok);
+  background: rgba(52, 211, 153, 0.1);
+}
+
+button.span.provisional {
+  border-bottom-color: var(--prov);
+  background: rgba(251, 191, 36, 0.1);
+}
+
+button.span.contradicted {
+  border-bottom-color: var(--bad);
+  background: rgba(248, 113, 113, 0.13);
+}
+
+button.span.unverifiable {
+  border-bottom-color: var(--unk);
+  background: rgba(148, 163, 184, 0.12);
+}
+
+button.span.active {
+  outline: 1px solid currentColor;
+}
+
+.inspector {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 18px;
+}
+
+.verdict {
+  margin: 16px 16px 0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.verdict.verified {
+  color: var(--ok);
+}
+
+.verdict.provisional {
+  color: var(--prov);
+}
+
+.verdict.contradicted {
+  color: var(--bad);
+}
+
+.verdict.unverifiable {
+  color: var(--unk);
+}
+
+.claim-value {
+  margin: 8px 16px 0;
+  font-size: 13px;
+  word-break: break-all;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.facts {
+  margin: 14px 16px 18px;
+}
+
+.facts dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-top: 12px;
+}
+
+.facts dd {
+  margin: 3px 0 0;
+  color: #c3ccd8;
+  font-size: 14px;
+}
+
+.claim-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  max-height: 430px;
+  overflow-y: auto;
+}
+
+.claim-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 7px 9px;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.claim-row:hover {
+  background: var(--panel-2);
+}
+
+.claim-row.active {
+  background: var(--panel-2);
+  border-color: var(--border);
+}
+
+.dot {
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--unk);
+}
+
+.dot.verified {
+  background: var(--ok);
+}
+
+.dot.provisional {
+  background: var(--prov);
+}
+
+.dot.contradicted {
+  background: var(--bad);
+}
+
+.dot.unverifiable {
+  background: var(--unk);
+}
+
+.claim-row-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 190px;
+}
+
+.claim-row-class {
+  margin-left: auto;
+  color: var(--faint);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.foot {
+  margin-top: 26px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  color: var(--muted);
+  font-size: 13.5px;
+  max-width: 860px;
+}
+
+.foot .limit {
+  color: var(--text);
+  font-weight: 600;
+}
