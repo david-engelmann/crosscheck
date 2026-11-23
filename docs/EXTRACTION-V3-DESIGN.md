@@ -1,13 +1,15 @@
 # Design record: extraction pattern set v3 measurement
 
-Status: design record only, written 2026-11-23 under Main's
-charge of the same date. No corpus has been built and no
-pattern has been written. Corpus construction starts only
-after Main rules on this record. The measurement discipline
-is unchanged from M1: the corpus is frozen before patterns,
-hand lists are written before the extractor runs, every
-extracted claim is hand-adjudicated, and no class inherits
-a rate from an earlier corpus.
+Status: design record, written 2026-11-23 under Main's
+charge of the same date. Ruled as written by Main on
+2026-11-23, both questions: the corpus design below is
+approved, and the suppression recommendation is adopted as
+a standing rule, banked as DECISIONS.md D20. The sequence
+at the close of this record is authorized. The measurement
+discipline is unchanged from M1: the corpus is frozen
+before patterns, hand lists are written before the
+extractor runs, every extracted claim is hand-adjudicated,
+and no class inherits a rate from an earlier corpus.
 
 ## The open question
 

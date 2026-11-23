@@ -408,3 +408,22 @@ choices the note left to the build stated here:
   is omitted when neither exists.
 - The statement is emitted unsigned. Signing stays the
   caller's step, per the note.
+
+## D20. No issue-context suppression: a standing rule (2026-11-23)
+
+Ruled by Main on 2026-11-23, adopting the recommendation
+of docs/EXTRACTION-V3-DESIGN.md as a standing rule and not
+only a v3 choice. No pattern in this programme refuses a
+claim because of what its context refers to. Every pattern
+change ratified so far answered a defect visible in a
+token's own shape (a decimal fragment, a fused label, a
+series word before a number). A bare issue reference is a
+perfectly formed reference whose only fault is what it
+refers to, and a pattern cannot judge that without
+becoming a reader, which this tool's method refuses.
+Suppression may be proposed again only on evidence from a
+report ecosystem this programme has not scored, with a
+tuning set and a measurement corpus drawn from that
+ecosystem. The v3 measurement proceeds on the design
+record's density-stated corpus with the patterns as they
+stand.
