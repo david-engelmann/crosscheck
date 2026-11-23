@@ -241,3 +241,12 @@ provisional, the movement driven by the newly wired of-form.
 Counts at 7.9 percent and sizes at 23.8 percent stay out.
 These dispositions are proposed, not ratified. They take
 effect on Main's ratification, as D10 did for the v0 set.
+
+Ratified by Main on 2026-11-23, all four dispositions as
+written. The merged PR class is trusted. Short commit
+references are trusted, with the truncated hash-prefix risk
+standing in this record. Run tallies are provisional until
+the of-form carries the number guard and re-measures at or
+under the bar. Counts and sizes remain out. The tally guard
+work proceeds as pattern set v2, scored from zero on a fresh
+frozen corpus under the same protocol.
