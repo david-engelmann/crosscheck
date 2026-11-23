@@ -9,7 +9,10 @@ timestamp in the predicate; signing stays the caller's
 step). A build charge waits until the M4 checkpoint closes
 and the v2 measurement lands, so the export is built once
 over the settled verdict shape. Built 2026-11-23 as DECISIONS.md
-D19 records, once both preconditions stood met.
+D19 records, once both preconditions stood met. Amended the
+same day on Main's ruling: the subject digest is computed
+from the report bytes, as the statement section now reads;
+the original wording read it from the bundle manifest.
 
 ## The idea
 
@@ -26,8 +29,14 @@ changes, and the export is off unless asked for.
 
 The exported statement has the standard in-toto v1 shape.
 The subject is the report, named as the caller names it and
-digested with the same SHA-256 the bundle manifest already
-records for it. The predicate type is ours, versioned, and
+digested with the SHA-256 of its bytes, computed by the tool
+from the report it was given. The digest is computed rather
+than read from the bundle manifest on purpose. Anyone
+holding the report can recompute it and confirm the
+statement is about the report in their hands, while a
+digest taken from a manifest would ask the reader to trust
+the manifest in order to learn whether to trust the report.
+The predicate type is ours, versioned, and
 hosted where we control it:
 
 `https://github.com/david-engelmann/crosscheck/attestation/verdict/v1`

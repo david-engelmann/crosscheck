@@ -59,18 +59,32 @@ itself is the command line above.
 
 ## Current state
 
-The mechanical claim kinds are built and gated. Existence, size,
-content hash, quoted span, and recomputed count run through the
-marker convention. Commit resolution, ancestry, and diff scope run
-against the repository a bundle carries. Pattern extraction over
-unmarked prose reports has been measured on real fleet reports
-rather than trusted on faith. Explicit pull request references,
-full commit hashes, full content hashes, and run tallies measured
-at or under the two percent false positive bar and are trusted.
-Short commit references are provisional. Counts, sizes, bare
-numbers, and quotes measured above the bar and do not ship.
-Recorded run facts and hosted records are the next milestone, and
-the full measurement record stands in docs/M1-RESULTS.md.
+Every claim kind in the design is built and gated. Through the
+marker convention a report can claim existence, size, content
+hash, a quoted span, and a recomputed count, and each is checked
+against the file it cites. Commit resolution, ancestry, and diff
+scope run against the repository a bundle carries. Recorded run
+facts are read from the logs a report cites, and pull request and
+CI state are read from the host records a bundle carries.
+
+A second mode audits reports that carry no markers at all.
+Extraction finds the claims in unmarked prose and checks each one
+against whatever the bundle can answer, and a claim the bundle
+cannot answer is unverifiable. Extraction was measured before it
+was trusted, on three frozen corpora of real fleet reports with
+every extracted claim scored by hand against a two percent false
+positive bar. Explicit pull request references, short and full
+commit references, full content hashes, and run tallies measured
+at or under the bar and are trusted. Bare pull request references
+and counts sit in the provisional band above it, so they are
+extracted and printed as provisional and never fail a run on
+their own. Sizes and quotes measured too far above the bar and
+are not extracted.
+
+Verdicts export as in-toto Statements under --attest, with the
+records behind a verdict pinned by their own digests inside the
+statement. The decision record stands in DECISIONS.md and the
+measurement record in the docs directory.
 
 ## License
 

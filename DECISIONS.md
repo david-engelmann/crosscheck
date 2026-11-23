@@ -375,8 +375,14 @@ choices the note left to the build stated here:
   bytes. The digest is computed from the report bytes the
   caller supplies, which is the value a bundle manifest
   records for that report; the tool does not read a digest
-  out of any manifest. The predicate type is the note's
-  versioned URL.
+  out of any manifest. The design note's original wording
+  read the digest from the manifest; Main ruled the
+  computed reading on 2026-11-23, on the ground that a
+  digest anyone can recompute from the report itself is
+  verifiable by a stranger holding the report, and the
+  note was amended the same day to say the same thing.
+  The amendment was ruled, not drifted into. The
+  predicate type is the note's versioned URL.
   The predicate carries the tool name and version, the
   mode, the exit code as data, the summary, the claims in
   line order, the bundle pins, and the semantic limit line
