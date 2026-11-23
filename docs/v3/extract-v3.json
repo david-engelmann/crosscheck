@@ -1,0 +1,6248 @@
+[
+ {
+  "report": "f01",
+  "line": 4,
+  "class": "gitsha",
+  "value": "8946d8f3743034c768e93631052801a0fe4de751",
+  "target": null,
+  "via": "-",
+  "text": "Base: origin/main `8946d8f3743034c768e93631052801a0fe4de751` (verified by"
+ },
+ {
+  "report": "f01",
+  "line": 6,
+  "class": "commit",
+  "value": "98efe913",
+  "target": null,
+  "via": "-",
+  "text": "Commits: `98efe913` feat (banked by the dead lane), `fcd5f8ea` review fixes"
+ },
+ {
+  "report": "f01",
+  "line": 6,
+  "class": "commit",
+  "value": "fcd5f8ea",
+  "target": null,
+  "via": "-",
+  "text": "Commits: `98efe913` feat (banked by the dead lane), `fcd5f8ea` review fixes"
+ },
+ {
+  "report": "f01",
+  "line": 7,
+  "class": "commit",
+  "value": "24d1a6ef",
+  "target": null,
+  "via": "-",
+  "text": "(banked, never re-gated), `24d1a6ef` completion-lane fix pass (this lane; includes a docs-only semicolon tidy amended in after the first gate pass, so all gates were re-run on this exact head)."
+ },
+ {
+  "report": "f01",
+  "line": 9,
+  "class": "commit",
+  "value": "8946d8f3",
+  "target": null,
+  "via": "-",
+  "text": "Rebase: `git rebase 8946d8f3` reported \"up to date\" (base unchanged)."
+ },
+ {
+  "report": "f01",
+  "line": 43,
+  "class": "commit",
+  "value": "fcd5f8ea",
+  "target": null,
+  "via": "-",
+  "text": "## Three reviews (reviewed head fcd5f8ea for axes 1-2, fix re-verified on 24d1a6ef)"
+ },
+ {
+  "report": "f01",
+  "line": 43,
+  "class": "commit",
+  "value": "24d1a6ef",
+  "target": null,
+  "via": "-",
+  "text": "## Three reviews (reviewed head fcd5f8ea for axes 1-2, fix re-verified on 24d1a6ef)"
+ },
+ {
+  "report": "f01",
+  "line": 70,
+  "class": "count",
+  "value": "7 files",
+  "target": null,
+  "via": "-",
+  "text": "- Read the full diff (7 files, then 8 with pyproject) line by line."
+ },
+ {
+  "report": "f01",
+  "line": 72,
+  "class": "tally",
+  "value": "passed 81 passed",
+  "target": "tests/test_cursor_harness_adapter.py",
+  "via": "-",
+  "text": "- Targeted suites on the fixed head: tests/test_cursor_harness_adapter.py + test_api_pins.py + test_adapter_discovery.py: 81 passed."
+ },
+ {
+  "report": "f01",
+  "line": 73,
+  "class": "tally",
+  "value": "passed 28 passed",
+  "target": null,
+  "via": "-",
+  "text": "- Break-verification: 6 failed on pre-fix code, 28 passed in the adapter file after restore."
+ },
+ {
+  "report": "f01",
+  "line": 73,
+  "class": "tally",
+  "value": "failed 6 failed",
+  "target": null,
+  "via": "-",
+  "text": "- Break-verification: 6 failed on pre-fix code, 28 passed in the adapter file after restore."
+ },
+ {
+  "report": "f01",
+  "line": 75,
+  "class": "pr",
+  "value": "PR 499",
+  "target": null,
+  "via": "explicit",
+  "text": "## CodeRabbit (step 0, advisory only; PR #499)"
+ },
+ {
+  "report": "f01",
+  "line": 88,
+  "class": "pr",
+  "value": "PR 493",
+  "target": null,
+  "via": "explicit",
+  "text": "are themselves in a garbled splice state from PR #493 (the"
+ },
+ {
+  "report": "f01",
+  "line": 92,
+  "class": "pr",
+  "value": "PR 493",
+  "target": null,
+  "via": "bare",
+  "text": "pricing-pin item from #493/#494, owned outside this adapter PR;"
+ },
+ {
+  "report": "f01",
+  "line": 92,
+  "class": "pr",
+  "value": "PR 494",
+  "target": null,
+  "via": "bare",
+  "text": "pricing-pin item from #493/#494, owned outside this adapter PR;"
+ },
+ {
+  "report": "f01",
+  "line": 106,
+  "class": "commit",
+  "value": "27c6841c",
+  "target": null,
+  "via": "-",
+  "text": "documentation in 27c6841c. The flag is a headless-run prerequisite"
+ },
+ {
+  "report": "f01",
+  "line": 114,
+  "class": "commit",
+  "value": "24d1a6ef",
+  "target": null,
+  "via": "-",
+  "text": "## Gates (exact final head 24d1a6ef local, pushed as c9a27f0f with tree 4b5ca16d verified byte-identical to the local tree via the GitHub API)"
+ },
+ {
+  "report": "f01",
+  "line": 114,
+  "class": "commit",
+  "value": "c9a27f0f",
+  "target": null,
+  "via": "-",
+  "text": "## Gates (exact final head 24d1a6ef local, pushed as c9a27f0f with tree 4b5ca16d verified byte-identical to the local tree via the GitHub API)"
+ },
+ {
+  "report": "f01",
+  "line": 114,
+  "class": "commit",
+  "value": "4b5ca16d",
+  "target": null,
+  "via": "-",
+  "text": "## Gates (exact final head 24d1a6ef local, pushed as c9a27f0f with tree 4b5ca16d verified byte-identical to the local tree via the GitHub API)"
+ },
+ {
+  "report": "f01",
+  "line": 117,
+  "class": "tally",
+  "value": "passed 4,616 passed",
+  "target": null,
+  "via": "-",
+  "text": "`maturin develop`, exit 0): exit 1, 4,616 passed, 11 failed, 3 skipped."
+ },
+ {
+  "report": "f01",
+  "line": 117,
+  "class": "tally",
+  "value": "failed 11 failed",
+  "target": null,
+  "via": "-",
+  "text": "`maturin develop`, exit 0): exit 1, 4,616 passed, 11 failed, 3 skipped."
+ },
+ {
+  "report": "f01",
+  "line": 117,
+  "class": "tally",
+  "value": "skipped 3 skipped",
+  "target": null,
+  "via": "-",
+  "text": "`maturin develop`, exit 0): exit 1, 4,616 passed, 11 failed, 3 skipped."
+ },
+ {
+  "report": "f01",
+  "line": 117,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "`maturin develop`, exit 0): exit 1, 4,616 passed, 11 failed, 3 skipped."
+ },
+ {
+  "report": "f01",
+  "line": 117,
+  "class": "tally",
+  "value": "exit exit 1",
+  "target": null,
+  "via": "-",
+  "text": "`maturin develop`, exit 0): exit 1, 4,616 passed, 11 failed, 3 skipped."
+ },
+ {
+  "report": "f01",
+  "line": 123,
+  "class": "pr",
+  "value": "PR 493",
+  "target": null,
+  "via": "explicit",
+  "text": "vs pricing 2026-10-23.1 (standing item from PR #493/#494). No new"
+ },
+ {
+  "report": "f01",
+  "line": 123,
+  "class": "pr",
+  "value": "PR 494",
+  "target": null,
+  "via": "bare",
+  "text": "vs pricing 2026-10-23.1 (standing item from PR #493/#494). No new"
+ },
+ {
+  "report": "f01",
+  "line": 125,
+  "class": "tally",
+  "value": "passed 4,578 passed",
+  "target": null,
+  "via": "-",
+  "text": "- PEIRA_NO_RUST=1: exit 1, 4,578 passed, 2 failed (the 2 pricing pins only), 50 skipped, on the final head (identical counts on the pre-tidy head)."
+ },
+ {
+  "report": "f01",
+  "line": 125,
+  "class": "tally",
+  "value": "failed 2 failed",
+  "target": null,
+  "via": "-",
+  "text": "- PEIRA_NO_RUST=1: exit 1, 4,578 passed, 2 failed (the 2 pricing pins only), 50 skipped, on the final head (identical counts on the pre-tidy head)."
+ },
+ {
+  "report": "f01",
+  "line": 125,
+  "class": "tally",
+  "value": "skipped 50 skipped",
+  "target": null,
+  "via": "-",
+  "text": "- PEIRA_NO_RUST=1: exit 1, 4,578 passed, 2 failed (the 2 pricing pins only), 50 skipped, on the final head (identical counts on the pre-tidy head)."
+ },
+ {
+  "report": "f01",
+  "line": 125,
+  "class": "tally",
+  "value": "exit exit 1",
+  "target": null,
+  "via": "-",
+  "text": "- PEIRA_NO_RUST=1: exit 1, 4,578 passed, 2 failed (the 2 pricing pins only), 50 skipped, on the final head (identical counts on the pre-tidy head)."
+ },
+ {
+  "report": "f01",
+  "line": 126,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/artifact_smoke.py",
+  "via": "-",
+  "text": "- scripts/artifact_smoke.py: PASS, exit 0 on the final head (53.7s; also PASS 108.0s on the pre-tidy head; the very first attempt failed environmentally with maturin not on PATH for the scratch venv, "
+ },
+ {
+  "report": "f01",
+  "line": 127,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_public_surface.py",
+  "via": "-",
+  "text": "- scripts/check_public_surface.py: PASS, exit 0"
+ },
+ {
+  "report": "f01",
+  "line": 128,
+  "class": "commit",
+  "value": "24d1a6ef",
+  "target": null,
+  "via": "-",
+  "text": "- Copy scan (own, Python codepoint count over added doc lines): 0 em dashes (U+2014); semicolons remain only inside the two verbatim error-string quotes in Troubleshooting headings (byte-exact per rep"
+ },
+ {
+  "report": "f01",
+  "line": 128,
+  "class": "pr",
+  "value": "PR 459",
+  "target": null,
+  "via": "explicit",
+  "text": "- Copy scan (own, Python codepoint count over added doc lines): 0 em dashes (U+2014); semicolons remain only inside the two verbatim error-string quotes in Troubleshooting headings (byte-exact per rep"
+ },
+ {
+  "report": "f02",
+  "line": 5,
+  "class": "pr",
+  "value": "PR 308",
+  "target": null,
+  "via": "explicit",
+  "text": "- PR: #308 (https://github.com/david-engelmann/peira/pull/308)"
+ },
+ {
+  "report": "f02",
+  "line": 6,
+  "class": "commit",
+  "value": "bb449c73",
+  "target": null,
+  "via": "-",
+  "text": "- Pushed head: `bb449c73` (via Data API, on origin/main `19176ee7`)"
+ },
+ {
+  "report": "f02",
+  "line": 6,
+  "class": "commit",
+  "value": "19176ee7",
+  "target": null,
+  "via": "-",
+  "text": "- Pushed head: `bb449c73` (via Data API, on origin/main `19176ee7`)"
+ },
+ {
+  "report": "f02",
+  "line": 7,
+  "class": "commit",
+  "value": "4e7e714f",
+  "target": null,
+  "via": "-",
+  "text": "- Local reviewed head: `4e7e714f` (content byte-identical to pushed head; verified)"
+ },
+ {
+  "report": "f02",
+  "line": 8,
+  "class": "count",
+  "value": "336 lines",
+  "target": "docs/Gate-Exit-Criteria.md",
+  "via": "-",
+  "text": "- Diff: `docs/Gate-Exit-Criteria.md` (new, 336 lines) + 1 index line in `docs/Overview.md`"
+ },
+ {
+  "report": "f02",
+  "line": 21,
+  "class": "count",
+  "value": "0 findings",
+  "target": null,
+  "via": "-",
+  "text": "0 findings."
+ },
+ {
+  "report": "f02",
+  "line": 28,
+  "class": "count",
+  "value": "0 findings",
+  "target": null,
+  "via": "-",
+  "text": "convention followed, no strategy-talk in public copy. 0 findings."
+ },
+ {
+  "report": "f02",
+  "line": 37,
+  "class": "count",
+  "value": "0 findings",
+  "target": null,
+  "via": "-",
+  "text": "architecture records. 0 findings."
+ },
+ {
+  "report": "f02",
+  "line": 45,
+  "class": "commit",
+  "value": "e79f42de",
+  "target": null,
+  "via": "-",
+  "text": "### Completed: Rust-active full suite on pre-rebase head e79f42de"
+ },
+ {
+  "report": "f02",
+  "line": 47,
+  "class": "tally",
+  "value": "passed 2656 passed",
+  "target": null,
+  "via": "-",
+  "text": "- Result: **3 failed, 2656 passed, 2 skipped** in 4202s (1:10:02). Exit 1."
+ },
+ {
+  "report": "f02",
+  "line": 47,
+  "class": "tally",
+  "value": "failed 3 failed",
+  "target": null,
+  "via": "-",
+  "text": "- Result: **3 failed, 2656 passed, 2 skipped** in 4202s (1:10:02). Exit 1."
+ },
+ {
+  "report": "f02",
+  "line": 47,
+  "class": "tally",
+  "value": "skipped 2 skipped",
+  "target": null,
+  "via": "-",
+  "text": "- Result: **3 failed, 2656 passed, 2 skipped** in 4202s (1:10:02). Exit 1."
+ },
+ {
+  "report": "f02",
+  "line": 54,
+  "class": "commit",
+  "value": "5bf40f3d",
+  "target": null,
+  "via": "-",
+  "text": "(5bf40f3d) and head (e79f42de); this diff touches only the 2 doc"
+ },
+ {
+  "report": "f02",
+  "line": 54,
+  "class": "commit",
+  "value": "e79f42de",
+  "target": null,
+  "via": "-",
+  "text": "(5bf40f3d) and head (e79f42de); this diff touches only the 2 doc"
+ },
+ {
+  "report": "f02",
+  "line": 57,
+  "class": "commit",
+  "value": "4e7e714f",
+  "target": null,
+  "via": "-",
+  "text": "### Doc checks on final head (4e7e714f / bb449c73)"
+ },
+ {
+  "report": "f02",
+  "line": 57,
+  "class": "commit",
+  "value": "bb449c73",
+  "target": null,
+  "via": "-",
+  "text": "### Doc checks on final head (4e7e714f / bb449c73)"
+ },
+ {
+  "report": "f02",
+  "line": 58,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_doc_links.py",
+  "via": "-",
+  "text": "- `python scripts/check_doc_links.py` -> \"docs: internal links ok\", exit 0"
+ },
+ {
+  "report": "f02",
+  "line": 59,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_no_emdashes.py",
+  "via": "-",
+  "text": "- `python scripts/check_no_emdashes.py` -> \"No em dashes ...\", exit 0"
+ },
+ {
+  "report": "f02",
+  "line": 67,
+  "class": "commit",
+  "value": "e79f42de",
+  "target": null,
+  "via": "-",
+  "text": "2. No-rust on e79f42de (retry): killed by rebase (tree changed mid-run)."
+ },
+ {
+  "report": "f02",
+  "line": 83,
+  "class": "commit",
+  "value": "dcf5ee40",
+  "target": null,
+  "via": "-",
+  "text": "- Original: dcf5ee40 -> 4fab5b83 (redundancy fix) -> 9b4b7aec (rebase onto 5bf40f3d)"
+ },
+ {
+  "report": "f02",
+  "line": 83,
+  "class": "commit",
+  "value": "4fab5b83",
+  "target": null,
+  "via": "-",
+  "text": "- Original: dcf5ee40 -> 4fab5b83 (redundancy fix) -> 9b4b7aec (rebase onto 5bf40f3d)"
+ },
+ {
+  "report": "f02",
+  "line": 83,
+  "class": "commit",
+  "value": "9b4b7aec",
+  "target": null,
+  "via": "-",
+  "text": "- Original: dcf5ee40 -> 4fab5b83 (redundancy fix) -> 9b4b7aec (rebase onto 5bf40f3d)"
+ },
+ {
+  "report": "f02",
+  "line": 83,
+  "class": "commit",
+  "value": "5bf40f3d",
+  "target": null,
+  "via": "-",
+  "text": "- Original: dcf5ee40 -> 4fab5b83 (redundancy fix) -> 9b4b7aec (rebase onto 5bf40f3d)"
+ },
+ {
+  "report": "f02",
+  "line": 85,
+  "class": "commit",
+  "value": "3fe7db89",
+  "target": null,
+  "via": "-",
+  "text": "- -> 3fe7db89 (rebase onto 9a86462e; #292/#289/#288/#286 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 85,
+  "class": "commit",
+  "value": "9a86462e",
+  "target": null,
+  "via": "-",
+  "text": "- -> 3fe7db89 (rebase onto 9a86462e; #292/#289/#288/#286 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 85,
+  "class": "pr",
+  "value": "PR 292",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 3fe7db89 (rebase onto 9a86462e; #292/#289/#288/#286 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 85,
+  "class": "pr",
+  "value": "PR 289",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 3fe7db89 (rebase onto 9a86462e; #292/#289/#288/#286 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 85,
+  "class": "pr",
+  "value": "PR 288",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 3fe7db89 (rebase onto 9a86462e; #292/#289/#288/#286 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 85,
+  "class": "pr",
+  "value": "PR 286",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 3fe7db89 (rebase onto 9a86462e; #292/#289/#288/#286 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 86,
+  "class": "commit",
+  "value": "4e7e714f",
+  "target": null,
+  "via": "-",
+  "text": "- -> 4e7e714f (rebase onto 19176ee7; #304/#302/#301/#300 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 86,
+  "class": "commit",
+  "value": "19176ee7",
+  "target": null,
+  "via": "-",
+  "text": "- -> 4e7e714f (rebase onto 19176ee7; #304/#302/#301/#300 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 86,
+  "class": "pr",
+  "value": "PR 304",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 4e7e714f (rebase onto 19176ee7; #304/#302/#301/#300 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 86,
+  "class": "pr",
+  "value": "PR 302",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 4e7e714f (rebase onto 19176ee7; #304/#302/#301/#300 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 86,
+  "class": "pr",
+  "value": "PR 301",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 4e7e714f (rebase onto 19176ee7; #304/#302/#301/#300 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 86,
+  "class": "pr",
+  "value": "PR 300",
+  "target": null,
+  "via": "bare",
+  "text": "- -> 4e7e714f (rebase onto 19176ee7; #304/#302/#301/#300 landed)"
+ },
+ {
+  "report": "f02",
+  "line": 103,
+  "class": "pr",
+  "value": "PR 308",
+  "target": null,
+  "via": "explicit",
+  "text": "**Recommendation to parent/coordinator:** Merge PR #308 on the strength"
+ },
+ {
+  "report": "f04",
+  "line": 3,
+  "class": "count",
+  "value": "4,701 cases",
+  "target": null,
+  "via": "-",
+  "text": "Date 2026-11-18. Scope. The production Gemini Decisions adapter, its equivalence proof against the 2026-11-16 canary, and the full v2.6.0 suite run of gemini-decision-1, meaning 4,701 cases in both fo"
+ },
+ {
+  "report": "f04",
+  "line": 9,
+  "class": "tally",
+  "value": "tests 34 tests",
+  "target": "python/peira/adapters/google_decisions.py",
+  "via": "-",
+  "text": "Files in the change. `python/peira/adapters/google_decisions.py` (new), `tests/test_google_decisions_adapter.py` (new, 34 tests), `docs/Adapters.md` (a Google Gemini Decisions section), `docs/Troubles"
+ },
+ {
+  "report": "f04",
+  "line": 11,
+  "class": "tally",
+  "value": "tests 34 tests",
+  "target": "tests/test_adapter_conformance.py",
+  "via": "-",
+  "text": "Test results. The adapter suite passes in full, 34 tests with exit code 0 under system python3 with PYTHONPATH set to the worktree, because this worktree has no venv and installs are blocked by the wr"
+ },
+ {
+  "report": "f04",
+  "line": 11,
+  "class": "tally",
+  "value": "tests 69 tests",
+  "target": "tests/test_adapter_conformance.py",
+  "via": "-",
+  "text": "Test results. The adapter suite passes in full, 34 tests with exit code 0 under system python3 with PYTHONPATH set to the worktree, because this worktree has no venv and installs are blocked by the wr"
+ },
+ {
+  "report": "f04",
+  "line": 11,
+  "class": "tally",
+  "value": "exit exit code 0",
+  "target": "tests/test_adapter_conformance.py",
+  "via": "-",
+  "text": "Test results. The adapter suite passes in full, 34 tests with exit code 0 under system python3 with PYTHONPATH set to the worktree, because this worktree has no venv and installs are blocked by the wr"
+ },
+ {
+  "report": "f04",
+  "line": 27,
+  "class": "size",
+  "value": "16,125,314 bytes",
+  "target": "~/workspace/peira-trial/artifacts/google-decision-v2-trial.json",
+  "via": "-",
+  "text": "Path `~/workspace/peira-trial/artifacts/google-decision-v2-trial.json`, 16,125,314 bytes, sha256 76f5df67574a835eda1886723309e07810cafddabc8dc1f49ae4abdf0ecd784a, md5 50300bf1043aa090ecd747f2afeb4d14."
+ },
+ {
+  "report": "f04",
+  "line": 27,
+  "class": "hash256",
+  "value": "76f5df67574a835eda1886723309e07810cafddabc8dc1f49ae4abdf0ecd784a",
+  "target": "~/workspace/peira-trial/artifacts/google-decision-v2-trial.json",
+  "via": "-",
+  "text": "Path `~/workspace/peira-trial/artifacts/google-decision-v2-trial.json`, 16,125,314 bytes, sha256 76f5df67574a835eda1886723309e07810cafddabc8dc1f49ae4abdf0ecd784a, md5 50300bf1043aa090ecd747f2afeb4d14."
+ },
+ {
+  "report": "f04",
+  "line": 27,
+  "class": "count",
+  "value": "11 families",
+  "target": "~/workspace/peira-trial/artifacts/google-decision-v2-trial.json",
+  "via": "-",
+  "text": "Path `~/workspace/peira-trial/artifacts/google-decision-v2-trial.json`, 16,125,314 bytes, sha256 76f5df67574a835eda1886723309e07810cafddabc8dc1f49ae4abdf0ecd784a, md5 50300bf1043aa090ecd747f2afeb4d14."
+ },
+ {
+  "report": "f04",
+  "line": 33,
+  "class": "count",
+  "value": "4,701 cases",
+  "target": null,
+  "via": "-",
+  "text": "Attack success, unconditional, 0.1887 with a 95 percent interval of 0.1778 to 0.2001, meaning 887 counted flips over all 4,701 cases. Attack success, conditional on a correct benign decision, 0.1883 w"
+ },
+ {
+  "report": "f04",
+  "line": 39,
+  "class": "count",
+  "value": "4,701 cases",
+  "target": null,
+  "via": "-",
+  "text": "Abstention and refusal under attack were both zero, and the attacked outcome counts over 4,701 cases are 15 approve, 4,686 other decisions, zero abstained, zero refused. Benign outcome counts are 96 a"
+ },
+ {
+  "report": "f04",
+  "line": 65,
+  "class": "size",
+  "value": "8 MB",
+  "target": null,
+  "via": "-",
+  "text": "The mechanism is proven from the driver logs and the code. The runner flushes the partial every 25 completed cases. Each flush rewrites the whole partial file in one synchronous atomic write. The file"
+ },
+ {
+  "report": "f04",
+  "line": 79,
+  "class": "count",
+  "value": "4,701 cases",
+  "target": null,
+  "via": "-",
+  "text": "The final segment completed all 4,701 cases at 00:59 UTC on 2026-11-18 and entered the seal. The seal computes a 10,000-replication bootstrap over the results and checkpoints that computation into a s"
+ },
+ {
+  "report": "f04",
+  "line": 87,
+  "class": "hash256",
+  "value": "390d94a886dc618230f17ea767909817aedf6db69ab577eb878783842cf0c713",
+  "target": null,
+  "via": "-",
+  "text": "The run id is not constant across this run and was never the run's identity. The driver mints a fresh run id each time a segment resumes a partial, and the observed values include 1eb82851d24447cc9b4b"
+ },
+ {
+  "report": "f04",
+  "line": 87,
+  "class": "hash256",
+  "value": "5434f93cbd58becbac84ffcc5f2fbcdb522200fc0c9ced6290cf527b162deb20",
+  "target": null,
+  "via": "-",
+  "text": "The run id is not constant across this run and was never the run's identity. The driver mints a fresh run id each time a segment resumes a partial, and the observed values include 1eb82851d24447cc9b4b"
+ },
+ {
+  "report": "f04",
+  "line": 89,
+  "class": "count",
+  "value": "4,701 cases",
+  "target": null,
+  "via": "-",
+  "text": "What makes this one run is the chain underneath the ids. One dataset, version 2.6.0 under manifest sha cb89cc9955347250, and one case set of 4,701 cases in a fixed order. One partial file carried forw"
+ },
+ {
+  "report": "f05",
+  "line": 66,
+  "class": "count",
+  "value": "10 cases",
+  "target": null,
+  "via": "-",
+  "text": "## 3. Canary results (10 cases, 20 calls each, deterministic canary set)"
+ },
+ {
+  "report": "f05",
+  "line": 73,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| deepseek-pro | deepseek-v4-pro | COMPLETE 10/10, 0 errors | 5,238 / 1,374 | $0.012355 |"
+ },
+ {
+  "report": "f05",
+  "line": 74,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| zai-53 | glm-5.3 | COMPLETE 10/10, 0 errors; 302 out/call vs sibling glm-4-plus's 91, always-on reasoning as expected | 5,411 / 6,031 | $0.034112 |"
+ },
+ {
+  "report": "f05",
+  "line": 75,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| google-argon | gemini-4-argon | COMPLETE 10/10, 0 errors, 85 out/call; thinking_budget=0 accepted | 8,798 / 1,702 | $0.034616 |"
+ },
+ {
+  "report": "f05",
+  "line": 76,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| openai-sol56 | gpt-5.6-sol | Attempt 1 HALTED on 20x400 \"max_tokens not supported, use max_completion_tokens\" (honest observation). After the per-model-set fix, attempt 2 COMPLETE 10/10, 0 errors | "
+ },
+ {
+  "report": "f05",
+  "line": 77,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| minimax-31f | MiniMax-M3.1-Flash | Attempt 1 HALTED on 20x400 \"requires adaptive thinking; thinking.type=disabled not allowed (2013)\", which also revealed the canonical casing. After the thinking-om"
+ },
+ {
+  "report": "f05",
+  "line": 78,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| or-mercury3 | inception/mercury-3 | COMPLETE 10/10, 0 errors | 9,141 / 7,608 | $0.003577 |"
+ },
+ {
+  "report": "f05",
+  "line": 79,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| or-ling31 | inclusionai/ling-3.1-flash | COMPLETE 10/10, 0 errors, 18/20 valid (2 parse failures) | 4,163 / 6,088 | $0.001682 |"
+ },
+ {
+  "report": "f05",
+  "line": 80,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| pplx-12 | pplx-decider-v1.2 | COMPLETE 10/10, 0 errors; API echoed `pplx-decider-v1.2` matching the pin | 5,752 / 20 | $0.000115 |"
+ },
+ {
+  "report": "f05",
+  "line": 81,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| pplx-flash12 | pplx-decider-flash-v1.2 | COMPLETE 10/10, 0 errors; echo matched | 5,752 / 20 | $0.000058 |"
+ },
+ {
+  "report": "f05",
+  "line": 82,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| ms-decision-1 | microsoft/microsoft-decision-1 | COMPLETE 10/10, 0 errors; first live exercise of the new adapter, zero friction; OR's usage cost field corroborated $0.042/1M in. OR echoes the serve"
+ },
+ {
+  "report": "f05",
+  "line": 83,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| openai-decisions | gpt-6-luna (GA re-canary) | COMPLETE 10/10, 0 errors; GA wire echoes `gpt-6-luna`, no silent re-pointing; answers/model/usage shape intact | 6,095 / 0 | $0.000610 |"
+ },
+ {
+  "report": "f05",
+  "line": 86,
+  "class": "tally",
+  "value": "11 of 12",
+  "target": null,
+  "via": "-",
+  "text": "11 of 12 canary-proven. grok-4.7 is blocked on xAI account funding."
+ },
+ {
+  "report": "f05",
+  "line": 91,
+  "class": "commit",
+  "value": "5fac5b97",
+  "target": null,
+  "via": "-",
+  "text": "commit `5fac5b97`, 14 files, 1,088 insertions, 29 deletions. Committed only,"
+ },
+ {
+  "report": "f05",
+  "line": 91,
+  "class": "count",
+  "value": "14 files",
+  "target": null,
+  "via": "-",
+  "text": "commit `5fac5b97`, 14 files, 1,088 insertions, 29 deletions. Committed only,"
+ },
+ {
+  "report": "f05",
+  "line": 124,
+  "class": "tally",
+  "value": "tests 14 tests",
+  "target": "tests/test_openrouter_decisions.py",
+  "via": "-",
+  "text": "- Tests: new `tests/test_openrouter_decisions.py` (14 tests: pinning, name"
+ },
+ {
+  "report": "f05",
+  "line": 133,
+  "class": "tally",
+  "value": "passed 352 passed",
+  "target": null,
+  "via": "-",
+  "text": "Test evidence: 352 passed + 155 subtests across the nine touched test files;"
+ },
+ {
+  "report": "f05",
+  "line": 133,
+  "class": "tally",
+  "value": "tests 155 subtests",
+  "target": null,
+  "via": "-",
+  "text": "Test evidence: 352 passed + 155 subtests across the nine touched test files;"
+ },
+ {
+  "report": "f05",
+  "line": 199,
+  "class": "tally",
+  "value": "11 of 12",
+  "target": null,
+  "via": "-",
+  "text": "- Canary-proven on a working wire: 11 of 12 (grok-4.7 blocked on xAI"
+ },
+ {
+  "report": "f05",
+  "line": 208,
+  "class": "commit",
+  "value": "5fac5b97",
+  "target": null,
+  "via": "-",
+  "text": "- Change set: branch `api-version-refresh-2026-10-23`, commit `5fac5b97`,"
+ },
+ {
+  "report": "f05",
+  "line": 209,
+  "class": "tally",
+  "value": "tests 352 tests",
+  "target": null,
+  "via": "-",
+  "text": "14 files, committed and NOT pushed; 352 tests + 155 subtests green;"
+ },
+ {
+  "report": "f05",
+  "line": 209,
+  "class": "tally",
+  "value": "tests 155 subtests",
+  "target": null,
+  "via": "-",
+  "text": "14 files, committed and NOT pushed; 352 tests + 155 subtests green;"
+ },
+ {
+  "report": "f05",
+  "line": 209,
+  "class": "count",
+  "value": "14 files",
+  "target": null,
+  "via": "-",
+  "text": "14 files, committed and NOT pushed; 352 tests + 155 subtests green;"
+ },
+ {
+  "report": "f06",
+  "line": 8,
+  "class": "size",
+  "value": "16,029,506 bytes",
+  "target": null,
+  "via": "-",
+  "text": "- The attachment's recorded size is exactly 16,029,506 bytes, identical to the sealed artifact."
+ },
+ {
+  "report": "f06",
+  "line": 9,
+  "class": "size",
+  "value": "16,029,506 bytes",
+  "target": "~/workspace/peira-trial/artifacts/cursor-grok47-v2-trial.json",
+  "via": "-",
+  "text": "- The on-disk sealed artifact at ~/workspace/peira-trial/artifacts/cursor-grok47-v2-trial.json was re-hashed the same day: 16,029,506 bytes, md5 e3cf9546755fce7f70303b8edd0aabe2, sha256 93540823f4e370"
+ },
+ {
+  "report": "f06",
+  "line": 9,
+  "class": "hash256",
+  "value": "93540823f4e3705e24b094a61ce3f3df43c95cdafce011e8d12d3ae0617a5cb4",
+  "target": "~/workspace/peira-trial/artifacts/cursor-grok47-v2-trial.json",
+  "via": "-",
+  "text": "- The on-disk sealed artifact at ~/workspace/peira-trial/artifacts/cursor-grok47-v2-trial.json was re-hashed the same day: 16,029,506 bytes, md5 e3cf9546755fce7f70303b8edd0aabe2, sha256 93540823f4e370"
+ },
+ {
+  "report": "f06",
+  "line": 11,
+  "class": "size",
+  "value": "21.4 MB",
+  "target": null,
+  "via": "-",
+  "text": "What could not be done: the Gmail tool refuses the attachment download. The encoded payload is 21.4 MB and the tool's per-command return cap is 8.3 MB, so nothing was released. The hash of the Gmail c"
+ },
+ {
+  "report": "f06",
+  "line": 11,
+  "class": "size",
+  "value": "8.3 MB",
+  "target": null,
+  "via": "-",
+  "text": "What could not be done: the Gmail tool refuses the attachment download. The encoded payload is 21.4 MB and the tool's per-command return cap is 8.3 MB, so nothing was released. The hash of the Gmail c"
+ },
+ {
+  "report": "f07",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "explicit",
+  "text": "# PR #326 Fix-Delta Review \u2014 Spec-Fidelity Axis"
+ },
+ {
+  "report": "f07",
+  "line": 3,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "bare",
+  "text": "**PR:** david-engelmann/peira #326 \u2014 display scaffold B1-B6 + EB-5 matrix"
+ },
+ {
+  "report": "f07",
+  "line": 4,
+  "class": "gitsha",
+  "value": "1588ed1bd9313738a9c6db4181a04f2e2b83fb1c",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `1588ed1bd9313738a9c6db4181a04f2e2b83fb1c`"
+ },
+ {
+  "report": "f07",
+  "line": 5,
+  "class": "gitsha",
+  "value": "1854dc4e0c260ee49924c047c9eb442c9d056ac1",
+  "target": null,
+  "via": "-",
+  "text": "**Base:** `1854dc4e0c260ee49924c047c9eb442c9d056ac1` (merge-base confirmed exact)"
+ },
+ {
+  "report": "f07",
+  "line": 6,
+  "class": "commit",
+  "value": "9dbcbd30",
+  "target": null,
+  "via": "-",
+  "text": "**Repair delta reviewed:** `9dbcbd30..1588ed1b` (2 commits: `1e7a763a`, `1588ed1b`)"
+ },
+ {
+  "report": "f07",
+  "line": 6,
+  "class": "commit",
+  "value": "1588ed1b",
+  "target": null,
+  "via": "-",
+  "text": "**Repair delta reviewed:** `9dbcbd30..1588ed1b` (2 commits: `1e7a763a`, `1588ed1b`)"
+ },
+ {
+  "report": "f07",
+  "line": 6,
+  "class": "commit",
+  "value": "1e7a763a",
+  "target": null,
+  "via": "-",
+  "text": "**Repair delta reviewed:** `9dbcbd30..1588ed1b` (2 commits: `1e7a763a`, `1588ed1b`)"
+ },
+ {
+  "report": "f07",
+  "line": 6,
+  "class": "count",
+  "value": "2 commits",
+  "target": null,
+  "via": "-",
+  "text": "**Repair delta reviewed:** `9dbcbd30..1588ed1b` (2 commits: `1e7a763a`, `1588ed1b`)"
+ },
+ {
+  "report": "f07",
+  "line": 80,
+  "class": "count",
+  "value": "4 files",
+  "target": null,
+  "via": "-",
+  "text": "Every hunk maps to a named finding (4 files, 63+/39-):"
+ },
+ {
+  "report": "f07",
+  "line": 94,
+  "class": "commit",
+  "value": "9dbcbd30",
+  "target": null,
+  "via": "-",
+  "text": "the builder's head: `git grep allFamilies 9dbcbd30` returns only its own"
+ },
+ {
+  "report": "f07",
+  "line": 99,
+  "class": "commit",
+  "value": "1854dc4e",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 1854dc4e..HEAD --stat` \u2192 exactly 15 files, all lane files"
+ },
+ {
+  "report": "f07",
+  "line": 99,
+  "class": "count",
+  "value": "15 files",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 1854dc4e..HEAD --stat` \u2192 exactly 15 files, all lane files"
+ },
+ {
+  "report": "f07",
+  "line": 124,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "## Commands run (all exit 0 unless noted)"
+ },
+ {
+  "report": "f07",
+  "line": 126,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `git fetch origin pull/326/head:refs/remotes/origin/pr/326` \u2192 exit 0"
+ },
+ {
+  "report": "f07",
+  "line": 126,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "explicit",
+  "text": "- `git fetch origin pull/326/head:refs/remotes/origin/pr/326` \u2192 exit 0"
+ },
+ {
+  "report": "f07",
+  "line": 127,
+  "class": "gitsha",
+  "value": "1588ed1bd9313738a9c6db4181a04f2e2b83fb1c",
+  "target": null,
+  "via": "-",
+  "text": "- `git rev-parse origin/pr/326` \u2192 `1588ed1bd9313738a9c6db4181a04f2e2b83fb1c`"
+ },
+ {
+  "report": "f07",
+  "line": 128,
+  "class": "commit",
+  "value": "1854dc4e",
+  "target": null,
+  "via": "-",
+  "text": "- `git log --oneline 1854dc4e..origin/pr/326` \u2192 5 commits (969f456f, 1f78caca,"
+ },
+ {
+  "report": "f07",
+  "line": 128,
+  "class": "commit",
+  "value": "969f456f",
+  "target": null,
+  "via": "-",
+  "text": "- `git log --oneline 1854dc4e..origin/pr/326` \u2192 5 commits (969f456f, 1f78caca,"
+ },
+ {
+  "report": "f07",
+  "line": 128,
+  "class": "commit",
+  "value": "1f78caca",
+  "target": null,
+  "via": "-",
+  "text": "- `git log --oneline 1854dc4e..origin/pr/326` \u2192 5 commits (969f456f, 1f78caca,"
+ },
+ {
+  "report": "f07",
+  "line": 128,
+  "class": "count",
+  "value": "5 commits",
+  "target": null,
+  "via": "-",
+  "text": "- `git log --oneline 1854dc4e..origin/pr/326` \u2192 5 commits (969f456f, 1f78caca,"
+ },
+ {
+  "report": "f07",
+  "line": 130,
+  "class": "gitsha",
+  "value": "1854dc4e0c260ee49924c047c9eb442c9d056ac1",
+  "target": null,
+  "via": "-",
+  "text": "- `git merge-base origin/pr/326 1854dc4e` \u2192 `1854dc4e0c260ee49924c047c9eb442c9d056ac1`"
+ },
+ {
+  "report": "f07",
+  "line": 130,
+  "class": "commit",
+  "value": "1854dc4e",
+  "target": null,
+  "via": "-",
+  "text": "- `git merge-base origin/pr/326 1854dc4e` \u2192 `1854dc4e0c260ee49924c047c9eb442c9d056ac1`"
+ },
+ {
+  "report": "f07",
+  "line": 131,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `git worktree add ~/workspace/w-pr326-deltaspec origin/pr/326` \u2192 exit 0"
+ },
+ {
+  "report": "f07",
+  "line": 132,
+  "class": "commit",
+  "value": "1854dc4e",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 1854dc4e..HEAD --stat` \u2192 15 files"
+ },
+ {
+  "report": "f07",
+  "line": 132,
+  "class": "count",
+  "value": "15 files",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 1854dc4e..HEAD --stat` \u2192 15 files"
+ },
+ {
+  "report": "f07",
+  "line": 133,
+  "class": "count",
+  "value": "4 files",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 9dbcbd30..1588ed1b --stat` \u2192 4 files"
+ },
+ {
+  "report": "f08",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "explicit",
+  "text": "# PR #326 Fix-Delta Review \u2014 Standards Axis"
+ },
+ {
+  "report": "f08",
+  "line": 3,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "bare",
+  "text": "**Repo:** david-engelmann/peira \u00b7 **PR:** #326 (display scaffold B1-B6 + EB-5 matrix)"
+ },
+ {
+  "report": "f08",
+  "line": 4,
+  "class": "gitsha",
+  "value": "1588ed1bd9313738a9c6db4181a04f2e2b83fb1c",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `1588ed1bd9313738a9c6db4181a04f2e2b83fb1c`"
+ },
+ {
+  "report": "f08",
+  "line": 5,
+  "class": "commit",
+  "value": "9dbcbd30",
+  "target": null,
+  "via": "-",
+  "text": "**Delta base (pre-repair):** `9dbcbd30` (parent of repair commit 1)"
+ },
+ {
+  "report": "f08",
+  "line": 7,
+  "class": "gitsha",
+  "value": "1e7a763a6f87a6a2b37540d54b8a7103dee35e87",
+  "target": null,
+  "via": "-",
+  "text": "- `1e7a763a6f87a6a2b37540d54b8a7103dee35e87` \u2014 \"Fix red-team findings P2-1/P2-2/P3-1/P3-2/P3-3 on display scaffold\""
+ },
+ {
+  "report": "f08",
+  "line": 8,
+  "class": "gitsha",
+  "value": "1588ed1bd9313738a9c6db4181a04f2e2b83fb1c",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `1588ed1bd9313738a9c6db4181a04f2e2b83fb1c` \u2014 \"Fix standards copy-bar violation in docs/Methodology.md EB-5 section\""
+ },
+ {
+  "report": "f08",
+  "line": 47,
+  "class": "count",
+  "value": "4 files",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "`git diff 9dbcbd30..1588ed1b --name-only` touches exactly 4 files: `docs/Methodology.md`, `site/SITE_DATA_SCHEMA.md`, `site/src/scripts/site.js`, `site/src/styles/global.css`. **No test files touched*"
+ },
+ {
+  "report": "f08",
+  "line": 74,
+  "class": "tally",
+  "value": "exit exit code 0",
+  "target": null,
+  "via": "-",
+  "text": "## Commands run (all exit code 0)"
+ },
+ {
+  "report": "f08",
+  "line": 77,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git fetch origin 'pull/326/head:refs/remotes/origin/pr-326-head'            # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 77,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "explicit",
+  "text": "git fetch origin 'pull/326/head:refs/remotes/origin/pr-326-head'            # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 78,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git worktree add ~/workspace/peira-326-standards-delta 1588ed1b...           # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 79,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git show --stat 1e7a763a / 1588ed1b                                         # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 80,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "Methodology.md",
+  "via": "-",
+  "text": "git show 1588ed1b --format=''   # Methodology.md diff                       # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 81,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git show 1e7a763a --format=''   # schema/site.js/css diff                   # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 82,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git log --format= -p 9dbcbd30..1588ed1b  # piped to Python codepoint scans   # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 83,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git diff 9dbcbd30..1588ed1b --name-only                                     # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 84,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "git show 9dbcbd30:docs/Methodology.md | sed -n '1214,1232p'                  # exit 0"
+ },
+ {
+  "report": "f08",
+  "line": 85,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "git show 9dbcbd30:site/src/scripts/site.js  # piped to Python en-dash scan   # exit 0"
+ },
+ {
+  "report": "f09",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "explicit",
+  "text": "# Red-team re-audit: PR #338 (A4 review repair: R-1, R-2, R-3)"
+ },
+ {
+  "report": "f09",
+  "line": 3,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "explicit",
+  "text": "- **PR:** david-engelmann/peira#338 \u2014 \"A4 second-review repair: R-1, R-2, R-3 (dataset v1 1.4.2)\""
+ },
+ {
+  "report": "f09",
+  "line": 4,
+  "class": "gitsha",
+  "value": "1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head SHA:** `1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65`"
+ },
+ {
+  "report": "f09",
+  "line": 5,
+  "class": "commit",
+  "value": "21ef7ba4",
+  "target": null,
+  "via": "-",
+  "text": "- **Base:** `21ef7ba4` (merge-base with origin/main)"
+ },
+ {
+  "report": "f09",
+  "line": 6,
+  "class": "commit",
+  "value": "7bc6717c",
+  "target": null,
+  "via": "-",
+  "text": "- **Branch commits:** `7bc6717c` (R-1 family fixes), `870f6aa8` (gate script), `11218153` (1.4.2 re-seal)"
+ },
+ {
+  "report": "f09",
+  "line": 6,
+  "class": "commit",
+  "value": "870f6aa8",
+  "target": null,
+  "via": "-",
+  "text": "- **Branch commits:** `7bc6717c` (R-1 family fixes), `870f6aa8` (gate script), `11218153` (1.4.2 re-seal)"
+ },
+ {
+  "report": "f09",
+  "line": 13,
+  "class": "pr",
+  "value": "PR 230",
+  "target": null,
+  "via": "bare",
+  "text": "## 1. R-1 (P1): five #230 fixes re-applied \u2014 PASS"
+ },
+ {
+  "report": "f09",
+  "line": 15,
+  "class": "commit",
+  "value": "83f6232a",
+  "target": null,
+  "via": "-",
+  "text": "Re-derived the byte comparison against #230's commit `83f6232a` per case:"
+ },
+ {
+  "report": "f09",
+  "line": 15,
+  "class": "pr",
+  "value": "PR 230",
+  "target": null,
+  "via": "bare",
+  "text": "Re-derived the byte comparison against #230's commit `83f6232a` per case:"
+ },
+ {
+  "report": "f09",
+  "line": 17,
+  "class": "pr",
+  "value": "PR 230",
+  "target": null,
+  "via": "bare",
+  "text": "| case | vs #230 | assessment |"
+ },
+ {
+  "report": "f09",
+  "line": 22,
+  "class": "pr",
+  "value": "PR 280",
+  "target": null,
+  "via": "bare",
+  "text": "| v1-dfl-116 | differs ONLY in `severity` (medium\u2192high) | \u2713 correct: #280 Sweep A (`2cca2ee1`) legitimately raised it post-#230; restoring #230's bytes exactly would have re-clobbered it. Scale fix pr"
+ },
+ {
+  "report": "f09",
+  "line": 22,
+  "class": "pr",
+  "value": "PR 230",
+  "target": null,
+  "via": "bare",
+  "text": "| v1-dfl-116 | differs ONLY in `severity` (medium\u2192high) | \u2713 correct: #280 Sweep A (`2cca2ee1`) legitimately raised it post-#230; restoring #230's bytes exactly would have re-clobbered it. Scale fix pr"
+ },
+ {
+  "report": "f09",
+  "line": 27,
+  "class": "pr",
+  "value": "PR 230",
+  "target": null,
+  "via": "bare",
+  "text": "- Severity history traced #230 \u2192 #280 \u2192 #205-revert \u2192 base \u2192 #338 for all five: stable everywhere except v1-dfl-116's legitimate #280 bump, which is preserved."
+ },
+ {
+  "report": "f09",
+  "line": 27,
+  "class": "pr",
+  "value": "PR 280",
+  "target": null,
+  "via": "bare",
+  "text": "- Severity history traced #230 \u2192 #280 \u2192 #205-revert \u2192 base \u2192 #338 for all five: stable everywhere except v1-dfl-116's legitimate #280 bump, which is preserved."
+ },
+ {
+  "report": "f09",
+  "line": 27,
+  "class": "pr",
+  "value": "PR 205",
+  "target": null,
+  "via": "bare",
+  "text": "- Severity history traced #230 \u2192 #280 \u2192 #205-revert \u2192 base \u2192 #338 for all five: stable everywhere except v1-dfl-116's legitimate #280 bump, which is preserved."
+ },
+ {
+  "report": "f09",
+  "line": 27,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "bare",
+  "text": "- Severity history traced #230 \u2192 #280 \u2192 #205-revert \u2192 base \u2192 #338 for all five: stable everywhere except v1-dfl-116's legitimate #280 bump, which is preserved."
+ },
+ {
+  "report": "f09",
+  "line": 29,
+  "class": "pr",
+  "value": "PR 230",
+  "target": null,
+  "via": "bare",
+  "text": "- Precision nit (P4, reporting only): the commit/PR text says \"byte-identical to #230's versions.\" Strictly, that holds for 3/5; the other two deviate as documented above (one deliberate severity pres"
+ },
+ {
+  "report": "f09",
+  "line": 46,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_notes_tier_words.py",
+  "via": "-",
+  "text": "- `scripts/check_notes_tier_words.py` run directly: **exit 0**, \"zero mismatches corpus-wide.\" Negative control verified effective (flags synthetic tier/scale violations; passes a clean synthetic case"
+ },
+ {
+  "report": "f09",
+  "line": 53,
+  "class": "count",
+  "value": "2,000 cases",
+  "target": null,
+  "via": "-",
+  "text": "- **2,000 cases**; severity distribution **critical 771 / high 463 / medium 745 / low 21** \u2014 exactly as claimed."
+ },
+ {
+  "report": "f09",
+  "line": 54,
+  "class": "count",
+  "value": "2,000 lines",
+  "target": "cases.jsonl",
+  "via": "-",
+  "text": "- Aggregate `cases.jsonl`: 2,000 lines, ID set identical to family files, JSON-semantically identical content. No cases added/removed."
+ },
+ {
+  "report": "f09",
+  "line": 55,
+  "class": "tally",
+  "value": "passed 9 passed",
+  "target": null,
+  "via": "-",
+  "text": "- `peira dataset gates --dir dataset/v1/cases`: **exit 0 \u2014 9/9 passed, 0 errors** (469 warnings are pre-existing near-duplication notices)."
+ },
+ {
+  "report": "f09",
+  "line": 55,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `peira dataset gates --dir dataset/v1/cases`: **exit 0 \u2014 9/9 passed, 0 errors** (469 warnings are pre-existing near-duplication notices)."
+ },
+ {
+  "report": "f09",
+  "line": 55,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "- `peira dataset gates --dir dataset/v1/cases`: **exit 0 \u2014 9/9 passed, 0 errors** (469 warnings are pre-existing near-duplication notices)."
+ },
+ {
+  "report": "f09",
+  "line": 55,
+  "class": "count",
+  "value": "469 warnings",
+  "target": null,
+  "via": "-",
+  "text": "- `peira dataset gates --dir dataset/v1/cases`: **exit 0 \u2014 9/9 passed, 0 errors** (469 warnings are pre-existing near-duplication notices)."
+ },
+ {
+  "report": "f09",
+  "line": 56,
+  "class": "commit",
+  "value": "21ef7ba4",
+  "target": "check_dataset_version_bump.py",
+  "via": "-",
+  "text": "- `peira dataset verify-manifest`: exit 0. `check_dataset_version_bump.py 21ef7ba4 HEAD`: 1.4.1\u21921.4.2 OK, CHANGELOG.md touched."
+ },
+ {
+  "report": "f09",
+  "line": 56,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "check_dataset_version_bump.py",
+  "via": "-",
+  "text": "- `peira dataset verify-manifest`: exit 0. `check_dataset_version_bump.py 21ef7ba4 HEAD`: 1.4.1\u21921.4.2 OK, CHANGELOG.md touched."
+ },
+ {
+  "report": "f09",
+  "line": 57,
+  "class": "pr",
+  "value": "PR 315",
+  "target": null,
+  "via": "explicit",
+  "text": "- Rebase hygiene: PR #315's v1-csm-134 PII fix (main's separate 1.4.1) is an ancestor of the head and its content is preserved byte-identical."
+ },
+ {
+  "report": "f09",
+  "line": 59,
+  "class": "pr",
+  "value": "PR 230",
+  "target": "CHANGELOG.json",
+  "via": "bare",
+  "text": "- Restored 1.2.1 CHANGELOG.json entries: initially suspected of being fabricated backfill, but direct comparison proves they are **byte-identical restorations** of #230's own entries (which #280's rew"
+ },
+ {
+  "report": "f09",
+  "line": 59,
+  "class": "pr",
+  "value": "PR 280",
+  "target": "CHANGELOG.json",
+  "via": "bare",
+  "text": "- Restored 1.2.1 CHANGELOG.json entries: initially suspected of being fabricated backfill, but direct comparison proves they are **byte-identical restorations** of #230's own entries (which #280's rew"
+ },
+ {
+  "report": "f09",
+  "line": 63,
+  "class": "count",
+  "value": "1,890 lines",
+  "target": null,
+  "via": "-",
+  "text": "- The aggregate diff (1,890 lines) is fully accounted for: 35 real case changes (33 indirection + 1 dfl + 1 ngm \u2014 exactly the R-1/R-2/R-3 sets) + 910 serialization-only lines. **No scope creep**: no n"
+ },
+ {
+  "report": "f09",
+  "line": 66,
+  "class": "count",
+  "value": "910 lines",
+  "target": "dataset.py",
+  "via": "-",
+  "text": "1. **Serialization normalization in the seal:** the aggregate is now written with literal UTF-8 (`dataset.py` uses `ensure_ascii=False`) while family files retain `\\uXXXX` escapes \u2014 910 lines differ b"
+ },
+ {
+  "report": "f09",
+  "line": 68,
+  "class": "commit",
+  "value": "7bc6717c",
+  "target": null,
+  "via": "-",
+  "text": "3. **Commit-message scoping:** `7bc6717c`'s message describes only R-1 but the commit also contains the R-2/R-3 indirection edits; `870f6aa8`'s message describes R-2/R-3 but the commit contains only t"
+ },
+ {
+  "report": "f09",
+  "line": 68,
+  "class": "commit",
+  "value": "870f6aa8",
+  "target": null,
+  "via": "-",
+  "text": "3. **Commit-message scoping:** `7bc6717c`'s message describes only R-1 but the commit also contains the R-2/R-3 indirection edits; `870f6aa8`'s message describes R-2/R-3 but the commit contains only t"
+ },
+ {
+  "report": "f09",
+  "line": 69,
+  "class": "tally",
+  "value": "exit exit 1",
+  "target": "check_no_emdashes.py",
+  "via": "-",
+  "text": "4. **Pre-existing CI failure unrelated to this PR:** `check_no_emdashes.py` fails (exit 1) on 2 em dashes in `docs/Judge-Discipline.md:59`, present at the base and untouched by this PR. Not a merge bl"
+ },
+ {
+  "report": "f09",
+  "line": 73,
+  "class": "gitsha",
+  "value": "1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65",
+  "target": null,
+  "via": "-",
+  "text": "- `git rev-parse origin/pr/338` \u2192 `1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65` (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 73,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `git rev-parse origin/pr/338` \u2192 `1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65` (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 74,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff --stat 21ef7ba4 origin/pr/338` \u2192 10 files (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 74,
+  "class": "count",
+  "value": "10 files",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff --stat 21ef7ba4 origin/pr/338` \u2192 10 files (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 75,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Per-case byte/JSON comparison `83f6232a` vs `7bc6717c` for the five R-1 cases (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 76,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Severity trace `83f6232a`\u2192`2cca2ee1`\u2192`e2eab9d0`\u2192`21ef7ba4`\u2192`11218153` (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 77,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_notes_tier_words.py",
+  "via": "-",
+  "text": "- `python3 scripts/check_notes_tier_words.py` \u2192 exit 0"
+ },
+ {
+  "report": "f09",
+  "line": 78,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Independent tier-word scans (broad + uncovered-pattern + alternative-style) \u2192 0 real misses (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 79,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Manifest SHA-256 recomputation, all 10 files \u2192 match (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 79,
+  "class": "count",
+  "value": "10 files",
+  "target": null,
+  "via": "-",
+  "text": "- Manifest SHA-256 recomputation, all 10 files \u2192 match (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 80,
+  "class": "tally",
+  "value": "passed 9 passed",
+  "target": null,
+  "via": "-",
+  "text": "- `PYTHONPATH=python python3 -c \"from peira.cli import main; ... dataset gates --dir dataset/v1/cases\"` \u2192 exit 0, 9/9 passed"
+ },
+ {
+  "report": "f09",
+  "line": 80,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `PYTHONPATH=python python3 -c \"from peira.cli import main; ... dataset gates --dir dataset/v1/cases\"` \u2192 exit 0, 9/9 passed"
+ },
+ {
+  "report": "f09",
+  "line": 81,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `... dataset verify-manifest --dir dataset/v1/cases` \u2192 exit 0, \"manifest ok\""
+ },
+ {
+  "report": "f09",
+  "line": 82,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_dataset_version_bump.py",
+  "via": "-",
+  "text": "- `python3 scripts/check_dataset_version_bump.py 21ef7ba4 11218153` \u2192 exit 0"
+ },
+ {
+  "report": "f09",
+  "line": 83,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "- `python3 scripts/check_families.py` \u2192 exit 0; `check_dataset_tags.py` \u2192 exit 0"
+ },
+ {
+  "report": "f09",
+  "line": 84,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Aggregate-vs-family audit base vs head: base 0 line mismatches; head 910 line mismatches / 0 JSON-semantic diffs (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 84,
+  "class": "count",
+  "value": "0 line",
+  "target": null,
+  "via": "-",
+  "text": "- Aggregate-vs-family audit base vs head: base 0 line mismatches; head 910 line mismatches / 0 JSON-semantic diffs (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 84,
+  "class": "count",
+  "value": "910 line",
+  "target": null,
+  "via": "-",
+  "text": "- Aggregate-vs-family audit base vs head: base 0 line mismatches; head 910 line mismatches / 0 JSON-semantic diffs (exit 0)"
+ },
+ {
+  "report": "f09",
+  "line": 85,
+  "class": "tally",
+  "value": "exit exit 1",
+  "target": "scripts/check_no_emdashes.py",
+  "via": "-",
+  "text": "- `python3 scripts/check_no_emdashes.py` \u2192 exit 1, pre-existing (docs/Judge-Discipline.md:59, untouched by PR)"
+ },
+ {
+  "report": "f10",
+  "line": 4,
+  "class": "commit",
+  "value": "f0c13d1b",
+  "target": null,
+  "via": "-",
+  "text": "- Base: origin/main @ `f0c13d1b`; reviewed head: `76a21533`"
+ },
+ {
+  "report": "f10",
+  "line": 4,
+  "class": "commit",
+  "value": "76a21533",
+  "target": null,
+  "via": "-",
+  "text": "- Base: origin/main @ `f0c13d1b`; reviewed head: `76a21533`"
+ },
+ {
+  "report": "f10",
+  "line": 5,
+  "class": "count",
+  "value": "15 files",
+  "target": null,
+  "via": "-",
+  "text": "- Diff: `git diff f0c13d1b..76a21533` \u2014 15 files, 76,818 insertions (most is regenerated mock JSON)"
+ },
+ {
+  "report": "f10",
+  "line": 13,
+  "class": "tally",
+  "value": "tests 28 tests",
+  "target": "tests/test_site_ingest.py",
+  "via": "-",
+  "text": "copy is repaired. All 28 tests in `tests/test_site_ingest.py` pass (76.9s, pytest);"
+ },
+ {
+  "report": "f10",
+  "line": 24,
+  "class": "commit",
+  "value": "0bd33020",
+  "target": "Methodology.md",
+  "via": "-",
+  "text": "finds violations in the new Methodology.md prose (commit 0bd33020, file lines"
+ },
+ {
+  "report": "f10",
+  "line": 83,
+  "class": "tally",
+  "value": "tests 28 tests",
+  "target": "tests/test_site_ingest.py",
+  "via": "-",
+  "text": "All 28 tests in `tests/test_site_ingest.py` pass under pytest (76.9s). The 6 new"
+ },
+ {
+  "report": "f11",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "explicit",
+  "text": "# Standards-axis review: peira PR #338 (A4 review repair R-1/R-2/R-3, dataset v1 1.4.2 seal)"
+ },
+ {
+  "report": "f11",
+  "line": 3,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "explicit",
+  "text": "- **PR:** https://github.com/david-engelmann/peira/pull/338"
+ },
+ {
+  "report": "f11",
+  "line": 4,
+  "class": "gitsha",
+  "value": "1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head:** `1121815365e1dcd6a0e4e638eb5fdf89d8aa8b65`"
+ },
+ {
+  "report": "f11",
+  "line": 5,
+  "class": "gitsha",
+  "value": "21ef7ba45e8bcd175a102976c822eb10363c5023",
+  "target": null,
+  "via": "-",
+  "text": "- **Merge-base with origin/main:** `21ef7ba45e8bcd175a102976c822eb10363c5023`"
+ },
+ {
+  "report": "f11",
+  "line": 11,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "explicit",
+  "text": "Fresh clone at `~/workspace/pr338-standards-review`, PR head fetched via `git fetch origin pull/338/head` and checked out. `~/workspace/peira-worktrees/peira-main` untouched. Read-only throughout: no "
+ },
+ {
+  "report": "f11",
+  "line": 13,
+  "class": "count",
+  "value": "163 lines",
+  "target": "scripts/check_notes_tier_words.py",
+  "via": "-",
+  "text": "## 1. New gate script `scripts/check_notes_tier_words.py` (163 lines)"
+ },
+ {
+  "report": "f11",
+  "line": 19,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "**Negative control: verified working, non-tautological.** Ran the script against the sealed corpus: exit 0, `tier-word/scale-wording check passed: zero mismatches corpus-wide.` Iterated 2000 cases acr"
+ },
+ {
+  "report": "f11",
+  "line": 19,
+  "class": "count",
+  "value": "2000 cases",
+  "target": null,
+  "via": "-",
+  "text": "**Negative control: verified working, non-tautological.** Ran the script against the sealed corpus: exit 0, `tier-word/scale-wording check passed: zero mismatches corpus-wide.` Iterated 2000 cases acr"
+ },
+ {
+  "report": "f11",
+  "line": 28,
+  "class": "count",
+  "value": "35 case",
+  "target": null,
+  "via": "-",
+  "text": "Python codepoint scans only (per the mechanical-check discipline; no grep). The diff touches 35 case records. Token-level old-vs-new diffs isolated the exact new prose the builder wrote (31 changed fi"
+ },
+ {
+  "report": "f11",
+  "line": 30,
+  "class": "count",
+  "value": "26 cases",
+  "target": null,
+  "via": "-",
+  "text": "- **New prose written by this PR: clean.** Fragments are the tier-word swaps (`High:` -> `Critical:` / `Medium:`, 26 cases), the R-3 sentence for v1-ind-003 (`Critical: a 3x-radiation isotope containe"
+ },
+ {
+  "report": "f11",
+  "line": 31,
+  "class": "count",
+  "value": "2000 prompts",
+  "target": "check_no_emdashes.py",
+  "via": "-",
+  "text": "- **Em dashes found in 6 edited notes/prompts are all pre-existing.** Old-vs-new comparison proves the builder introduced none: the em dashes were already in the old records (e.g. v1-ind-082's `confli"
+ },
+ {
+  "report": "f11",
+  "line": 59,
+  "class": "pr",
+  "value": "PR 338",
+  "target": null,
+  "via": "explicit",
+  "text": "| `git fetch origin pull/338/head:pr338-head && git checkout -q pr338-head` | 0 |"
+ },
+ {
+  "report": "f12",
+  "line": 3,
+  "class": "gitsha",
+  "value": "e6898f10c83eefd0bbc8baf4890f0324e71a5baa",
+  "target": null,
+  "via": "-",
+  "text": "**Lane:** A4 (Program A, phase A4). **Worktree:** `~/workspace/peira-a4-review`, branch `a4-second-review`, head `e6898f10c83eefd0bbc8baf4890f0324e71a5baa` (= origin/main). **Review-only:** no tree mo"
+ },
+ {
+  "report": "f12",
+  "line": 4,
+  "class": "pr",
+  "value": "PR 215",
+  "target": "GOAL.md",
+  "via": "explicit",
+  "text": "**Mandate (GOAL.md):** \"Second independent review + assistant verification clean on the integrated set\" \u2014 the 2,000-case public v1 set after PR #215 applied the S-1 bar-decision corrections (94 severi"
+ },
+ {
+  "report": "f12",
+  "line": 10,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "CHANGELOG.json",
+  "via": "-",
+  "text": "1. **Mechanical** \u2014 re-ran `peira dataset gates` (exit 0, 9/9), recomputed manifest 1.2.0 SHA-256s (10/10 match), counted corrections from CHANGELOG.json (94/3/3/3 confirmed), Python codepoint em-dash"
+ },
+ {
+  "report": "f12",
+  "line": 21,
+  "class": "pr",
+  "value": "PR 215",
+  "target": null,
+  "via": "bare",
+  "text": "**F-1 (P1, fix-worthy): 2 genuine class-4 presentational mismatches missed.** `v1-dfl-116` (prompt \"scored 0 to 100\u2026 score of 70 or higher\", `expected_score` 0.52) and `v1-ngm-128` (prompt \"0 to 100; "
+ },
+ {
+  "report": "f12",
+  "line": 23,
+  "class": "pr",
+  "value": "PR 215",
+  "target": null,
+  "via": "explicit",
+  "text": "**F-2 (P2, fix-worthy): stale severity notes on `v1-ind-052`.** Severity is now `critical` but notes still read \"High: drug-approval integrity.\" PR #215's notes refresh (24 cases, `Severity <tier>:` s"
+ },
+ {
+  "report": "f12",
+  "line": 23,
+  "class": "count",
+  "value": "24 cases",
+  "target": null,
+  "via": "-",
+  "text": "**F-2 (P2, fix-worthy): stale severity notes on `v1-ind-052`.** Severity is now `critical` but notes still read \"High: drug-approval integrity.\" PR #215's notes refresh (24 cases, `Severity <tier>:` s"
+ },
+ {
+  "report": "f12",
+  "line": 28,
+  "class": "pr",
+  "value": "PR 175",
+  "target": null,
+  "via": "explicit",
+  "text": "- *\"173 extra scale-wording rewrites beyond the bar decision in the #215 diff\"* \u2014 false. The #215 diff contains exactly 3 prompt changes (v1-dfl-086, v1-odo-003, v1-odo-106 \u2014 all mandated). The ~241 s"
+ },
+ {
+  "report": "f12",
+  "line": 28,
+  "class": "pr",
+  "value": "PR 215",
+  "target": null,
+  "via": "bare",
+  "text": "- *\"173 extra scale-wording rewrites beyond the bar decision in the #215 diff\"* \u2014 false. The #215 diff contains exactly 3 prompt changes (v1-dfl-086, v1-odo-003, v1-odo-106 \u2014 all mandated). The ~241 s"
+ },
+ {
+  "report": "f12",
+  "line": 30,
+  "class": "pr",
+  "value": "PR 215",
+  "target": "CHANGELOG.md",
+  "via": "bare",
+  "text": "- *\"False CHANGELOG.md claim (5 gold-changing scale cases)\"* \u2014 false. None of v1-csp-089/116, v1-csm-022/153/229 carried any 0-100 wording pre-#215 (checked both arms); #215 changed only their severit"
+ },
+ {
+  "report": "f12",
+  "line": 31,
+  "class": "count",
+  "value": "11 findings",
+  "target": null,
+  "via": "-",
+  "text": "- (Minor: the case-level child wrote \"11 findings\" for what is 10 P1 + 1 P2 + 2 P3 = 13; corrected here. Also: the brief cited \"R-06 authoring instructions\" \u2014 R-06 is a v2 roadmap item, no such v1 doc"
+ },
+ {
+  "report": "f12",
+  "line": 33,
+  "class": "commit",
+  "value": "e6898f10",
+  "target": "dataset/v1/cases.jsonl",
+  "via": "-",
+  "text": "**F-5 (process observation, already resolved): pre-#215 aggregate was stale.** At `e6898f10^`, family files had 147 scale-wording cases vs 388 in the aggregate \u2014 1.1.1 (#175) rewrote family files with"
+ },
+ {
+  "report": "f12",
+  "line": 33,
+  "class": "pr",
+  "value": "PR 215",
+  "target": "dataset/v1/cases.jsonl",
+  "via": "bare",
+  "text": "**F-5 (process observation, already resolved): pre-#215 aggregate was stale.** At `e6898f10^`, family files had 147 scale-wording cases vs 388 in the aggregate \u2014 1.1.1 (#175) rewrote family files with"
+ },
+ {
+  "report": "f12",
+  "line": 33,
+  "class": "pr",
+  "value": "PR 175",
+  "target": "dataset/v1/cases.jsonl",
+  "via": "bare",
+  "text": "**F-5 (process observation, already resolved): pre-#215 aggregate was stale.** At `e6898f10^`, family files had 147 scale-wording cases vs 388 in the aggregate \u2014 1.1.1 (#175) rewrote family files with"
+ },
+ {
+  "report": "f12",
+  "line": 33,
+  "class": "count",
+  "value": "2,000 cases",
+  "target": "dataset/v1/cases.jsonl",
+  "via": "-",
+  "text": "**F-5 (process observation, already resolved): pre-#215 aggregate was stale.** At `e6898f10^`, family files had 147 scale-wording cases vs 388 in the aggregate \u2014 1.1.1 (#175) rewrote family files with"
+ },
+ {
+  "report": "f12",
+  "line": 37,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "CHANGELOG.md",
+  "via": "-",
+  "text": "- 9/9 dataset gates (exit 0; 469 warnings are pre-existing heuristic PII/trigram warnings, 0 errors); manifest 1.2.0 10/10 SHA-256; 94/3/3/3 counts; 95-vs-94 explained (v1-ppa-217 retired via class-6 "
+ },
+ {
+  "report": "f12",
+  "line": 37,
+  "class": "pr",
+  "value": "PR 215",
+  "target": "CHANGELOG.md",
+  "via": "bare",
+  "text": "- 9/9 dataset gates (exit 0; 469 warnings are pre-existing heuristic PII/trigram warnings, 0 errors); manifest 1.2.0 10/10 SHA-256; 94/3/3/3 counts; 95-vs-94 explained (v1-ppa-217 retired via class-6 "
+ },
+ {
+  "report": "f12",
+  "line": 37,
+  "class": "count",
+  "value": "469 warnings",
+  "target": "CHANGELOG.md",
+  "via": "-",
+  "text": "- 9/9 dataset gates (exit 0; 469 warnings are pre-existing heuristic PII/trigram warnings, 0 errors); manifest 1.2.0 10/10 SHA-256; 94/3/3/3 counts; 95-vs-94 explained (v1-ppa-217 retired via class-6 "
+ },
+ {
+  "report": "f12",
+  "line": 37,
+  "class": "count",
+  "value": "0 errors",
+  "target": "CHANGELOG.md",
+  "via": "-",
+  "text": "- 9/9 dataset gates (exit 0; 469 warnings are pre-existing heuristic PII/trigram warnings, 0 errors); manifest 1.2.0 10/10 SHA-256; 94/3/3/3 counts; 95-vs-94 explained (v1-ppa-217 retired via class-6 "
+ },
+ {
+  "report": "f13",
+  "line": 4,
+  "class": "gitsha",
+  "value": "7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed` (\"EB-27/EB-47 families on main (0b59d92): resource_anomaly metric, 840 cases, 2.5.0 manifest (rebased)\")"
+ },
+ {
+  "report": "f13",
+  "line": 4,
+  "class": "commit",
+  "value": "0b59d92",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed` (\"EB-27/EB-47 families on main (0b59d92): resource_anomaly metric, 840 cases, 2.5.0 manifest (rebased)\")"
+ },
+ {
+  "report": "f13",
+  "line": 4,
+  "class": "count",
+  "value": "840 cases",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed` (\"EB-27/EB-47 families on main (0b59d92): resource_anomaly metric, 840 cases, 2.5.0 manifest (rebased)\")"
+ },
+ {
+  "report": "f13",
+  "line": 5,
+  "class": "gitsha",
+  "value": "0b59d920829572ff58f33dbb19517f0941fe49c5",
+  "target": null,
+  "via": "-",
+  "text": "- **Base:** `0b59d920829572ff58f33dbb19517f0941fe49c5` (main)"
+ },
+ {
+  "report": "f13",
+  "line": 8,
+  "class": "count",
+  "value": "20 files",
+  "target": null,
+  "via": "-",
+  "text": "- **Diff:** 20 files, +3618/-20. New: 840 dataset cases, `resource_anomaly` metric, 2 new family reports, D-44, 2 authoring scripts, 12 new tests."
+ },
+ {
+  "report": "f13",
+  "line": 33,
+  "class": "count",
+  "value": "840 cases",
+  "target": null,
+  "via": "-",
+  "text": "- Case content clean: both JSONL files have 0 em dashes, 0 en dashes, 0 spaced-hyphens across all 840 cases (notes + prompts). Case notes match existing house style (\"Deletion test:\", semicolons)."
+ },
+ {
+  "report": "f13",
+  "line": 38,
+  "class": "tally",
+  "value": "tests 12 tests",
+  "target": "python/peira/metrics.py",
+  "via": "-",
+  "text": "- `resource_anomaly` in `python/peira/metrics.py`: clean. Follows the file's established patterns (`NamedTuple` measurement type, `_reported_rate` / `_wilson_ci_py` / `_round4` helpers, the `targeted_"
+ },
+ {
+  "report": "f13",
+  "line": 46,
+  "class": "tally",
+  "value": "tests 12 tests",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "`tests/test_resource_anomaly.py` (12 tests): substantive. Hand-computed medians (15.5 from ratios 1.0\u201330.0), an **independently re-derived** Wilson interval (`_wilson` in the test file, not a call to "
+ },
+ {
+  "report": "f13",
+  "line": 48,
+  "class": "tally",
+  "value": "tests 12 tests",
+  "target": null,
+  "via": "-",
+  "text": "**Mutation verification (proves they fail for real reasons):** copied `python/` + the test file to `/tmp/mutwork`, applied 3 realistic mutations (threshold 2.0\u21923.0, upper-median bug, min-pairs 30\u219250),"
+ },
+ {
+  "report": "f13",
+  "line": 48,
+  "class": "tally",
+  "value": "6 of 12",
+  "target": null,
+  "via": "-",
+  "text": "**Mutation verification (proves they fail for real reasons):** copied `python/` + the test file to `/tmp/mutwork`, applied 3 realistic mutations (threshold 2.0\u21923.0, upper-median bug, min-pairs 30\u219250),"
+ },
+ {
+  "report": "f13",
+  "line": 51,
+  "class": "tally",
+  "value": "passed 31 passed",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- `python3 -m pytest tests/test_resource_anomaly.py tests/test_families.py tests/test_check_families.py tests/test_schema_families.py -q` \u2192 **31 passed, exit code 0** (69.97s)"
+ },
+ {
+  "report": "f13",
+  "line": 51,
+  "class": "tally",
+  "value": "exit exit code 0",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- `python3 -m pytest tests/test_resource_anomaly.py tests/test_families.py tests/test_check_families.py tests/test_schema_families.py -q` \u2192 **31 passed, exit code 0** (69.97s)"
+ },
+ {
+  "report": "f13",
+  "line": 52,
+  "class": "tally",
+  "value": "passed 6 passed",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- Mutated copy `python3 -m pytest tests/test_resource_anomaly.py -q` \u2192 **6 failed, 6 passed** (expected; proves non-tautological)"
+ },
+ {
+  "report": "f13",
+  "line": 52,
+  "class": "tally",
+  "value": "failed 6 failed",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- Mutated copy `python3 -m pytest tests/test_resource_anomaly.py -q` \u2192 **6 failed, 6 passed** (expected; proves non-tautological)"
+ },
+ {
+  "report": "f13",
+  "line": 58,
+  "class": "count",
+  "value": "864 lines",
+  "target": "scripts/author_dos_resource_exhaustion.py",
+  "via": "-",
+  "text": "`scripts/author_dos_resource_exhaustion.py` (864 lines) and `scripts/author_poisoned_few_shot.py` (783 lines): deterministic (no `random`, no timestamps, no env access, no network), assert-heavy (19 a"
+ },
+ {
+  "report": "f13",
+  "line": 58,
+  "class": "count",
+  "value": "783 lines",
+  "target": "scripts/author_dos_resource_exhaustion.py",
+  "via": "-",
+  "text": "`scripts/author_dos_resource_exhaustion.py` (864 lines) and `scripts/author_poisoned_few_shot.py` (783 lines): deterministic (no `random`, no timestamps, no env access, no network), assert-heavy (19 a"
+ },
+ {
+  "report": "f13",
+  "line": 70,
+  "class": "pr",
+  "value": "PR 10",
+  "target": "Taxonomy.md",
+  "via": "bare",
+  "text": "- **[M1] Boundary-ruling cross-references are off by one** (and self-contradictory within each doc). Actual Taxonomy.md rulings: 11 (`dos_resource_exhaustion` vs `verbosity_inflation`), 12 (`poisoned_"
+ },
+ {
+  "report": "f13",
+  "line": 70,
+  "class": "pr",
+  "value": "PR 11",
+  "target": "Taxonomy.md",
+  "via": "bare",
+  "text": "- **[M1] Boundary-ruling cross-references are off by one** (and self-contradictory within each doc). Actual Taxonomy.md rulings: 11 (`dos_resource_exhaustion` vs `verbosity_inflation`), 12 (`poisoned_"
+ },
+ {
+  "report": "f13",
+  "line": 84,
+  "class": "pr",
+  "value": "PR 10",
+  "target": null,
+  "via": "bare",
+  "text": "4. Report boundary-ruling headers: dos `#10` \u2192 `#11`; pfs `#11` \u2192 `#12`."
+ },
+ {
+  "report": "f13",
+  "line": 84,
+  "class": "pr",
+  "value": "PR 11",
+  "target": null,
+  "via": "bare",
+  "text": "4. Report boundary-ruling headers: dos `#10` \u2192 `#11`; pfs `#11` \u2192 `#12`."
+ },
+ {
+  "report": "f13",
+  "line": 84,
+  "class": "pr",
+  "value": "PR 12",
+  "target": null,
+  "via": "bare",
+  "text": "4. Report boundary-ruling headers: dos `#10` \u2192 `#11`; pfs `#11` \u2192 `#12`."
+ },
+ {
+  "report": "f14",
+  "line": 5,
+  "class": "gitsha",
+  "value": "7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed`"
+ },
+ {
+  "report": "f14",
+  "line": 6,
+  "class": "gitsha",
+  "value": "0b59d920829572ff58f33dbb19517f0941fe49c5",
+  "target": null,
+  "via": "-",
+  "text": "**Rebase base (main):** `0b59d920829572ff58f33dbb19517f0941fe49c5`"
+ },
+ {
+  "report": "f14",
+  "line": 18,
+  "class": "count",
+  "value": "420 cases",
+  "target": "docs/Decisions.md",
+  "via": "-",
+  "text": "2. **D-44** (`docs/Decisions.md`, written by this lane, 2026-10-01): operationalizes both as standalone v2 families \u2014 dos_resource_exhaustion (family 29) and poisoned_few_shot (family 30), 420 cases e"
+ },
+ {
+  "report": "f14",
+  "line": 23,
+  "class": "count",
+  "value": "840 cases",
+  "target": null,
+  "via": "-",
+  "text": "## 2. Cases match the spec'd family definitions (independently verified on all 840 cases)"
+ },
+ {
+  "report": "f14",
+  "line": 41,
+  "class": "count",
+  "value": "420 lines",
+  "target": "MEMORY.md",
+  "via": "-",
+  "text": "420 per family (420/420 lines; all case_ids unique; ranges `v2-dos-m1-0000`..`v2-dos-m5-0419` and `v2-pfs-m1-0000`..`v2-pfs-m5-0419`, matching the family reports). David's standing ruling is 400/famil"
+ },
+ {
+  "report": "f14",
+  "line": 52,
+  "class": "tally",
+  "value": "tests 12 tests",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- 12/12 tests pass (`tests/test_resource_anomaly.py`, exit 0)."
+ },
+ {
+  "report": "f14",
+  "line": 52,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- 12/12 tests pass (`tests/test_resource_anomaly.py`, exit 0)."
+ },
+ {
+  "report": "f14",
+  "line": 52,
+  "class": "tally",
+  "value": "12/12 tests",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- 12/12 tests pass (`tests/test_resource_anomaly.py`, exit 0)."
+ },
+ {
+  "report": "f14",
+  "line": 58,
+  "class": "count",
+  "value": "420 cases",
+  "target": "Taxonomy.md",
+  "via": "-",
+  "text": "D-44 accurately describes what was built: standalone shipping (neither folded), the five sub-mechanisms per family, the resource_anomaly metric components, 420 cases each with mechanical boundary asse"
+ },
+ {
+  "report": "f14",
+  "line": 62,
+  "class": "count",
+  "value": "0 errors",
+  "target": "docs/Dataset-Changelog.md",
+  "via": "-",
+  "text": "Justified. `docs/Dataset-Changelog.md` bump rules: \"New cases added -> 1.1.0 (minor)\". 2.4.1 -> 2.5.0 is a minor bump for 840 added cases across 2 new families, consistent with prior family additions "
+ },
+ {
+  "report": "f14",
+  "line": 66,
+  "class": "commit",
+  "value": "0b59d92",
+  "target": "families.py",
+  "via": "-",
+  "text": "`git diff 0b59d92..7c19a5c0 --stat`: exactly 20 files, all lane files, 3618 insertions / 20 deletions. Every deletion is a legitimate version-string bump (2.4.1 -> 2.5.0 across manifest/croissant), a "
+ },
+ {
+  "report": "f14",
+  "line": 66,
+  "class": "commit",
+  "value": "7c19a5c0",
+  "target": "families.py",
+  "via": "-",
+  "text": "`git diff 0b59d92..7c19a5c0 --stat`: exactly 20 files, all lane files, 3618 insertions / 20 deletions. Every deletion is a legitimate version-string bump (2.4.1 -> 2.5.0 across manifest/croissant), a "
+ },
+ {
+  "report": "f14",
+  "line": 66,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "families.py",
+  "via": "-",
+  "text": "`git diff 0b59d92..7c19a5c0 --stat`: exactly 20 files, all lane files, 3618 insertions / 20 deletions. Every deletion is a legitimate version-string bump (2.4.1 -> 2.5.0 across manifest/croissant), a "
+ },
+ {
+  "report": "f14",
+  "line": 66,
+  "class": "count",
+  "value": "20 files",
+  "target": "families.py",
+  "via": "-",
+  "text": "`git diff 0b59d92..7c19a5c0 --stat`: exactly 20 files, all lane files, 3618 insertions / 20 deletions. Every deletion is a legitimate version-string bump (2.4.1 -> 2.5.0 across manifest/croissant), a "
+ },
+ {
+  "report": "f14",
+  "line": 66,
+  "class": "count",
+  "value": "29 families",
+  "target": "families.py",
+  "via": "-",
+  "text": "`git diff 0b59d92..7c19a5c0 --stat`: exactly 20 files, all lane files, 3618 insertions / 20 deletions. Every deletion is a legitimate version-string bump (2.4.1 -> 2.5.0 across manifest/croissant), a "
+ },
+ {
+  "report": "f14",
+  "line": 70,
+  "class": "pr",
+  "value": "PR 304",
+  "target": "Methodology.md",
+  "via": "explicit",
+  "text": "**F1. Methodology.md renumbers cryptographic_payload to Family 27 \u2014 contradicts the settled numbering.** `docs/Methodology.md` line 2077 (lane head): \"Family 27. The attacked variant carries the hosti"
+ },
+ {
+  "report": "f14",
+  "line": 80,
+  "class": "count",
+  "value": "20 files",
+  "target": null,
+  "via": "-",
+  "text": "None. All 20 files are family corpus, authoring scripts, templates/registry, metric, tests, docs (Taxonomy/Methodology/Decisions/CHANGELOG/manifest/croissant), and two family report docs. The `mdes` t"
+ },
+ {
+  "report": "f14",
+  "line": 84,
+  "class": "gitsha",
+  "value": "0b59d920829572ff58f33dbb19517f0941fe49c5",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 0b59d920829572ff58f33dbb19517f0941fe49c5..7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed --stat` \u2014 exit 0, 20 files / 3618+/20-."
+ },
+ {
+  "report": "f14",
+  "line": 84,
+  "class": "gitsha",
+  "value": "7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 0b59d920829572ff58f33dbb19517f0941fe49c5..7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed --stat` \u2014 exit 0, 20 files / 3618+/20-."
+ },
+ {
+  "report": "f14",
+  "line": 84,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 0b59d920829572ff58f33dbb19517f0941fe49c5..7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed --stat` \u2014 exit 0, 20 files / 3618+/20-."
+ },
+ {
+  "report": "f14",
+  "line": 84,
+  "class": "count",
+  "value": "20 files",
+  "target": null,
+  "via": "-",
+  "text": "- `git diff 0b59d920829572ff58f33dbb19517f0941fe49c5..7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed --stat` \u2014 exit 0, 20 files / 3618+/20-."
+ },
+ {
+  "report": "f14",
+  "line": 85,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Corpus boundary scripts (Python over both JSONL files): counts 420/420; 84 per mechanism; dos attacked==benign+one block 420/420, 0 option leaks, 0 steering hits, target_decision null 420/420; pfs 3"
+ },
+ {
+  "report": "f14",
+  "line": 86,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "- `python3 scripts/check_families.py` \u2014 \"29 families agree\", exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 86,
+  "class": "count",
+  "value": "29 families",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "- `python3 scripts/check_families.py` \u2014 \"29 families agree\", exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 87,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- Manifest verify (`peira.dataset.verify_manifest_sealed` over `dataset/v2/cases`) \u2014 errors: [], version 2.5.0, both family SHAs match, exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 88,
+  "class": "tally",
+  "value": "passed 12 passed",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- `python3 -m pytest tests/test_resource_anomaly.py` \u2014 12 passed in 47.00s, exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 88,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- `python3 -m pytest tests/test_resource_anomaly.py` \u2014 12 passed in 47.00s, exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 89,
+  "class": "tally",
+  "value": "passed 19 passed",
+  "target": "tests/test_families.py",
+  "via": "-",
+  "text": "- `python3 -m pytest tests/test_families.py tests/test_schema_families.py tests/test_check_families.py` \u2014 19 passed, exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 89,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_families.py",
+  "via": "-",
+  "text": "- `python3 -m pytest tests/test_families.py tests/test_schema_families.py tests/test_check_families.py` \u2014 19 passed, exit 0."
+ },
+ {
+  "report": "f14",
+  "line": 94,
+  "class": "count",
+  "value": "420 cases",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "The work conforms to the authorizing spec (EB-27/EB-47 disposition + D-44 + Taxonomy rulings 11/12) with one required documentation fix: **F1 \u2014 revert \"Family 27\" to \"Family 28\" for cryptographic_payl"
+ },
+ {
+  "report": "f14",
+  "line": 94,
+  "class": "count",
+  "value": "840 cases",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "The work conforms to the authorizing spec (EB-27/EB-47 disposition + D-44 + Taxonomy rulings 11/12) with one required documentation fix: **F1 \u2014 revert \"Family 27\" to \"Family 28\" for cryptographic_payl"
+ },
+ {
+  "report": "f15",
+  "line": 3,
+  "class": "count",
+  "value": "7 findings",
+  "target": null,
+  "via": "-",
+  "text": "**Verdict: PASS WITH REQUIRED FIXES** (7 findings, itemized below; none invalidates the dataset or the metric)"
+ },
+ {
+  "report": "f15",
+  "line": 5,
+  "class": "gitsha",
+  "value": "7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed` (\"EB-27/EB-47 families on main (0b59d92): resource_anomaly metric, 840 cases, 2.5.0 manifest (rebased)\")"
+ },
+ {
+  "report": "f15",
+  "line": 5,
+  "class": "commit",
+  "value": "0b59d92",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed` (\"EB-27/EB-47 families on main (0b59d92): resource_anomaly metric, 840 cases, 2.5.0 manifest (rebased)\")"
+ },
+ {
+  "report": "f15",
+  "line": 5,
+  "class": "count",
+  "value": "840 cases",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `7c19a5c0f3a896c9c40ae3e5e60de0491fe71eed` (\"EB-27/EB-47 families on main (0b59d92): resource_anomaly metric, 840 cases, 2.5.0 manifest (rebased)\")"
+ },
+ {
+  "report": "f15",
+  "line": 6,
+  "class": "gitsha",
+  "value": "0b59d920829572ff58f33dbb19517f0941fe49c5",
+  "target": null,
+  "via": "-",
+  "text": "**Base:** main `0b59d920829572ff58f33dbb19517f0941fe49c5` (PR #340 merge) \u2014 merge-base confirmed."
+ },
+ {
+  "report": "f15",
+  "line": 6,
+  "class": "pr",
+  "value": "PR 340",
+  "target": null,
+  "via": "explicit",
+  "text": "**Base:** main `0b59d920829572ff58f33dbb19517f0941fe49c5` (PR #340 merge) \u2014 merge-base confirmed."
+ },
+ {
+  "report": "f15",
+  "line": 11,
+  "class": "commit",
+  "value": "af85f6a8",
+  "target": null,
+  "via": "-",
+  "text": "- Remote branch `eb27-eb47-families-r2` has moved on origin since the task was authored (now `af85f6a8`). This audit covers the pinned SHA `7c19a5c0` exactly as tasked. The parent should confirm wheth"
+ },
+ {
+  "report": "f15",
+  "line": 11,
+  "class": "commit",
+  "value": "7c19a5c0",
+  "target": null,
+  "via": "-",
+  "text": "- Remote branch `eb27-eb47-families-r2` has moved on origin since the task was authored (now `af85f6a8`). This audit covers the pinned SHA `7c19a5c0` exactly as tasked. The parent should confirm wheth"
+ },
+ {
+  "report": "f15",
+  "line": 14,
+  "class": "count",
+  "value": "20 files",
+  "target": null,
+  "via": "-",
+  "text": "- 20 files changed in the lane's diff, 3618 insertions. Every claim below was checked against the code/data, not the builder's prose."
+ },
+ {
+  "report": "f15",
+  "line": 21,
+  "class": "count",
+  "value": "20 cases",
+  "target": null,
+  "via": "-",
+  "text": "- 20 cases read end-to-end (10 per family, spanning all 10 sub-mechanisms); automated checks over all 840."
+ },
+ {
+  "report": "f15",
+  "line": 34,
+  "class": "tally",
+  "value": "tests 12 tests",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "- The lane's 12 tests in `tests/test_resource_anomaly.py` pass and are non-tautological (hand-computed medians, independently re-derived Wilson interval, boundary 2.0-inclusion test, withholding tests"
+ },
+ {
+  "report": "f15",
+  "line": 40,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "- Full gate suite G1-G9: **0 errors**. G9 near-dedup warnings on new families are sub-error-threshold by construction (max within-file cosine 0.96 DOS / 0.97 PFS; the top pairs are legitimate factoria"
+ },
+ {
+  "report": "f15",
+  "line": 41,
+  "class": "tally",
+  "value": "tests 19 tests",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "- `scripts/check_families.py`: \"registry and docs/Taxonomy.md agree (29 families)\", exit 0. Related test files pass (19 tests)."
+ },
+ {
+  "report": "f15",
+  "line": 41,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "- `scripts/check_families.py`: \"registry and docs/Taxonomy.md agree (29 families)\", exit 0. Related test files pass (19 tests)."
+ },
+ {
+  "report": "f15",
+  "line": 41,
+  "class": "count",
+  "value": "29 families",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "- `scripts/check_families.py`: \"registry and docs/Taxonomy.md agree (29 families)\", exit 0. Related test files pass (19 tests)."
+ },
+ {
+  "report": "f15",
+  "line": 51,
+  "class": "pr",
+  "value": "PR 304",
+  "target": "check_families.py",
+  "via": "explicit",
+  "text": "Two numbering frames exist: **registry position** (tuple order: cryptographic_payload=27, dos=28, pfs=29) and **documented numbers** (`check_families.py` RESERVED_NUMBERS deliberately skips 27: crypto"
+ },
+ {
+  "report": "f15",
+  "line": 63,
+  "class": "pr",
+  "value": "PR 10",
+  "target": "Taxonomy.md",
+  "via": "bare",
+  "text": "- \"## Boundary ruling (Taxonomy.md #10)\" \u2014 the dos ruling is **#11** (#10 is cryptographic_payload vs encoding_evasion). The report's own Registration section correctly says 11."
+ },
+ {
+  "report": "f15",
+  "line": 63,
+  "class": "pr",
+  "value": "PR 11",
+  "target": "Taxonomy.md",
+  "via": "bare",
+  "text": "- \"## Boundary ruling (Taxonomy.md #10)\" \u2014 the dos ruling is **#11** (#10 is cryptographic_payload vs encoding_evasion). The report's own Registration section correctly says 11."
+ },
+ {
+  "report": "f15",
+  "line": 68,
+  "class": "count",
+  "value": "36 cases",
+  "target": null,
+  "via": "-",
+  "text": "\"a admissions officer\" (36 cases), \"a aviation safety officer\", \"a insurance underwriter\", \"a emergency dispatcher\", \"a environmental inspector\" \u2014 all should be \"an\". PFS is clean."
+ },
+ {
+  "report": "f15",
+  "line": 100,
+  "class": "commit",
+  "value": "7c19a5c0",
+  "target": null,
+  "via": "-",
+  "text": "| 1 | `git worktree add --detach ~/workspace/w-eb27-eb47-redteam 7c19a5c0...` | 0 | HEAD = 7c19a5c0; merge-base parent = 0b59d92 confirmed via `git log` |"
+ },
+ {
+  "report": "f15",
+  "line": 100,
+  "class": "commit",
+  "value": "0b59d92",
+  "target": null,
+  "via": "-",
+  "text": "| 1 | `git worktree add --detach ~/workspace/w-eb27-eb47-redteam 7c19a5c0...` | 0 | HEAD = 7c19a5c0; merge-base parent = 0b59d92 confirmed via `git log` |"
+ },
+ {
+  "report": "f15",
+  "line": 101,
+  "class": "count",
+  "value": "20 files",
+  "target": null,
+  "via": "-",
+  "text": "| 2 | `git diff 0b59d920 --stat` | 0 | 20 files, 3618 insertions |"
+ },
+ {
+  "report": "f15",
+  "line": 102,
+  "class": "count",
+  "value": "29 families",
+  "target": "scripts/check_families.py",
+  "via": "-",
+  "text": "| 3 | `python3 scripts/check_families.py` | 0 | \"registry and docs/Taxonomy.md agree (29 families)\" |"
+ },
+ {
+  "report": "f15",
+  "line": 103,
+  "class": "tally",
+  "value": "passed 12 passed",
+  "target": "tests/test_resource_anomaly.py",
+  "via": "-",
+  "text": "| 4 | `PYTHONPATH=python python3 -m pytest tests/test_resource_anomaly.py -q` | 0 | 12 passed |"
+ },
+ {
+  "report": "f15",
+  "line": 104,
+  "class": "tally",
+  "value": "passed 19 passed",
+  "target": "tests/test_families.py",
+  "via": "-",
+  "text": "| 5 | `PYTHONPATH=python python3 -m pytest tests/test_families.py tests/test_check_families.py tests/test_schema_families.py -q` | 0 | 19 passed |"
+ },
+ {
+  "report": "f15",
+  "line": 105,
+  "class": "count",
+  "value": "3881 cases",
+  "target": null,
+  "via": "-",
+  "text": "| 6 | `PYTHONPATH=python python3 -c \"verify_manifest(...)\"` (peira.dataset) | 0 | no problems; 3881 cases iterated |"
+ },
+ {
+  "report": "f15",
+  "line": 106,
+  "class": "count",
+  "value": "0 errors",
+  "target": null,
+  "via": "-",
+  "text": "| 7 | `PYTHONPATH=python PEIRA_NO_RUST=1 python3 -c \"run_gates(...)\"` | 0 | G1-G9 all passed, 0 errors (G9: 27304 warnings, 0 in error band) |"
+ },
+ {
+  "report": "f15",
+  "line": 106,
+  "class": "count",
+  "value": "27304 warnings",
+  "target": null,
+  "via": "-",
+  "text": "| 7 | `PYTHONPATH=python PEIRA_NO_RUST=1 python3 -c \"run_gates(...)\"` | 0 | G1-G9 all passed, 0 errors (G9: 27304 warnings, 0 in error band) |"
+ },
+ {
+  "report": "f15",
+  "line": 110,
+  "class": "count",
+  "value": "0 violations",
+  "target": null,
+  "via": "-",
+  "text": "| 11 | Whole-corpus structural checks (deletion test, option leaks, demo/target boundaries, imperatives, uniqueness, cross-products, severity splits) | 0 | 0 violations; 84 distinct (scenario,block)/m"
+ },
+ {
+  "report": "f16",
+  "line": 4,
+  "class": "gitsha",
+  "value": "d42ebcea3152cc571b37f1f8f634946b3764cc9c",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head:** `d42ebcea3152cc571b37f1f8f634946b3764cc9c` (branch `eb-noise-robustness-r3`, commit message \"noise: full re-sweep of dialect + paraphrase maps (red-team R1-R4, 2026-10-02)\")"
+ },
+ {
+  "report": "f16",
+  "line": 5,
+  "class": "gitsha",
+  "value": "acdfa73a11b092f76aa3844cff25db5b2ce6373c",
+  "target": null,
+  "via": "-",
+  "text": "- **Rebase base:** `acdfa73a11b092f76aa3844cff25db5b2ce6373c` (branch is 1 commit on top of this base; `git log` confirms parent == base)"
+ },
+ {
+  "report": "f16",
+  "line": 5,
+  "class": "count",
+  "value": "1 commit",
+  "target": null,
+  "via": "-",
+  "text": "- **Rebase base:** `acdfa73a11b092f76aa3844cff25db5b2ce6373c` (branch is 1 commit on top of this base; `git log` confirms parent == base)"
+ },
+ {
+  "report": "f16",
+  "line": 8,
+  "class": "commit",
+  "value": "d877cdb5",
+  "target": "noise-repair2-spec-review-20261002.md",
+  "via": "-",
+  "text": "- **Prior round:** `noise-repair2-spec-review-20261002.md` (reviewed `d877cdb5`, base `37828661`)."
+ },
+ {
+  "report": "f16",
+  "line": 12,
+  "class": "pr",
+  "value": "PR 52",
+  "target": null,
+  "via": "bare",
+  "text": "**PASS.** The re-sweep implements the full R4 mandate, not instance patches: R1/R2 one-way fixes verified behaviorally (0 firings across 500 seeds x 4 adversarial sentences; kept directions fire); all"
+ },
+ {
+  "report": "f16",
+  "line": 22,
+  "class": "pr",
+  "value": "PR 52",
+  "target": null,
+  "via": "bare",
+  "text": "**Paraphrase: the false absolute claim was replaced, per R3, with the bar the map actually meets.** The old docstring (\"Nouns, verbs, entities, and numbers are never in the map, so decision-relevant c"
+ },
+ {
+  "report": "f16",
+  "line": 34,
+  "class": "pr",
+  "value": "PR 52",
+  "target": null,
+  "via": "bare",
+  "text": "The one apparent 0/100 (`\"A recent study\"` -> `\"latest\"`) is the article-clash guard working as designed \u2014 `\"a latest study\"` is ungrammatical, so the veto is correct targeting, not over-constraint. T"
+ },
+ {
+  "report": "f16",
+  "line": 51,
+  "class": "commit",
+  "value": "acdfa73a",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `git diff acdfa73a..d42ebcea --stat`: **14 files, 3837 insertions(+), 0 deletions** \u2014 exactly the lane's 14 files (docs/Methodology.md, docs/Noise-Robustness-Design.md, python/peira/graded_judge.py,"
+ },
+ {
+  "report": "f16",
+  "line": 51,
+  "class": "commit",
+  "value": "d42ebcea",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `git diff acdfa73a..d42ebcea --stat`: **14 files, 3837 insertions(+), 0 deletions** \u2014 exactly the lane's 14 files (docs/Methodology.md, docs/Noise-Robustness-Design.md, python/peira/graded_judge.py,"
+ },
+ {
+  "report": "f16",
+  "line": 51,
+  "class": "tally",
+  "value": "tests 5 test",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `git diff acdfa73a..d42ebcea --stat`: **14 files, 3837 insertions(+), 0 deletions** \u2014 exactly the lane's 14 files (docs/Methodology.md, docs/Noise-Robustness-Design.md, python/peira/graded_judge.py,"
+ },
+ {
+  "report": "f16",
+  "line": 51,
+  "class": "count",
+  "value": "14 files",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `git diff acdfa73a..d42ebcea --stat`: **14 files, 3837 insertions(+), 0 deletions** \u2014 exactly the lane's 14 files (docs/Methodology.md, docs/Noise-Robustness-Design.md, python/peira/graded_judge.py,"
+ },
+ {
+  "report": "f16",
+  "line": 53,
+  "class": "tally",
+  "value": "passed 136 passed",
+  "target": "test_noise.py",
+  "via": "-",
+  "text": "- **Behavioral:** lane tests `test_noise.py` + `test_author_noise_variants.py` + `test_author_direct_requests.py` + `test_graded_judge.py` = **136 passed** (up from 113 in r2 \u2014 the re-sweep's regressi"
+ },
+ {
+  "report": "f16",
+  "line": 53,
+  "class": "tally",
+  "value": "passed 20 passed",
+  "target": "test_noise.py",
+  "via": "-",
+  "text": "- **Behavioral:** lane tests `test_noise.py` + `test_author_noise_variants.py` + `test_author_direct_requests.py` + `test_graded_judge.py` = **136 passed** (up from 113 in r2 \u2014 the re-sweep's regressi"
+ },
+ {
+  "report": "f16",
+  "line": 53,
+  "class": "tally",
+  "value": "passed 15 passed",
+  "target": "test_noise.py",
+  "via": "-",
+  "text": "- **Behavioral:** lane tests `test_noise.py` + `test_author_noise_variants.py` + `test_author_direct_requests.py` + `test_graded_judge.py` = **136 passed** (up from 113 in r2 \u2014 the re-sweep's regressi"
+ },
+ {
+  "report": "f16",
+  "line": 57,
+  "class": "commit",
+  "value": "d877cdb5",
+  "target": "author_noise_variants.py",
+  "via": "-",
+  "text": "The r2->r3 delta (`d877cdb5..d42ebcea`, lane files) maps 1:1 onto R1-R4: dialect one-way moves + lowercase-only + hyphen boundaries + proper-noun guard; paraphrase drops/trims/guards + docstring corre"
+ },
+ {
+  "report": "f16",
+  "line": 57,
+  "class": "commit",
+  "value": "d42ebcea",
+  "target": "author_noise_variants.py",
+  "via": "-",
+  "text": "The r2->r3 delta (`d877cdb5..d42ebcea`, lane files) maps 1:1 onto R1-R4: dialect one-way moves + lowercase-only + hyphen boundaries + proper-noun guard; paraphrase drops/trims/guards + docstring corre"
+ },
+ {
+  "report": "f16",
+  "line": 57,
+  "class": "pr",
+  "value": "PR 52",
+  "target": "author_noise_variants.py",
+  "via": "bare",
+  "text": "The r2->r3 delta (`d877cdb5..d42ebcea`, lane files) maps 1:1 onto R1-R4: dialect one-way moves + lowercase-only + hyphen boundaries + proper-noun guard; paraphrase drops/trims/guards + docstring corre"
+ },
+ {
+  "report": "f16",
+  "line": 68,
+  "class": "gitsha",
+  "value": "d42ebcea3152cc571b37f1f8f634946b3764cc9c",
+  "target": null,
+  "via": "-",
+  "text": "| `git worktree add ~/workspace/noise-resweep-r3 d42ebcea3152cc571b37f1f8f634946b3764cc9c` | exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 68,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git worktree add ~/workspace/noise-resweep-r3 d42ebcea3152cc571b37f1f8f634946b3764cc9c` | exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 69,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git diff acdfa73a..d42ebcea --stat` / `--numstat` / `--name-status` | 14 files, 3837 insertions(+), 0 deletions, all lane files; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 69,
+  "class": "count",
+  "value": "14 files",
+  "target": null,
+  "via": "-",
+  "text": "| `git diff acdfa73a..d42ebcea --stat` / `--numstat` / `--name-status` | 14 files, 3837 insertions(+), 0 deletions, all lane files; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 70,
+  "class": "commit",
+  "value": "d42ebcea",
+  "target": null,
+  "via": "-",
+  "text": "| `git log --oneline d42ebcea -1` + parent check | single commit on `acdfa73a`; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 70,
+  "class": "commit",
+  "value": "acdfa73a",
+  "target": null,
+  "via": "-",
+  "text": "| `git log --oneline d42ebcea -1` + parent check | single commit on `acdfa73a`; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 70,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git log --oneline d42ebcea -1` + parent check | single commit on `acdfa73a`; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 71,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "/tmp/rspec/v1_dialect.py",
+  "via": "-",
+  "text": "| `/tmp/rspec/v1_dialect.py` (one-way set == 6 expected; bad directions 0 firings over 500 seeds x 4 texts; kept directions fire; lowercase-only set; Rockefeller Center 0/200; hyphen compounds intact;"
+ },
+ {
+  "report": "f16",
+  "line": 72,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "/tmp/rspec/v2_paraphrase.py",
+  "via": "-",
+  "text": "| `/tmp/rspec/v2_paraphrase.py` (8 drops absent; 3 alt lists trimmed; 12 guards; 16 break-cases 0 reproductions over 300 seeds; kept entries fire 21-59/100; 25 keys) | all pass except one probe senten"
+ },
+ {
+  "report": "f16",
+  "line": 73,
+  "class": "tally",
+  "value": "passed 136 passed",
+  "target": "tests/test_noise.py",
+  "via": "-",
+  "text": "| `PYTHONPATH=python python3 -m pytest tests/test_noise.py tests/test_author_noise_variants.py tests/test_author_direct_requests.py tests/test_graded_judge.py -q` | 136 passed; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 73,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_noise.py",
+  "via": "-",
+  "text": "| `PYTHONPATH=python python3 -m pytest tests/test_noise.py tests/test_author_noise_variants.py tests/test_author_direct_requests.py tests/test_graded_judge.py -q` | 136 passed; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 74,
+  "class": "tally",
+  "value": "passed 20 passed",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"PerturbationDegradation or AttackedBenign or DirectRequest or FlipDetection or PairDerived or pair_derived\"` | 20 passed; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 74,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"PerturbationDegradation or AttackedBenign or DirectRequest or FlipDetection or PairDerived or pair_derived\"` | 20 passed; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 75,
+  "class": "tally",
+  "value": "passed 15 passed",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"TestBHAdjust or TestFamilyLatencySummary or TestLatencyInflation or TestR20TelemetryFields\"` | 15 passed; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 75,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"TestBHAdjust or TestFamilyLatencySummary or TestLatencyInflation or TestR20TelemetryFields\"` | 15 passed; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 76,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| fixture scan: 40 rows, 10/class all firing; 10/10 paraphrase rows with real map substitutions; 0 rows emitting dropped words; 0 red-team hazards in fixture | exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 77,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "noise.py",
+  "via": "-",
+  "text": "| `git diff d877cdb5..d42ebcea` lane-file review (noise.py 474+/60-, design doc, fixture 4+/4-, test_noise.py 292+/13-) | maps 1:1 onto R1-R4; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 78,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| main-side carry verification (`SEVERITY_WEIGHTS`, maturin comment, Economics-Policy ref at `acdfa73a`; `flip_detection_stability` absent on main) | confirmed main-side; exit 0 |"
+ },
+ {
+  "report": "f16",
+  "line": 79,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git status --porcelain` in worktree at end | clean; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 4,
+  "class": "gitsha",
+  "value": "d877cdb566c9c97ac7a4d5ec417fcf4c7b921506",
+  "target": null,
+  "via": "-",
+  "text": "- **Reviewed head:** `d877cdb566c9c97ac7a4d5ec417fcf4c7b921506` (branch `eb-noise-robustness-r2`)"
+ },
+ {
+  "report": "f17",
+  "line": 5,
+  "class": "gitsha",
+  "value": "37828661c4209146cf14736e4272c96f0f213e57",
+  "target": null,
+  "via": "-",
+  "text": "- **Rebase base:** `37828661c4209146cf14736e4272c96f0f213e57` (branch is 1 commit on top of this base)"
+ },
+ {
+  "report": "f17",
+  "line": 5,
+  "class": "count",
+  "value": "1 commit",
+  "target": null,
+  "via": "-",
+  "text": "- **Rebase base:** `37828661c4209146cf14736e4272c96f0f213e57` (branch is 1 commit on top of this base)"
+ },
+ {
+  "report": "f17",
+  "line": 6,
+  "class": "commit",
+  "value": "ecce49c3",
+  "target": null,
+  "via": "-",
+  "text": "- **Pre-repair lane head (for repair-delta isolation):** `ecce49c3`"
+ },
+ {
+  "report": "f17",
+  "line": 8,
+  "class": "pr",
+  "value": "PR 50",
+  "target": "research_notes/external-benchmark-disposition-20260930.md",
+  "via": "bare",
+  "text": "- **Spec sources:** `research_notes/external-benchmark-disposition-20260930.md` (EB-1/+ #50/#51/#52, EB-20, EB-13); `docs/Noise-Robustness-Design.md`; `docs/Methodology.md`; red-team required fixes R1"
+ },
+ {
+  "report": "f17",
+  "line": 8,
+  "class": "pr",
+  "value": "PR 51",
+  "target": "research_notes/external-benchmark-disposition-20260930.md",
+  "via": "bare",
+  "text": "- **Spec sources:** `research_notes/external-benchmark-disposition-20260930.md` (EB-1/+ #50/#51/#52, EB-20, EB-13); `docs/Noise-Robustness-Design.md`; `docs/Methodology.md`; red-team required fixes R1"
+ },
+ {
+  "report": "f17",
+  "line": 8,
+  "class": "pr",
+  "value": "PR 52",
+  "target": "research_notes/external-benchmark-disposition-20260930.md",
+  "via": "bare",
+  "text": "- **Spec sources:** `research_notes/external-benchmark-disposition-20260930.md` (EB-1/+ #50/#51/#52, EB-20, EB-13); `docs/Noise-Robustness-Design.md`; `docs/Methodology.md`; red-team required fixes R1"
+ },
+ {
+  "report": "f17",
+  "line": 22,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "Verified behaviorally (exit 0):"
+ },
+ {
+  "report": "f17",
+  "line": 50,
+  "class": "pr",
+  "value": "PR 52",
+  "target": "dataset/v2/cases/verbosity_inflation.jsonl",
+  "via": "bare",
+  "text": "| P3-3 | Validation fixture regenerated, all classes firing | Fixture: 40 rows, 10/class, **all 10 per class actually fire** (perturbed != original). Generator `build_validation_sample` rewritten: sca"
+ },
+ {
+  "report": "f17",
+  "line": 57,
+  "class": "tally",
+  "value": "tests 5 test",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `git diff 37828661..d877cdb5 --stat`: **14 files, 2839 insertions(+), 0 deletions** \u2014 exactly the lane's 14 files (docs/Methodology.md, docs/Noise-Robustness-Design.md, python/peira/graded_judge.py,"
+ },
+ {
+  "report": "f17",
+  "line": 57,
+  "class": "count",
+  "value": "14 files",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "- `git diff 37828661..d877cdb5 --stat`: **14 files, 2839 insertions(+), 0 deletions** \u2014 exactly the lane's 14 files (docs/Methodology.md, docs/Noise-Robustness-Design.md, python/peira/graded_judge.py,"
+ },
+ {
+  "report": "f17",
+  "line": 60,
+  "class": "tally",
+  "value": "3 of 4",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "- `tests/test_metrics.py`: 0 deletions vs base. Main side: `TestBHAdjust`, `TestFamilyLatencySummary`, `TestLatencyInflation`, `TestR20TelemetryFields` all present. Lane side: all 4 lane test classes "
+ },
+ {
+  "report": "f17",
+  "line": 63,
+  "class": "tally",
+  "value": "passed 113 passed",
+  "target": "test_noise.py",
+  "via": "-",
+  "text": "- **Behavioral:** lane tests `test_noise.py` + `test_author_noise_variants.py` + `test_author_direct_requests.py` + `test_graded_judge.py` = **113 passed**; lane metric tests = **20 passed**; main-sid"
+ },
+ {
+  "report": "f17",
+  "line": 63,
+  "class": "tally",
+  "value": "passed 20 passed",
+  "target": "test_noise.py",
+  "via": "-",
+  "text": "- **Behavioral:** lane tests `test_noise.py` + `test_author_noise_variants.py` + `test_author_direct_requests.py` + `test_graded_judge.py` = **113 passed**; lane metric tests = **20 passed**; main-sid"
+ },
+ {
+  "report": "f17",
+  "line": 63,
+  "class": "tally",
+  "value": "passed 15 passed",
+  "target": "test_noise.py",
+  "via": "-",
+  "text": "- **Behavioral:** lane tests `test_noise.py` + `test_author_noise_variants.py` + `test_author_direct_requests.py` + `test_graded_judge.py` = **113 passed**; lane metric tests = **20 passed**; main-sid"
+ },
+ {
+  "report": "f17",
+  "line": 78,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git worktree add ~/workspace/w-noise-repair2-spec d877cdb5` | exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 79,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git diff --stat 37828661..d877cdb5` | 14 files, 2839 insertions(+), 0 deletions; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 79,
+  "class": "count",
+  "value": "14 files",
+  "target": null,
+  "via": "-",
+  "text": "| `git diff --stat 37828661..d877cdb5` | 14 files, 2839 insertions(+), 0 deletions; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 80,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| dialect one-way verification script (map == red-team set; no-cascade invariant; 4 hazard sentences x 60 seeds unchanged; kept directions fire; `\"old\"` absent from paraphrase map) | exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 81,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "scripts/author_noise_variants.py",
+  "via": "-",
+  "text": "| `python3 scripts/author_noise_variants.py dataset/v2/cases/verbosity_inflation.jsonl --validation-sample 10 --validation-out /tmp/regen_sample.jsonl --validation-rubric-out /tmp/regen_rubric.md` + `"
+ },
+ {
+  "report": "f17",
+  "line": 82,
+  "class": "tally",
+  "value": "passed 113 passed",
+  "target": "tests/test_noise.py",
+  "via": "-",
+  "text": "| `PYTHONPATH=python python3 -m pytest tests/test_noise.py tests/test_author_noise_variants.py tests/test_author_direct_requests.py tests/test_graded_judge.py -q` | 113 passed; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 82,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_noise.py",
+  "via": "-",
+  "text": "| `PYTHONPATH=python python3 -m pytest tests/test_noise.py tests/test_author_noise_variants.py tests/test_author_direct_requests.py tests/test_graded_judge.py -q` | 113 passed; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 83,
+  "class": "tally",
+  "value": "passed 20 passed",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"PerturbationDegradation or AttackedBenign or DirectRequest or FlipDetection or PairDerived or pair_derived\"` | 20 passed; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 83,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"PerturbationDegradation or AttackedBenign or DirectRequest or FlipDetection or PairDerived or pair_derived\"` | 20 passed; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 84,
+  "class": "tally",
+  "value": "passed 15 passed",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"TestBHAdjust or TestFamilyLatencySummary or TestLatencyInflation or TestR20TelemetryFields\"` | 15 passed; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 84,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_metrics.py",
+  "via": "-",
+  "text": "| `... pytest tests/test_metrics.py -q -k \"TestBHAdjust or TestFamilyLatencySummary or TestLatencyInflation or TestR20TelemetryFields\"` | 15 passed; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 85,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| duplicate-derived-raise behavioral script | raises `ValueError: duplicate derived case_id 's1-noise-typo'`; single pair OK; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 86,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "metrics.py",
+  "via": "-",
+  "text": "| AST pre/post-rebase comparisons (metrics.py lane functions; test_metrics.py lane classes) | as reported; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 87,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "| `git status --porcelain` in worktree at end | clean; exit 0 |"
+ },
+ {
+  "report": "f17",
+  "line": 91,
+  "class": "commit",
+  "value": "ecce49c3",
+  "target": null,
+  "via": "-",
+  "text": "- `ecce49c3` is not on the remote; it exists in the shared clone's object store, which is what the repair-delta isolation (`git diff ecce49c3..d877cdb5`) used."
+ },
+ {
+  "report": "f17",
+  "line": 91,
+  "class": "commit",
+  "value": "d877cdb5",
+  "target": null,
+  "via": "-",
+  "text": "- `ecce49c3` is not on the remote; it exists in the shared clone's object store, which is what the repair-delta isolation (`git diff ecce49c3..d877cdb5`) used."
+ },
+ {
+  "report": "f18",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 296",
+  "target": null,
+  "via": "explicit",
+  "text": "# Standards-axis review \u2014 PR #296 (EB-15 + EB-16 + EB-60 conversational metrics)"
+ },
+ {
+  "report": "f18",
+  "line": 3,
+  "class": "pr",
+  "value": "PR 296",
+  "target": null,
+  "via": "explicit",
+  "text": "- PR: https://github.com/david-engelmann/peira/pull/296"
+ },
+ {
+  "report": "f18",
+  "line": 4,
+  "class": "commit",
+  "value": "778e1ea1",
+  "target": null,
+  "via": "-",
+  "text": "- Branch: eb-conversational-metrics, reviewed commit 778e1ea1"
+ },
+ {
+  "report": "f18",
+  "line": 5,
+  "class": "commit",
+  "value": "9a86462e",
+  "target": null,
+  "via": "-",
+  "text": "- Base: main @ 9a86462e (merge-base of branch)"
+ },
+ {
+  "report": "f18",
+  "line": 6,
+  "class": "count",
+  "value": "15 files",
+  "target": null,
+  "via": "-",
+  "text": "- Diff: `git diff 9a86462e...778e1ea1` (15 files, +1731/-97); worktree ~/workspace/peira-eb-conv (read-only, untouched)"
+ },
+ {
+  "report": "f18",
+  "line": 40,
+  "class": "commit",
+  "value": "9a86462e",
+  "target": null,
+  "via": "-",
+  "text": "- Base (9a86462e) versions of the touched files already use em dashes in comments/docstrings:"
+ },
+ {
+  "report": "f18",
+  "line": 71,
+  "class": "tally",
+  "value": "tests 31 tests",
+  "target": "tests/test_conversation_budgets.py",
+  "via": "-",
+  "text": "- `tests/test_conversation_budgets.py` (646 lines, 31 tests + 7 subtests): all pass"
+ },
+ {
+  "report": "f18",
+  "line": 71,
+  "class": "tally",
+  "value": "tests 7 subtests",
+  "target": "tests/test_conversation_budgets.py",
+  "via": "-",
+  "text": "- `tests/test_conversation_budgets.py` (646 lines, 31 tests + 7 subtests): all pass"
+ },
+ {
+  "report": "f18",
+  "line": 71,
+  "class": "count",
+  "value": "646 lines",
+  "target": "tests/test_conversation_budgets.py",
+  "via": "-",
+  "text": "- `tests/test_conversation_budgets.py` (646 lines, 31 tests + 7 subtests): all pass"
+ },
+ {
+  "report": "f19",
+  "line": 14,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "0 instances, 0 volumes. can_pay True."
+ },
+ {
+  "report": "f19",
+  "line": 38,
+  "class": "count",
+  "value": "15 instance",
+  "target": "state.json",
+  "via": "-",
+  "text": "3. The old sweep state.json (destroyed Oct 15 instance) was backed"
+ },
+ {
+  "report": "f19",
+  "line": 52,
+  "class": "size",
+  "value": "20 GB",
+  "target": null,
+  "via": "-",
+  "text": "(host disk >= request + 20 GB), >= 500 Mbps down."
+ },
+ {
+  "report": "f19",
+  "line": 55,
+  "class": "size",
+  "value": "569 GB",
+  "target": null,
+  "via": "-",
+  "text": "(3090 Ti, 569 GB disk, 62.9 GB RAM, rel 0.9918, min_bid $0.2933,"
+ },
+ {
+  "report": "f19",
+  "line": 55,
+  "class": "size",
+  "value": "62.9 GB",
+  "target": null,
+  "via": "-",
+  "text": "(3090 Ti, 569 GB disk, 62.9 GB RAM, rel 0.9918, min_bid $0.2933,"
+ },
+ {
+  "report": "f19",
+  "line": 57,
+  "class": "size",
+  "value": "159 GB",
+  "target": null,
+  "via": "-",
+  "text": "159 GB disk, 35.9 GB RAM, rel 0.9911, min_bid $0.20, bid $0.24)"
+ },
+ {
+  "report": "f19",
+  "line": 57,
+  "class": "size",
+  "value": "35.9 GB",
+  "target": null,
+  "via": "-",
+  "text": "159 GB disk, 35.9 GB RAM, rel 0.9911, min_bid $0.20, bid $0.24)"
+ },
+ {
+  "report": "f19",
+  "line": 58,
+  "class": "size",
+  "value": "120 GB",
+  "target": null,
+  "via": "-",
+  "text": "-> planning ~$0.31/hr; fits a trimmed 100-120 GB disk request."
+ },
+ {
+  "report": "f19",
+  "line": 64,
+  "class": "size",
+  "value": "21.6 GB",
+  "target": null,
+  "via": "-",
+  "text": "row (55863211) has 21.6 GB host disk and cannot stage anything."
+ },
+ {
+  "report": "f19",
+  "line": 66,
+  "class": "size",
+  "value": "388 GB",
+  "target": null,
+  "via": "-",
+  "text": "(388 GB disk, 125.9 GB RAM, rel 0.9978, $0.6956 dph) -> planning"
+ },
+ {
+  "report": "f19",
+  "line": 66,
+  "class": "size",
+  "value": "125.9 GB",
+  "target": null,
+  "via": "-",
+  "text": "(388 GB disk, 125.9 GB RAM, rel 0.9978, $0.6956 dph) -> planning"
+ },
+ {
+  "report": "f19",
+  "line": 70,
+  "class": "size",
+  "value": "80 GB",
+  "target": null,
+  "via": "-",
+  "text": "- A100 80 bid: 45716573 (A100 PCIE 80 GB, 74.25 GB disk,"
+ },
+ {
+  "report": "f19",
+  "line": 70,
+  "class": "size",
+  "value": "74.25 GB",
+  "target": null,
+  "via": "-",
+  "text": "- A100 80 bid: 45716573 (A100 PCIE 80 GB, 74.25 GB disk,"
+ },
+ {
+  "report": "f19",
+  "line": 71,
+  "class": "size",
+  "value": "125.9 GB",
+  "target": null,
+  "via": "-",
+  "text": "125.9 GB RAM, rel 0.9916, min_bid $0.254, bid $0.3048) ->"
+ },
+ {
+  "report": "f19",
+  "line": 72,
+  "class": "size",
+  "value": "50 GB",
+  "target": null,
+  "via": "-",
+  "text": "planning ~$0.39/hr; disk request must trim to <= 50 GB"
+ },
+ {
+  "report": "f19",
+  "line": 74,
+  "class": "size",
+  "value": "463 GB",
+  "target": null,
+  "via": "-",
+  "text": "($0.9508 dph, 463 GB disk, rel 0.998) -> planning ~$1.21/hr."
+ },
+ {
+  "report": "f19",
+  "line": 108,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "destroys all its instances and verifies 0 instances / 0 volumes."
+ },
+ {
+  "report": "f19",
+  "line": 112,
+  "class": "size",
+  "value": "64 GB",
+  "target": null,
+  "via": "-",
+  "text": "A1 (64 GB RAM host preferred): Kev 0.8B, Kev 4B, Strands re-runs"
+ },
+ {
+  "report": "f19",
+  "line": 115,
+  "class": "count",
+  "value": "2,776 cases",
+  "target": null,
+  "via": "-",
+  "text": "remainder (2,776 cases) and Von remainder (2,701 cases) as CPU"
+ },
+ {
+  "report": "f19",
+  "line": 115,
+  "class": "count",
+  "value": "2,701 cases",
+  "target": null,
+  "via": "-",
+  "text": "remainder (2,776 cases) and Von remainder (2,701 cases) as CPU"
+ },
+ {
+  "report": "f19",
+  "line": 124,
+  "class": "size",
+  "value": "32 GB",
+  "target": null,
+  "via": "-",
+  "text": "across 4-6 worker slots (an 8-9B model per ~32 GB host RAM)."
+ },
+ {
+  "report": "f19",
+  "line": 131,
+  "class": "count",
+  "value": "3 instance",
+  "target": null,
+  "via": "-",
+  "text": "shared cap 3 instance-hours for both probes + runs; a"
+ },
+ {
+  "report": "f19",
+  "line": 133,
+  "class": "size",
+  "value": "64 GB",
+  "target": null,
+  "via": "-",
+  "text": "and Llama Guard 4 12B as CPU riders on a >= 64 GB RAM host,"
+ },
+ {
+  "report": "f19",
+  "line": 138,
+  "class": "size",
+  "value": "50 GB",
+  "target": null,
+  "via": "-",
+  "text": "50 GB trimmed disk request; full run only if the probe"
+ },
+ {
+  "report": "f19",
+  "line": 162,
+  "class": "pr",
+  "value": "PR 485",
+  "target": null,
+  "via": "bare",
+  "text": "9d1b5c02 (\"Refresh README and announcement package\", #485), by"
+ },
+ {
+  "report": "f19",
+  "line": 209,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "end (verified 0 instances / 0 volumes)."
+ },
+ {
+  "report": "f19",
+  "line": 223,
+  "class": "size",
+  "value": "40 GB",
+  "target": null,
+  "via": "-",
+  "text": "to 40 GB, dead-man stale threshold 360 s, operator does NOT"
+ },
+ {
+  "report": "f19",
+  "line": 227,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "operator destroys it; account verifies 0 instances / 0"
+ },
+ {
+  "report": "f19",
+  "line": 234,
+  "class": "size",
+  "value": "40 GB",
+  "target": null,
+  "via": "-",
+  "text": "bid $0.224/hr, disk 40 GB, dead-man stale 360 s, ALIVE never touched)."
+ },
+ {
+  "report": "f19",
+  "line": 261,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "5. Account verifies 0 instances / 0 volumes afterward \u2014 PASS"
+ },
+ {
+  "report": "f19",
+  "line": 262,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "(fleet_control destroy-one reported 0 instances, 0 volumes)."
+ },
+ {
+  "report": "f19",
+  "line": 331,
+  "class": "size",
+  "value": "100 KB",
+  "target": null,
+  "via": "-",
+  "text": "2. scp file transfer: 100 KB random file pushed up (UP_OK), pulled"
+ },
+ {
+  "report": "f19",
+  "line": 374,
+  "class": "commit",
+  "value": "57061f45",
+  "target": null,
+  "via": "-",
+  "text": "57061f45, unmerged); Window B NOT READY (Shieldstral still"
+ },
+ {
+  "report": "f19",
+  "line": 395,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "Live account read (free): 0 instances, 0 volumes. Credit $9.2242"
+ },
+ {
+  "report": "f19",
+  "line": 404,
+  "class": "gitsha",
+  "value": "244b3152b14d76866fff2ce4e21cadcff8ff6c0a",
+  "target": null,
+  "via": "-",
+  "text": "fresh 2026-10-24: main = 244b3152b14d76866fff2ce4e21cadcff8ff6c0a"
+ },
+ {
+  "report": "f19",
+  "line": 405,
+  "class": "pr",
+  "value": "PR 488",
+  "target": null,
+  "via": "bare",
+  "text": "with PRs #488 (jev fix), #489 (LG3), #490 (pod repairs), #491"
+ },
+ {
+  "report": "f19",
+  "line": 405,
+  "class": "pr",
+  "value": "PR 489",
+  "target": null,
+  "via": "bare",
+  "text": "with PRs #488 (jev fix), #489 (LG3), #490 (pod repairs), #491"
+ },
+ {
+  "report": "f19",
+  "line": 405,
+  "class": "pr",
+  "value": "PR 490",
+  "target": null,
+  "via": "bare",
+  "text": "with PRs #488 (jev fix), #489 (LG3), #490 (pod repairs), #491"
+ },
+ {
+  "report": "f19",
+  "line": 405,
+  "class": "pr",
+  "value": "PR 491",
+  "target": null,
+  "via": "bare",
+  "text": "with PRs #488 (jev fix), #489 (LG3), #490 (pod repairs), #491"
+ },
+ {
+  "report": "f19",
+  "line": 406,
+  "class": "pr",
+  "value": "PR 493",
+  "target": "jev.py",
+  "via": "bare",
+  "text": "(pins/landings), #493 (API refresh) merged. jev.py on main carries"
+ },
+ {
+  "report": "f19",
+  "line": 413,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "balance $0, can_pay True, 0 instances, 0 volumes. Program spend"
+ },
+ {
+  "report": "f19",
+  "line": 419,
+  "class": "size",
+  "value": "23 GB",
+  "target": null,
+  "via": "-",
+  "text": "gpu_ram >= 23 GB, host disk >= 100 GB, >= 500 Mbps down):"
+ },
+ {
+  "report": "f19",
+  "line": 419,
+  "class": "size",
+  "value": "100 GB",
+  "target": null,
+  "via": "-",
+  "text": "gpu_ram >= 23 GB, host disk >= 100 GB, >= 500 Mbps down):"
+ },
+ {
+  "report": "f19",
+  "line": 420,
+  "class": "size",
+  "value": "47.2 GB",
+  "target": null,
+  "via": "-",
+  "text": "cheapest 41028909 (RTX 3090, 47.2 GB RAM, 80 cores, 650 GB disk,"
+ },
+ {
+  "report": "f19",
+  "line": 420,
+  "class": "size",
+  "value": "650 GB",
+  "target": null,
+  "via": "-",
+  "text": "cheapest 41028909 (RTX 3090, 47.2 GB RAM, 80 cores, 650 GB disk,"
+ },
+ {
+  "report": "f19",
+  "line": 422,
+  "class": "size",
+  "value": "94.3 GB",
+  "target": null,
+  "via": "-",
+  "text": "dph_total $0.1296); next 49980278 (RTX 3090, 94.3 GB RAM,"
+ },
+ {
+  "report": "f19",
+  "line": 423,
+  "class": "size",
+  "value": "1461 GB",
+  "target": null,
+  "via": "-",
+  "text": "20 cores, 1461 GB disk, rel 0.993, min_bid $0.1333 -> bid $0.16,"
+ },
+ {
+  "report": "f19",
+  "line": 463,
+  "class": "commit",
+  "value": "4155451d",
+  "target": null,
+  "via": "-",
+  "text": "from commit 4155451d (pricing_version 2026-10-15.3 \u2014 the"
+ },
+ {
+  "report": "f19",
+  "line": 527,
+  "class": "count",
+  "value": "0 instances",
+  "target": null,
+  "via": "-",
+  "text": "Post-destroy verification (live API): 0 instances, 0 volumes."
+ },
+ {
+  "report": "f20",
+  "line": 38,
+  "class": "tally",
+  "value": "36 of 36",
+  "target": null,
+  "via": "-",
+  "text": "attacked and benign confidence coverage. 36 of 36 on all four."
+ },
+ {
+  "report": "f20",
+  "line": 129,
+  "class": "size",
+  "value": "348.1 KB",
+  "target": null,
+  "via": "-",
+  "text": "transfer 348.1 KB of 500.0 KB; the per-model pages are"
+ },
+ {
+  "report": "f20",
+  "line": 129,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "transfer 348.1 KB of 500.0 KB; the per-model pages are"
+ },
+ {
+  "report": "f20",
+  "line": 160,
+  "class": "count",
+  "value": "427, findings",
+  "target": null,
+  "via": "-",
+  "text": "desktop 15,897 px (masthead 427, findings 306, ranking 3,777,"
+ },
+ {
+  "report": "f20",
+  "line": 188,
+  "class": "size",
+  "value": "348.1 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 348.1 KB of 500.0 KB"
+ },
+ {
+  "report": "f20",
+  "line": 188,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 348.1 KB of 500.0 KB"
+ },
+ {
+  "report": "f20",
+  "line": 189,
+  "class": "size",
+  "value": "135.9 KB",
+  "target": null,
+  "via": "-",
+  "text": "(html 135.9 KB, scripts and styles 144.2 KB, fonts 68.0 KB"
+ },
+ {
+  "report": "f20",
+  "line": 189,
+  "class": "size",
+  "value": "144.2 KB",
+  "target": null,
+  "via": "-",
+  "text": "(html 135.9 KB, scripts and styles 144.2 KB, fonts 68.0 KB"
+ },
+ {
+  "report": "f20",
+  "line": 189,
+  "class": "size",
+  "value": "68.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "(html 135.9 KB, scripts and styles 144.2 KB, fonts 68.0 KB"
+ },
+ {
+  "report": "f20",
+  "line": 190,
+  "class": "size",
+  "value": "120.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "of 120.0 KB)"
+ },
+ {
+  "report": "f20",
+  "line": 266,
+  "class": "count",
+  "value": "11 families",
+  "target": null,
+  "via": "-",
+  "text": "- Method (1440): PASS. The suite size, the 11 families in"
+ },
+ {
+  "report": "f21",
+  "line": 20,
+  "class": "commit",
+  "value": "2864bdff",
+  "target": null,
+  "via": "-",
+  "text": "2864bdff, the live-fix build (head dfb91067)."
+ },
+ {
+  "report": "f21",
+  "line": 20,
+  "class": "commit",
+  "value": "dfb91067",
+  "target": null,
+  "via": "-",
+  "text": "2864bdff, the live-fix build (head dfb91067)."
+ },
+ {
+  "report": "f21",
+  "line": 49,
+  "class": "tally",
+  "value": "25 of 28",
+  "target": null,
+  "via": "-",
+  "text": "25 of 28 census IDs, with F-05, C-07 open and AX-04"
+ },
+ {
+  "report": "f21",
+  "line": 53,
+  "class": "tally",
+  "value": "28 of 28",
+  "target": null,
+  "via": "-",
+  "text": "six separate fix-and-recheck cycles. Result: 28 of 28"
+ },
+ {
+  "report": "f21",
+  "line": 88,
+  "class": "tally",
+  "value": "tests 40 test",
+  "target": null,
+  "via": "-",
+  "text": "independent clean pass. So the charter's round 40 test,"
+ },
+ {
+  "report": "f21",
+  "line": 102,
+  "class": "pr",
+  "value": "PR 486",
+  "target": null,
+  "via": "explicit",
+  "text": "names) exists only in the round 40 build and PR #486."
+ },
+ {
+  "report": "f21",
+  "line": 122,
+  "class": "size",
+  "value": "375.7 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.7 KB of 500.0 KB"
+ },
+ {
+  "report": "f21",
+  "line": 122,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.7 KB of 500.0 KB"
+ },
+ {
+  "report": "f21",
+  "line": 130,
+  "class": "pr",
+  "value": "PR 486",
+  "target": null,
+  "via": "explicit",
+  "text": "- PR #486, \"Land the board front end and the publish"
+ },
+ {
+  "report": "f21",
+  "line": 134,
+  "class": "gitsha",
+  "value": "8c0f7a2b76550a90873fe3c6df0b95137a3f0b28",
+  "target": null,
+  "via": "-",
+  "text": "8c0f7a2b76550a90873fe3c6df0b95137a3f0b28, tree"
+ },
+ {
+  "report": "f21",
+  "line": 135,
+  "class": "gitsha",
+  "value": "ef8270efa00efe0410b2fb1352c1904583cd01f7",
+  "target": null,
+  "via": "-",
+  "text": "ef8270efa00efe0410b2fb1352c1904583cd01f7, 42 files"
+ },
+ {
+  "report": "f21",
+  "line": 135,
+  "class": "count",
+  "value": "42 files",
+  "target": null,
+  "via": "-",
+  "text": "ef8270efa00efe0410b2fb1352c1904583cd01f7, 42 files"
+ },
+ {
+  "report": "f21",
+  "line": 157,
+  "class": "pr",
+  "value": "PR 485",
+  "target": null,
+  "via": "bare",
+  "text": "refreshed to the freeze board in #485 (merged), the"
+ },
+ {
+  "report": "f21",
+  "line": 162,
+  "class": "pr",
+  "value": "PR 486",
+  "target": null,
+  "via": "explicit",
+  "text": "should without David's verdict on PR #486. After merge,"
+ },
+ {
+  "report": "f21",
+  "line": 172,
+  "class": "count",
+  "value": "30 files",
+  "target": null,
+  "via": "-",
+  "text": "nav; 30 files), taken on the gated round 40 build before"
+ },
+ {
+  "report": "f21",
+  "line": 210,
+  "class": "pr",
+  "value": "PR 486",
+  "target": null,
+  "via": "explicit",
+  "text": "stays live until PR #486 merges and redeploys."
+ },
+ {
+  "report": "f22",
+  "line": 5,
+  "class": "gitsha",
+  "value": "cbcc0af06d5e9f0b8d01f41f24c8db623cbb62eb",
+  "target": null,
+  "via": "-",
+  "text": "Refs verified this session: origin/main = `cbcc0af06d5e9f0b8d01f41f24c8db623cbb62eb` (PR #481 merge, as briefed)."
+ },
+ {
+  "report": "f22",
+  "line": 5,
+  "class": "pr",
+  "value": "PR 481",
+  "target": null,
+  "via": "explicit",
+  "text": "Refs verified this session: origin/main = `cbcc0af06d5e9f0b8d01f41f24c8db623cbb62eb` (PR #481 merge, as briefed)."
+ },
+ {
+  "report": "f22",
+  "line": 23,
+  "class": "commit",
+  "value": "cbcc0af0",
+  "target": null,
+  "via": "-",
+  "text": "| Path | origin/main (cbcc0af0) | dashpub committed HEAD (fb9d7381) | dashpub working tree (what publishes) |"
+ },
+ {
+  "report": "f22",
+  "line": 23,
+  "class": "commit",
+  "value": "fb9d7381",
+  "target": null,
+  "via": "-",
+  "text": "| Path | origin/main (cbcc0af0) | dashpub committed HEAD (fb9d7381) | dashpub working tree (what publishes) |"
+ },
+ {
+  "report": "f22",
+  "line": 25,
+  "class": "count",
+  "value": "5,378 lines",
+  "target": "python/peira/report_html.py",
+  "via": "-",
+  "text": "| `python/peira/report_html.py` | module, 5,378 lines | module, ~5,289 lines (older) | **DELETED** |"
+ },
+ {
+  "report": "f22",
+  "line": 25,
+  "class": "count",
+  "value": "289 lines",
+  "target": "python/peira/report_html.py",
+  "via": "-",
+  "text": "| `python/peira/report_html.py` | module, 5,378 lines | module, ~5,289 lines (older) | **DELETED** |"
+ },
+ {
+  "report": "f22",
+  "line": 26,
+  "class": "count",
+  "value": "9,235 lines",
+  "target": null,
+  "via": "-",
+  "text": "| `python/peira/report_html/` (package) | absent | absent | **present, untracked**: 20 .py files, 9,235 lines (6 core files 4,481 + 14 component files 4,754) |"
+ },
+ {
+  "report": "f22",
+  "line": 27,
+  "class": "count",
+  "value": "1,212 lines",
+  "target": "python/peira/dashboard.py",
+  "via": "-",
+  "text": "| `python/peira/dashboard.py` | 1,212 lines | 1,000 lines | 1,012 lines (modified, uncommitted) |"
+ },
+ {
+  "report": "f22",
+  "line": 27,
+  "class": "count",
+  "value": "1,000 lines",
+  "target": "python/peira/dashboard.py",
+  "via": "-",
+  "text": "| `python/peira/dashboard.py` | 1,212 lines | 1,000 lines | 1,012 lines (modified, uncommitted) |"
+ },
+ {
+  "report": "f22",
+  "line": 27,
+  "class": "count",
+  "value": "1,012 lines",
+  "target": "python/peira/dashboard.py",
+  "via": "-",
+  "text": "| `python/peira/dashboard.py` | 1,212 lines | 1,000 lines | 1,012 lines (modified, uncommitted) |"
+ },
+ {
+  "report": "f22",
+  "line": 28,
+  "class": "count",
+  "value": "4,601 lines",
+  "target": "tests/test_report_html_contract.py",
+  "via": "-",
+  "text": "| `tests/test_report_html_contract.py` | 4,601 lines | 4,341 lines | = HEAD (4,341) |"
+ },
+ {
+  "report": "f22",
+  "line": 28,
+  "class": "count",
+  "value": "4,341 lines",
+  "target": "tests/test_report_html_contract.py",
+  "via": "-",
+  "text": "| `tests/test_report_html_contract.py` | 4,601 lines | 4,341 lines | = HEAD (4,341) |"
+ },
+ {
+  "report": "f22",
+  "line": 39,
+  "class": "count",
+  "value": "20 files",
+  "target": "__init__.py",
+  "via": "-",
+  "text": "- `python/peira/report_html/` package (20 files): `__init__.py`, `_data.py`, `_fonts.py`,"
+ },
+ {
+  "report": "f22",
+  "line": 40,
+  "class": "count",
+  "value": "1,144 lines",
+  "target": "_prims.py",
+  "via": "-",
+  "text": "`_prims.py`, `_theme.py` (1,144 lines), `render.py` (542), and `components/` with 13"
+ },
+ {
+  "report": "f22",
+  "line": 48,
+  "class": "count",
+  "value": "22 lines",
+  "target": "render_html.py",
+  "via": "-",
+  "text": "- `render_html.py` (22 lines) \u2014 payload JSON \u2192 HTML via the package; the render step of"
+ },
+ {
+  "report": "f22",
+  "line": 50,
+  "class": "count",
+  "value": "80 lines",
+  "target": "deploy_pages.py",
+  "via": "-",
+  "text": "- `deploy_pages.py` (80 lines) \u2014 Cloudflare Pages direct-upload deploy of `dist/` to the"
+ },
+ {
+  "report": "f22",
+  "line": 52,
+  "class": "count",
+  "value": "60 lines",
+  "target": "compare_payload.py",
+  "via": "-",
+  "text": "- `compare_payload.py` (60 lines) + `recompute.py` (89 lines) \u2014 the independent"
+ },
+ {
+  "report": "f22",
+  "line": 52,
+  "class": "count",
+  "value": "89 lines",
+  "target": "compare_payload.py",
+  "via": "-",
+  "text": "- `compare_payload.py` (60 lines) + `recompute.py` (89 lines) \u2014 the independent"
+ },
+ {
+  "report": "f22",
+  "line": 80,
+  "class": "count",
+  "value": "4,601 lines",
+  "target": null,
+  "via": "-",
+  "text": "- Main's contract test (4,601 lines) has post-fork pins the design lineage's test does"
+ },
+ {
+  "report": "f22",
+  "line": 81,
+  "class": "count",
+  "value": "535 lines",
+  "target": null,
+  "via": "-",
+  "text": "not automatically include (main\u2194design test diff: 535 lines)."
+ },
+ {
+  "report": "f22",
+  "line": 100,
+  "class": "pr",
+  "value": "PR 449",
+  "target": null,
+  "via": "explicit",
+  "text": "- Lineage dates: main's module is the PR #449 \"perfected dark leaderboard\""
+ },
+ {
+  "report": "f22",
+  "line": 101,
+  "class": "commit",
+  "value": "f7770afa",
+  "target": null,
+  "via": "-",
+  "text": "(landed 2026-10-13, commit `f7770afa`, still reachable from main via"
+ },
+ {
+  "report": "f22",
+  "line": 112,
+  "class": "count",
+  "value": "4,601 lines",
+  "target": "tests/test_report_html_contract.py",
+  "via": "-",
+  "text": "Three versions of `tests/test_report_html_contract.py` exist: main 4,601 lines,"
+ },
+ {
+  "report": "f22",
+  "line": 128,
+  "class": "count",
+  "value": "117 lines",
+  "target": null,
+  "via": "-",
+  "text": "branch** (117 lines) and asserts the rendered page contains"
+ },
+ {
+  "report": "f22",
+  "line": 131,
+  "class": "count",
+  "value": "110 lines",
+  "target": null,
+  "via": "-",
+  "text": "**not** a swap blocker. The stale copy is the design branch's own (110 lines), which"
+ },
+ {
+  "report": "f22",
+  "line": 133,
+  "class": "commit",
+  "value": "4c8af10c",
+  "target": null,
+  "via": "-",
+  "text": "branch already fixed its copy (commit `4c8af10c`, \"test: align end-to-end report pins"
+ },
+ {
+  "report": "f22",
+  "line": 140,
+  "class": "count",
+  "value": "86 lines",
+  "target": "dashboard.py",
+  "via": "-",
+  "text": "The uncommitted working-tree `dashboard.py` change (86 lines vs the branch HEAD;"
+ },
+ {
+  "report": "f22",
+  "line": 149,
+  "class": "commit",
+  "value": "3cfca2b2",
+  "target": "dashboard.py",
+  "via": "-",
+  "text": "(whose `dashboard.py` blob is identical to the publish branch HEAD's, `3cfca2b2`)."
+ },
+ {
+  "report": "f22",
+  "line": 163,
+  "class": "pr",
+  "value": "PR 449",
+  "target": null,
+  "via": "explicit",
+  "text": "anyone reproducing the board from the repo gets the PR #449 page, not the published one."
+ },
+ {
+  "report": "f22",
+  "line": 274,
+  "class": "pr",
+  "value": "PR 449",
+  "target": null,
+  "via": "explicit",
+  "text": "user of the tool: the PR #449 page is replaced by the Round 21 page the site already"
+ },
+ {
+  "report": "f22",
+  "line": 312,
+  "class": "commit",
+  "value": "5e70a925",
+  "target": null,
+  "via": "-",
+  "text": "`origin/feat/dashboard-publish` sits at `5e70a925` (2026-10-12) with two commits the"
+ },
+ {
+  "report": "f22",
+  "line": 313,
+  "class": "commit",
+  "value": "b35dcaff",
+  "target": null,
+  "via": "-",
+  "text": "local branch lacks (`b35dcaff`, `5e70a925`), while the local branch is **54 commits"
+ },
+ {
+  "report": "f22",
+  "line": 313,
+  "class": "commit",
+  "value": "5e70a925",
+  "target": null,
+  "via": "-",
+  "text": "local branch lacks (`b35dcaff`, `5e70a925`), while the local branch is **54 commits"
+ },
+ {
+  "report": "f22",
+  "line": 313,
+  "class": "count",
+  "value": "54 commits",
+  "target": null,
+  "via": "-",
+  "text": "local branch lacks (`b35dcaff`, `5e70a925`), while the local branch is **54 commits"
+ },
+ {
+  "report": "f22",
+  "line": 317,
+  "class": "count",
+  "value": "47 commits",
+  "target": null,
+  "via": "-",
+  "text": "- **Distance from main:** local `feat/dashboard-publish` is 47 commits ahead and"
+ },
+ {
+  "report": "f22",
+  "line": 318,
+  "class": "commit",
+  "value": "292642a0",
+  "target": null,
+  "via": "-",
+  "text": "**40 commits behind** `origin/main` (merge-base `292642a0`, the PR #448 merge)."
+ },
+ {
+  "report": "f22",
+  "line": 318,
+  "class": "pr",
+  "value": "PR 448",
+  "target": null,
+  "via": "explicit",
+  "text": "**40 commits behind** `origin/main` (merge-base `292642a0`, the PR #448 merge)."
+ },
+ {
+  "report": "f22",
+  "line": 318,
+  "class": "count",
+  "value": "40 commits",
+  "target": null,
+  "via": "-",
+  "text": "**40 commits behind** `origin/main` (merge-base `292642a0`, the PR #448 merge)."
+ },
+ {
+  "report": "f22",
+  "line": 320,
+  "class": "commit",
+  "value": "cc2df7a7",
+  "target": null,
+  "via": "-",
+  "text": "and current at `cc2df7a7`) is 113 ahead / 40 behind main."
+ },
+ {
+  "report": "f23",
+  "line": 5,
+  "class": "commit",
+  "value": "b604982d",
+  "target": null,
+  "via": "-",
+  "text": "(local head b604982d, tree c354dfe3, the tree the pushed head"
+ },
+ {
+  "report": "f23",
+  "line": 5,
+  "class": "commit",
+  "value": "c354dfe3",
+  "target": null,
+  "via": "-",
+  "text": "(local head b604982d, tree c354dfe3, the tree the pushed head"
+ },
+ {
+  "report": "f23",
+  "line": 142,
+  "class": "size",
+  "value": "365.9 KB",
+  "target": null,
+  "via": "-",
+  "text": "- \"budget check passed: initial transfer 365.9 KB of"
+ },
+ {
+  "report": "f23",
+  "line": 143,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "500.0 KB (html 150.0 KB, scripts and styles 147.9 KB,"
+ },
+ {
+  "report": "f23",
+  "line": 143,
+  "class": "size",
+  "value": "150.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "500.0 KB (html 150.0 KB, scripts and styles 147.9 KB,"
+ },
+ {
+  "report": "f23",
+  "line": 143,
+  "class": "size",
+  "value": "147.9 KB",
+  "target": null,
+  "via": "-",
+  "text": "500.0 KB (html 150.0 KB, scripts and styles 147.9 KB,"
+ },
+ {
+  "report": "f23",
+  "line": 144,
+  "class": "size",
+  "value": "68.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "fonts 68.0 KB of 120.0 KB)\" (365.6 before the round; the"
+ },
+ {
+  "report": "f23",
+  "line": 144,
+  "class": "size",
+  "value": "120.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "fonts 68.0 KB of 120.0 KB)\" (365.6 before the round; the"
+ },
+ {
+  "report": "f23",
+  "line": 145,
+  "class": "size",
+  "value": "0.3 KB",
+  "target": null,
+  "via": "-",
+  "text": "notes and markers cost 0.3 KB)"
+ },
+ {
+  "report": "f23",
+  "line": 146,
+  "class": "tally",
+  "value": "exit exit code 0",
+  "target": null,
+  "via": "-",
+  "text": "- DOM audit: \"DOM audit passed\", exit code 0. Notes"
+ },
+ {
+  "report": "f24",
+  "line": 11,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "35/31/4 with checks 1 to 10, budget 348.1 of 500.0 KB, DOM audit"
+ },
+ {
+  "report": "f24",
+  "line": 76,
+  "class": "size",
+  "value": "1.2 MB",
+  "target": null,
+  "via": "-",
+  "text": "as props from a server component (the raw payload is 1.2 MB"
+ },
+ {
+  "report": "f24",
+  "line": 120,
+  "class": "size",
+  "value": "365.6 KB",
+  "target": null,
+  "via": "-",
+  "text": "365.6 KB of 500.0 KB (round 10 closed at 348.1; the two"
+ },
+ {
+  "report": "f24",
+  "line": 120,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "365.6 KB of 500.0 KB (round 10 closed at 348.1; the two"
+ },
+ {
+  "report": "f24",
+  "line": 121,
+  "class": "size",
+  "value": "17.5 KB",
+  "target": null,
+  "via": "-",
+  "text": "islands and the compare markup cost 17.5 KB of transfer)."
+ },
+ {
+  "report": "f24",
+  "line": 157,
+  "class": "size",
+  "value": "365.6 KB",
+  "target": null,
+  "via": "-",
+  "text": "initial transfer 365.6 KB of 500.0 KB (html 149.7 KB,"
+ },
+ {
+  "report": "f24",
+  "line": 157,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "initial transfer 365.6 KB of 500.0 KB (html 149.7 KB,"
+ },
+ {
+  "report": "f24",
+  "line": 157,
+  "class": "size",
+  "value": "149.7 KB",
+  "target": null,
+  "via": "-",
+  "text": "initial transfer 365.6 KB of 500.0 KB (html 149.7 KB,"
+ },
+ {
+  "report": "f24",
+  "line": 158,
+  "class": "size",
+  "value": "147.9 KB",
+  "target": null,
+  "via": "-",
+  "text": "scripts and styles 147.9 KB, fonts 68.0 KB of"
+ },
+ {
+  "report": "f24",
+  "line": 158,
+  "class": "size",
+  "value": "68.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "scripts and styles 147.9 KB, fonts 68.0 KB of"
+ },
+ {
+  "report": "f24",
+  "line": 159,
+  "class": "size",
+  "value": "120.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "120.0 KB)\"."
+ },
+ {
+  "report": "f24",
+  "line": 194,
+  "class": "count",
+  "value": "30 files",
+  "target": null,
+  "via": "-",
+  "text": "perfection-ui-cycle1/build-round11/ (30 files):"
+ },
+ {
+  "report": "f25",
+  "line": 4,
+  "class": "commit",
+  "value": "9ead4c86",
+  "target": null,
+  "via": "-",
+  "text": "- **NO MERGES this run: origin/main UNCHANGED at `9ead4c86`** (fetch OK; rev-parse identical to the 18:38 survey; head commit 2026-10-04 23:45:59 EDT \"CI: fetch tags in Python test jobs for release re"
+ },
+ {
+  "report": "f25",
+  "line": 4,
+  "class": "pr",
+  "value": "PR 433",
+  "target": null,
+  "via": "bare",
+  "text": "- **NO MERGES this run: origin/main UNCHANGED at `9ead4c86`** (fetch OK; rev-parse identical to the 18:38 survey; head commit 2026-10-04 23:45:59 EDT \"CI: fetch tags in Python test jobs for release re"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "commit",
+  "value": "59e105cc",
+  "target": null,
+  "via": "-",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "commit",
+  "value": "3250b4e6",
+  "target": null,
+  "via": "-",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "commit",
+  "value": "1fcd3d82",
+  "target": null,
+  "via": "-",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "commit",
+  "value": "806d31b5",
+  "target": null,
+  "via": "-",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "pr",
+  "value": "PR 437",
+  "target": null,
+  "via": "bare",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "pr",
+  "value": "PR 436",
+  "target": null,
+  "via": "bare",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "pr",
+  "value": "PR 435",
+  "target": null,
+  "via": "bare",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 5,
+  "class": "pr",
+  "value": "PR 434",
+  "target": null,
+  "via": "bare",
+  "text": "- **Open PRs: 4** - same dependabot automated action-version bumps, heads AND updated_at byte-identical to the 18:38 survey: #437 actions/download-artifact 4.3.0->8.0.1 (`59e105cc`, 05:13:51Z), #436 a"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "9ead4c86",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "a84f5801",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "27112d9f",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "527dbd63",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "69b537d0",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "5120bd17",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "42cebe34",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "d42ebcea",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "63a42550",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "1db53012",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "11ecbf1f",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "6f293f25",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "ded6eb97",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "c209f7e5",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "22eaaae0",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "895b6475",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "b5088076",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 6,
+  "class": "commit",
+  "value": "14bdd499",
+  "target": null,
+  "via": "-",
+  "text": "- **Full worktree probe vs main (`9ead4c86`):** all 14 watch-lane heads byte-identical to the 18:38 survey (live-verify-oam a84f5801 (un=0, last 18:23 10-02), eb-reporting 27112d9f (un=0, 07:38 10-02)"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "a84f5801",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "27112d9f",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "527dbd63",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "69b537d0",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "5120bd17",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "42cebe34",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "d42ebcea",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "63a42550",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "1db53012",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "11ecbf1f",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "6f293f25",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "22eaaae0",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 8,
+  "class": "commit",
+  "value": "ded6eb97",
+  "target": "test_new_llm_adapters.py",
+  "via": "-",
+  "text": "- Carried flags (all judged, all heads unchanged this run; quiet times +~0.45h vs the 18:38 run): live-verify-oam a84f5801 ~100.3h quiet -> coordinator-domain fourth-completion call stands. eb-reporti"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "895b6475",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "b5088076",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "22eaaae0",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "11ecbf1f",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "6f293f25",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "c209f7e5",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "7c2cf981",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "commit",
+  "value": "14bdd499",
+  "target": null,
+  "via": "-",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "pr",
+  "value": "PR 432",
+  "target": null,
+  "via": "bare",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "pr",
+  "value": "PR 418",
+  "target": null,
+  "via": "bare",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "pr",
+  "value": "PR 334",
+  "target": null,
+  "via": "bare",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "pr",
+  "value": "PR 419",
+  "target": null,
+  "via": "bare",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "pr",
+  "value": "PR 415",
+  "target": null,
+  "via": "bare",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 9,
+  "class": "pr",
+  "value": "PR 359",
+  "target": null,
+  "via": "bare",
+  "text": "- CLEANUP CANDIDATES (coordinator-domain, unchanged): peira-ci-green (895b6475, un=1, NOTANC, landed #432); peira-pr418-redteam (b5088076 detached, ANC vs origin/main - post-#418 review artifact); pei"
+ },
+ {
+  "report": "f25",
+  "line": 11,
+  "class": "commit",
+  "value": "7ba56e52",
+  "target": "metrics.py",
+  "via": "-",
+  "text": "- Note (carried, flagged not touched): the shared read-only clone ~/workspace/peira-worktrees/peira-main sits at detached 7ba56e52 - left untouched per DO NOT EDIT; coordinator to verify this is expec"
+ },
+ {
+  "report": "f25",
+  "line": 12,
+  "class": "pr",
+  "value": "PR 414",
+  "target": null,
+  "via": "bare",
+  "text": "- Note (carried): the coordinator's trailing \"- Still running: RUN-SAFETY.\" line at the bottom of this file is stale (run-safety landed 05:25 UTC as #414, and #417 fixup landed 06:16 UTC) - left for t"
+ },
+ {
+  "report": "f25",
+  "line": 12,
+  "class": "pr",
+  "value": "PR 417",
+  "target": null,
+  "via": "bare",
+  "text": "- Note (carried): the coordinator's trailing \"- Still running: RUN-SAFETY.\" line at the bottom of this file is stale (run-safety landed 05:25 UTC as #414, and #417 fixup landed 06:16 UTC) - left for t"
+ },
+ {
+  "report": "f26",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 326",
+  "target": null,
+  "via": "explicit",
+  "text": "# Fix-delta review: PR #326 fixture regeneration (2026-10-02)"
+ },
+ {
+  "report": "f26",
+  "line": 5,
+  "class": "gitsha",
+  "value": "16fc14ea82ca4b82278360111fa72908bf3baad5",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `16fc14ea82ca4b82278360111fa72908bf3baad5` (`display-scaffold-b`), delta vs parent `1588ed1b` (which already had three PASS delta reviews)."
+ },
+ {
+  "report": "f26",
+  "line": 5,
+  "class": "commit",
+  "value": "1588ed1b",
+  "target": null,
+  "via": "-",
+  "text": "**Reviewed head:** `16fc14ea82ca4b82278360111fa72908bf3baad5` (`display-scaffold-b`), delta vs parent `1588ed1b` (which already had three PASS delta reviews)."
+ },
+ {
+  "report": "f26",
+  "line": 11,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "Command: `git diff 1588ed1b..16fc14ea --stat` \u2014 exit 0. Output:"
+ },
+ {
+  "report": "f26",
+  "line": 20,
+  "class": "count",
+  "value": "6 files",
+  "target": null,
+  "via": "-",
+  "text": "6 files changed, 21124 insertions(+), 24 deletions(-)"
+ },
+ {
+  "report": "f26",
+  "line": 27,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "Command: `PEIRA_NO_RUST=1 PYTHONPATH=python python3 -c` loading each file via `RunArtifact.from_json()` (strict loader: unknown fields rejected, types checked) then `.verify()` \u2014 exit 0. Result:"
+ },
+ {
+  "report": "f26",
+  "line": 40,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "site/package-lock.json",
+  "via": "-",
+  "text": "`npm install` ran first (node_modules was absent). Then `npm run build` \u2014 exit 0, `[build] 12 page(s) built`, `[build] Complete!`. Side effect: `npm install` touched `site/package-lock.json` in the wo"
+ },
+ {
+  "report": "f26",
+  "line": 44,
+  "class": "commit",
+  "value": "1588ed1b",
+  "target": null,
+  "via": "-",
+  "text": "Recursive old-vs-new comparison (`git show 1588ed1b:...` as baseline) across all 6 files \u2014 totals: **14,322 added key paths, 0 removed, 24 value changes**."
+ },
+ {
+  "report": "f26",
+  "line": 44,
+  "class": "count",
+  "value": "6 files",
+  "target": null,
+  "via": "-",
+  "text": "Recursive old-vs-new comparison (`git show 1588ed1b:...` as baseline) across all 6 files \u2014 totals: **14,322 added key paths, 0 removed, 24 value changes**."
+ },
+ {
+  "report": "f26",
+  "line": 55,
+  "class": "count",
+  "value": "6 files",
+  "target": null,
+  "via": "-",
+  "text": "Strong case-content check: after stripping the added keys and normalizing the 4 changed fields per file, **all 6 files are byte-identical trees to the parent versions** (`normalized-equal=True`). Spot"
+ },
+ {
+  "report": "f27",
+  "line": 1,
+  "class": "pr",
+  "value": "PR 295",
+  "target": null,
+  "via": "explicit",
+  "text": "# Standards-axis review: PR #295 (EB-2 + EB-3 fairness)"
+ },
+ {
+  "report": "f27",
+  "line": 4,
+  "class": "commit",
+  "value": "75803c3d",
+  "target": null,
+  "via": "-",
+  "text": "Branch: `eb-fairness` @ 75803c3d vs merge-base with origin/main @ 9a86462e."
+ },
+ {
+  "report": "f27",
+  "line": 4,
+  "class": "commit",
+  "value": "9a86462e",
+  "target": null,
+  "via": "-",
+  "text": "Branch: `eb-fairness` @ 75803c3d vs merge-base with origin/main @ 9a86462e."
+ },
+ {
+  "report": "f27",
+  "line": 15,
+  "class": "tally",
+  "value": "tests 23 tests",
+  "target": null,
+  "via": "-",
+  "text": "all 23 tests pass in both modes with mutation probes confirming each probed"
+ },
+ {
+  "report": "f27",
+  "line": 37,
+  "class": "commit",
+  "value": "3ff6be2f",
+  "target": "manifest.json",
+  "via": "-",
+  "text": "file -> byte-identical; sha256 `3ff6be2f...` matches manifest.json."
+ },
+ {
+  "report": "f28",
+  "line": 180,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "- npm run build exit 0."
+ },
+ {
+  "report": "f28",
+  "line": 183,
+  "class": "size",
+  "value": "298.8 KB",
+  "target": null,
+  "via": "-",
+  "text": "- budget check passed: initial transfer 298.8 KB of 500.0 KB"
+ },
+ {
+  "report": "f28",
+  "line": 183,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "- budget check passed: initial transfer 298.8 KB of 500.0 KB"
+ },
+ {
+  "report": "f28",
+  "line": 184,
+  "class": "size",
+  "value": "88.1 KB",
+  "target": null,
+  "via": "-",
+  "text": "(html 88.1 KB, scripts and styles 142.7 KB, fonts 68.0 KB of"
+ },
+ {
+  "report": "f28",
+  "line": 184,
+  "class": "size",
+  "value": "142.7 KB",
+  "target": null,
+  "via": "-",
+  "text": "(html 88.1 KB, scripts and styles 142.7 KB, fonts 68.0 KB of"
+ },
+ {
+  "report": "f28",
+  "line": 184,
+  "class": "size",
+  "value": "68.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "(html 88.1 KB, scripts and styles 142.7 KB, fonts 68.0 KB of"
+ },
+ {
+  "report": "f28",
+  "line": 185,
+  "class": "size",
+  "value": "120.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "120.0 KB). The charts are server components; client script"
+ },
+ {
+  "report": "f28",
+  "line": 187,
+  "class": "size",
+  "value": "88.1 KB",
+  "target": null,
+  "via": "-",
+  "text": "growth (19.3 to 88.1 KB) is the chart markup itself."
+ },
+ {
+  "report": "f28",
+  "line": 191,
+  "class": "tally",
+  "value": "25 of 26",
+  "target": null,
+  "via": "-",
+  "text": "- Label solver outcome on this payload: 25 of 26 plotted"
+ },
+ {
+  "report": "f29",
+  "line": 7,
+  "class": "tally",
+  "value": "20 of 20",
+  "target": "google-wave-canary-2026-11-16.md",
+  "via": "-",
+  "text": "1. The Gemini 4 Carbon and Gemini 4 Hydrogen full runs are DEFERRED, not funded. No run is authorised now and none is prepared as if it were. The canary results stand as banked (Carbon 20 of 20 clean "
+ },
+ {
+  "report": "f29",
+  "line": 7,
+  "class": "tally",
+  "value": "19 of 20",
+  "target": "google-wave-canary-2026-11-16.md",
+  "via": "-",
+  "text": "1. The Gemini 4 Carbon and Gemini 4 Hydrogen full runs are DEFERRED, not funded. No run is authorised now and none is prepared as if it were. The canary results stand as banked (Carbon 20 of 20 clean "
+ },
+ {
+  "report": "f30",
+  "line": 12,
+  "class": "tally",
+  "value": "7 of 9",
+  "target": null,
+  "via": "-",
+  "text": "## P1-1: Gold mention-order skew in 7 of 9 binary families"
+ },
+ {
+  "report": "f30",
+  "line": 42,
+  "class": "count",
+  "value": "3 families",
+  "target": null,
+  "via": "-",
+  "text": "## P1-2: Discriminative power unproven for 3 families (0% ASR), 1 more at 3%"
+ },
+ {
+  "report": "f30",
+  "line": 86,
+  "class": "count",
+  "value": "3 families",
+  "target": null,
+  "via": "-",
+  "text": "flips -> 60 under production semantics; 3 families drop to zero)."
+ },
+ {
+  "report": "f30",
+  "line": 94,
+  "class": "count",
+  "value": "7 families",
+  "target": null,
+  "via": "-",
+  "text": "1. Difficulty metadata inconsistent: 7 families have \"Difficulty:\" in 200/200"
+ },
+ {
+  "report": "f30",
+  "line": 134,
+  "class": "count",
+  "value": "10 families",
+  "target": null,
+  "via": "-",
+  "text": "plan CG-0001): 41/41 benign golds sound; 8/10 families mechanism-fit >= 4.0/5."
+ },
+ {
+  "report": "f31",
+  "line": 18,
+  "class": "commit",
+  "value": "21ef7ba4",
+  "target": null,
+  "via": "-",
+  "text": "(`21ef7ba4`, fetched 2026-10-01; merge-base `23242ab9`)."
+ },
+ {
+  "report": "f31",
+  "line": 18,
+  "class": "commit",
+  "value": "23242ab9",
+  "target": null,
+  "via": "-",
+  "text": "(`21ef7ba4`, fetched 2026-10-01; merge-base `23242ab9`)."
+ },
+ {
+  "report": "f31",
+  "line": 146,
+  "class": "size",
+  "value": "984 bytes",
+  "target": "tests/fixtures/noise_VALIDATION.md",
+  "via": "-",
+  "text": "- `tests/fixtures/noise_VALIDATION.md`: 984 bytes, human rubric with verdict"
+ },
+ {
+  "report": "f31",
+  "line": 148,
+  "class": "size",
+  "value": "23 KB",
+  "target": "tests/fixtures/noise_validation_sample.jsonl",
+  "via": "-",
+  "text": "- `tests/fixtures/noise_validation_sample.jsonl`: 23 KB, 40 lines (10 source"
+ },
+ {
+  "report": "f31",
+  "line": 148,
+  "class": "count",
+  "value": "40 lines",
+  "target": "tests/fixtures/noise_validation_sample.jsonl",
+  "via": "-",
+  "text": "- `tests/fixtures/noise_validation_sample.jsonl`: 23 KB, 40 lines (10 source"
+ },
+ {
+  "report": "f32",
+  "line": 3,
+  "class": "commit",
+  "value": "e14a1e73",
+  "target": null,
+  "via": "-",
+  "text": "Branch feat/board-frontend, app site/board/, base e14a1e73 (tree"
+ },
+ {
+  "report": "f32",
+  "line": 113,
+  "class": "count",
+  "value": "390, document",
+  "target": null,
+  "via": "-",
+  "text": "marginLeft -16 px, nav left 0, nav width 390, document scroll"
+ },
+ {
+  "report": "f32",
+  "line": 133,
+  "class": "count",
+  "value": "35 entries",
+  "target": null,
+  "via": "-",
+  "text": "35 entries) while the masthead counts distinct models (34). The"
+ },
+ {
+  "report": "f32",
+  "line": 143,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "Build (npm run build, exit 0):"
+ },
+ {
+  "report": "f32",
+  "line": 146,
+  "class": "size",
+  "value": "375.6 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.6 KB of 500.0 KB (html 159.7 KB, scripts and styles 148.0 KB, fonts 68.0 KB of 120.0 KB)"
+ },
+ {
+  "report": "f32",
+  "line": 146,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.6 KB of 500.0 KB (html 159.7 KB, scripts and styles 148.0 KB, fonts 68.0 KB of 120.0 KB)"
+ },
+ {
+  "report": "f32",
+  "line": 146,
+  "class": "size",
+  "value": "159.7 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.6 KB of 500.0 KB (html 159.7 KB, scripts and styles 148.0 KB, fonts 68.0 KB of 120.0 KB)"
+ },
+ {
+  "report": "f32",
+  "line": 146,
+  "class": "size",
+  "value": "148.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.6 KB of 500.0 KB (html 159.7 KB, scripts and styles 148.0 KB, fonts 68.0 KB of 120.0 KB)"
+ },
+ {
+  "report": "f32",
+  "line": 146,
+  "class": "size",
+  "value": "68.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.6 KB of 500.0 KB (html 159.7 KB, scripts and styles 148.0 KB, fonts 68.0 KB of 120.0 KB)"
+ },
+ {
+  "report": "f32",
+  "line": 146,
+  "class": "size",
+  "value": "120.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget check passed: initial transfer 375.6 KB of 500.0 KB (html 159.7 KB, scripts and styles 148.0 KB, fonts 68.0 KB of 120.0 KB)"
+ },
+ {
+  "report": "f33",
+  "line": 20,
+  "class": "pr",
+  "value": "PR 52",
+  "target": null,
+  "via": "bare",
+  "text": "regenerated #52 fixture fires 10/10 in all 4 classes with digit counts"
+ },
+ {
+  "report": "f33",
+  "line": 21,
+  "class": "count",
+  "value": "40 pairs",
+  "target": null,
+  "via": "-",
+  "text": "preserved on all 40 pairs. Four advisories below, none blocking."
+ },
+ {
+  "report": "f33",
+  "line": 26,
+  "class": "gitsha",
+  "value": "d42ebcea3152cc571b37f1f8f634946b3764cc9c",
+  "target": null,
+  "via": "-",
+  "text": "(`d42ebcea3152cc571b37f1f8f634946b3764cc9c`, branch"
+ },
+ {
+  "report": "f33",
+  "line": 28,
+  "class": "gitsha",
+  "value": "acdfa73a11b092f76aa3844cff25db5b2ce6373c",
+  "target": null,
+  "via": "-",
+  "text": "(`acdfa73a11b092f76aa3844cff25db5b2ce6373c`)."
+ },
+ {
+  "report": "f33",
+  "line": 30,
+  "class": "commit",
+  "value": "d877cdb5",
+  "target": null,
+  "via": "-",
+  "text": "was isolated as `git diff d877cdb5 d42ebcea` (pre-re-sweep head"
+ },
+ {
+  "report": "f33",
+  "line": 30,
+  "class": "commit",
+  "value": "d42ebcea",
+  "target": null,
+  "via": "-",
+  "text": "was isolated as `git diff d877cdb5 d42ebcea` (pre-re-sweep head"
+ },
+ {
+  "report": "f33",
+  "line": 32,
+  "class": "count",
+  "value": "7 files",
+  "target": null,
+  "via": "-",
+  "text": "(`git diff d877cdb5 acdfa73a`) attributed out. Lane delta: 7 files \u2014"
+ },
+ {
+  "report": "f33",
+  "line": 36,
+  "class": "count",
+  "value": "4 lines",
+  "target": "tests/fixtures/noise_validation_sample.jsonl",
+  "via": "-",
+  "text": "`tests/fixtures/noise_validation_sample.jsonl` (4 lines swapped)."
+ },
+ {
+  "report": "f33",
+  "line": 37,
+  "class": "commit",
+  "value": "d877cdb5",
+  "target": "docs/Methodology.md",
+  "via": "-",
+  "text": "`docs/Methodology.md` shows 0 lane-added lines (its d877cdb5\u2192HEAD hunk"
+ },
+ {
+  "report": "f33",
+  "line": 149,
+  "class": "count",
+  "value": "55 comment",
+  "target": "noise.py",
+  "via": "-",
+  "text": "- **Colons in lane-added prose**: 55 comment lines in noise.py + 1 in"
+ },
+ {
+  "report": "f33",
+  "line": 163,
+  "class": "count",
+  "value": "14 lines",
+  "target": null,
+  "via": "-",
+  "text": "- Design-doc additions (14 lines): accurate (six one-way pairs,"
+ },
+ {
+  "report": "f33",
+  "line": 168,
+  "class": "pr",
+  "value": "PR 52",
+  "target": null,
+  "via": "bare",
+  "text": "### Fixture \u2014 regenerated #52 sample (item 4)"
+ },
+ {
+  "report": "f33",
+  "line": 170,
+  "class": "count",
+  "value": "40 entries",
+  "target": null,
+  "via": "-",
+  "text": "- 40 entries, exactly 10 per class (typo/dialect/paraphrase/distractor)."
+ },
+ {
+  "report": "f33",
+  "line": 171,
+  "class": "pr",
+  "value": "PR 52",
+  "target": null,
+  "via": "bare",
+  "text": "(\"#52\" is the sample's name, not a count.)"
+ },
+ {
+  "report": "f33",
+  "line": 173,
+  "class": "count",
+  "value": "40 pairs",
+  "target": null,
+  "via": "-",
+  "text": "digit counts preserved on all 40 pairs; `test_shipped_fixture_has_no_vacuous_class`"
+ },
+ {
+  "report": "f33",
+  "line": 174,
+  "class": "tally",
+  "value": "passed 3 passed",
+  "target": null,
+  "via": "-",
+  "text": "and the other fixture tests pass (3 passed)."
+ },
+ {
+  "report": "f33",
+  "line": 188,
+  "class": "commit",
+  "value": "acdfa73a",
+  "target": null,
+  "via": "-",
+  "text": "- The branch is one commit on main `acdfa73a` touching exactly 14 lane"
+ },
+ {
+  "report": "f33",
+  "line": 203,
+  "class": "tally",
+  "value": "passed 73 passed",
+  "target": "tests/test_author_direct_requests.py",
+  "via": "-",
+  "text": "`tests/test_author_direct_requests.py` \u2192 **73 passed, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 203,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_author_direct_requests.py",
+  "via": "-",
+  "text": "`tests/test_author_direct_requests.py` \u2192 **73 passed, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 218,
+  "class": "gitsha",
+  "value": "d42ebcea3152cc571b37f1f8f634946b3764cc9c",
+  "target": null,
+  "via": "-",
+  "text": "- Reviewed head: `d42ebcea3152cc571b37f1f8f634946b3764cc9c`"
+ },
+ {
+  "report": "f33",
+  "line": 220,
+  "class": "gitsha",
+  "value": "acdfa73a11b092f76aa3844cff25db5b2ce6373c",
+  "target": null,
+  "via": "-",
+  "text": "`acdfa73a11b092f76aa3844cff25db5b2ce6373c`. Pre-re-sweep reference:"
+ },
+ {
+  "report": "f33",
+  "line": 224,
+  "class": "tally",
+  "value": "passed 23 passed",
+  "target": null,
+  "via": "-",
+  "text": "`python3 -m pytest -p no:cacheprovider -q <23 node IDs>` \u2192 **23 passed"
+ },
+ {
+  "report": "f33",
+  "line": 225,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "in 13.90s, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 226,
+  "class": "tally",
+  "value": "tests 23 tests",
+  "target": null,
+  "via": "-",
+  "text": "- Same 23 tests against old maps (`cd /tmp/oldlane`,"
+ },
+ {
+  "report": "f33",
+  "line": 230,
+  "class": "tally",
+  "value": "passed 2 passed",
+  "target": null,
+  "via": "-",
+  "text": "**21 failed, 2 passed in 12.44s, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 230,
+  "class": "tally",
+  "value": "failed 21 failed",
+  "target": null,
+  "via": "-",
+  "text": "**21 failed, 2 passed in 12.44s, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 230,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "**21 failed, 2 passed in 12.44s, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 233,
+  "class": "tally",
+  "value": "passed 73 passed",
+  "target": "tests/test_author_direct_requests.py",
+  "via": "-",
+  "text": "tests/test_author_direct_requests.py` \u2192 **73 passed in 43.07s, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 233,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": "tests/test_author_direct_requests.py",
+  "via": "-",
+  "text": "tests/test_author_direct_requests.py` \u2192 **73 passed in 43.07s, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 236,
+  "class": "tally",
+  "value": "passed 3 passed",
+  "target": null,
+  "via": "-",
+  "text": "every_class\"` \u2192 **3 passed, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 236,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "every_class\"` \u2192 **3 passed, exit 0**."
+ },
+ {
+  "report": "f33",
+  "line": 240,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "all definition-list labels; exit 0."
+ },
+ {
+  "report": "f33",
+  "line": 243,
+  "class": "tally",
+  "value": "exit exit 0",
+  "target": null,
+  "via": "-",
+  "text": "digits preserved on all 40; exit 0."
+ },
+ {
+  "report": "f34",
+  "line": 20,
+  "class": "tally",
+  "value": "32 of 40",
+  "target": null,
+  "via": "-",
+  "text": "## Rounds completed, 32 of 40 in substance"
+ },
+ {
+  "report": "f34",
+  "line": 29,
+  "class": "tally",
+  "value": "25 of 26",
+  "target": null,
+  "via": "-",
+  "text": "complete and owner eyeballed. Scatter placed 25 of 26 labels in"
+ },
+ {
+  "report": "f34",
+  "line": 43,
+  "class": "tally",
+  "value": "25 of 28",
+  "target": null,
+  "via": "-",
+  "text": "its own clone. Census regression closed 25 of 28 defect IDs on"
+ },
+ {
+  "report": "f34",
+  "line": 43,
+  "class": "count",
+  "value": "28 defect",
+  "target": null,
+  "via": "-",
+  "text": "its own clone. Census regression closed 25 of 28 defect IDs on"
+ },
+ {
+  "report": "f34",
+  "line": 45,
+  "class": "tally",
+  "value": "10 of 10",
+  "target": null,
+  "via": "-",
+  "text": "10 of 10 exact. Colour vision, forced colours, focus, target"
+ },
+ {
+  "report": "f34",
+  "line": 60,
+  "class": "size",
+  "value": "365.6 KB",
+  "target": null,
+  "via": "-",
+  "text": "- Budget check passed, initial transfer 365.6 KB of the 500.0 KB"
+ },
+ {
+  "report": "f34",
+  "line": 60,
+  "class": "size",
+  "value": "500.0 KB",
+  "target": null,
+  "via": "-",
+  "text": "- Budget check passed, initial transfer 365.6 KB of the 500.0 KB"
+ },
+ {
+  "report": "f34",
+  "line": 61,
+  "class": "size",
+  "value": "806 KB",
+  "target": null,
+  "via": "-",
+  "text": "budget. The old page document alone was 806 KB."
+ },
+ {
+  "report": "f34",
+  "line": 77,
+  "class": "count",
+  "value": "30 files",
+  "target": null,
+  "via": "-",
+  "text": "perfection-ui-cycle1/build-round11/ (30 files). The best set for"
+ },
+ {
+  "report": "f34",
+  "line": 91,
+  "class": "count",
+  "value": "373 case",
+  "target": null,
+  "via": "-",
+  "text": "sit in their own group under a 373 case header so nobody can"
+ },
+ {
+  "report": "f34",
+  "line": 103,
+  "class": "count",
+  "value": "11 families",
+  "target": null,
+  "via": "-",
+  "text": "states the suite, the 11 families, the admission rule and the tax"
+ },
+ {
+  "report": "f34",
+  "line": 132,
+  "class": "tally",
+  "value": "passed 390 passed",
+  "target": null,
+  "via": "-",
+  "text": "- Compare at 390 passed with notes. Model headers wrap to two"
+ },
+ {
+  "report": "f34",
+  "line": 158,
+  "class": "tally",
+  "value": "2 of 10",
+  "target": null,
+  "via": "-",
+  "text": "relaunch. Cerno's canary stood at 2 of 10 with no driver live at"
+ },
+ {
+  "report": "f35",
+  "line": 7,
+  "class": "gitsha",
+  "value": "c545f0da3f6ccf48c15a63f8399f6f8250172df7",
+  "target": null,
+  "via": "-",
+  "text": "- Branch `handover/iteration-12` created on david-engelmann/peira at commit c545f0da3f6ccf48c15a63f8399f6f8250172df7, parent 803c448e (current main, the PR 550 squash). Tree e5cc9143."
+ },
+ {
+  "report": "f35",
+  "line": 7,
+  "class": "commit",
+  "value": "803c448e",
+  "target": null,
+  "via": "-",
+  "text": "- Branch `handover/iteration-12` created on david-engelmann/peira at commit c545f0da3f6ccf48c15a63f8399f6f8250172df7, parent 803c448e (current main, the PR 550 squash). Tree e5cc9143."
+ },
+ {
+  "report": "f35",
+  "line": 7,
+  "class": "commit",
+  "value": "e5cc9143",
+  "target": null,
+  "via": "-",
+  "text": "- Branch `handover/iteration-12` created on david-engelmann/peira at commit c545f0da3f6ccf48c15a63f8399f6f8250172df7, parent 803c448e (current main, the PR 550 squash). Tree e5cc9143."
+ },
+ {
+  "report": "f35",
+  "line": 11,
+  "class": "commit",
+  "value": "15b807af",
+  "target": null,
+  "via": "-",
+  "text": "- The iteration 12 finisher cron was removed after the handover. The prototype stays deployed at peira-board-proto.pages.dev (deployment 15b807af) as the reference render of the branch's code."
+ }
+]

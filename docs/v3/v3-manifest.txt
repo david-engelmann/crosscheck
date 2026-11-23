@@ -1,0 +1,130 @@
+V3 measurement corpus manifest, frozen by hash 2026-11-23
+Fresh corpus for the pattern set v3 measurement, built to
+docs/EXTRACTION-V3-DESIGN.md as ruled by Main on 2026-11-23
+(DECISIONS.md D20). No report here appears in the v0 corpus
+(docs/m1/manifest.txt), the v1 corpus (docs/m2/v1-manifest.txt),
+or the v2 corpus (docs/m3/v2-manifest.txt). Frozen by recorded
+SHA-256 of the source files, measured read-only at freeze
+time, the same method as the earlier freezes. Sources are
+the peira goal's banked reports under
+goals/peira-decision-model-robustness-benchmark/hidden_files/.
+
+Four strata of six reports. Stratum membership is a
+bibliographic fact about the report's subject, decided
+before any extraction:
+- gate: reports gating or verifying a run.
+- audit-other: reviews whose subject is neither an
+  issue-tracked programme's spec nor one of its pull
+  requests.
+- audit-issue: reviews whose subject is a spec or work
+  item set of an issue-tracked programme (the EB programme,
+  whose work items are GitHub issues).
+- closure: reports closing out landed work.
+
+Boundary disclosure: the pool's spec reviews of PR #295
+and PR #297 were excluded from this corpus entirely. Their
+subjects are pull requests serving the EB programme, so
+they sit on the audit split's boundary; the design assigns
+by subject, and rather than force the boundary case the
+corpus excludes both, here on the record.
+
+Assignment correction, recorded before extraction: the
+f13 slot originally held eb-fairness-spec-review-20261001.md
+(0c4e9219, 18320 bytes). Hand-listing showed its subject
+is PR #295 itself, with the EB-2/EB-3 spec entries as its
+quoted yardstick; it belongs to the excluded boundary set
+above, not to audit-issue. It was replaced in the f13 slot
+by eb27-eb47-standards-review-20261002.md, drawn from the
+audit-issue reserve list (the first reserve,
+eb-fairness-standards-review, carries the same PR #295
+boundary and was passed over for that stated reason). The
+swap happened before the extractor ran, and no extraction
+output existed when it was made.
+
+Hand-list coverage: eight reports, two per stratum (f01,
+f04, f07, f09, f13, f16, f19, f22). Each stratum's
+issue-quoting density is measured from its two hand lists
+(the share of bare references adjudicated as issue cites)
+and is published in this manifest before the extractor
+runs.
+
+Yield floor (from the design record): at least 150 bare
+extractions over the whole corpus. If the frozen 24 yield
+fewer, reports are added one per stratum per round in the
+order gate, audit-other, audit-issue, closure, drawing the
+reserve lists below in their stated order, and the
+additions are recorded in this manifest before scoring.
+Reserve lists:
+- gate: watchdog_entry_20261006_1905.md (610f1aa8, 6113),
+  google-wave-deferral-2026-11-19.md (ead000b9, 1393)
+- audit-other: pr326-fixture-delta-review-20261002.md,
+  dataset-critical-eval-2026-09-24.md (hashes recorded when
+  drawn)
+- audit-issue: eb-fairness-standards-review-20261001.md
+  (9e2365d6, 7209), eb27-eb47-standards-review-20261002.md
+  (805a597e, 10900), noise-standards-review-20261001.md
+  (e0583399, 8657), noise-resweep-standards-review-20261002.md
+  (aa1f5cb8, 13391)
+- closure: ui-build-round9-2026-10-23.md (04d10489, 15410),
+  ui-live-fix-r1-2026-10-23.md (54d18399, 8947),
+  ui-review-package-8h-2026-10-23.md (2efb4ad8, 8228),
+  handover-2026-11-19.md (97ff9743, 1846)
+
+Densities (from the hand lists, published before
+extraction): gate 0.00 (0 issue cites of 4 bare GitHub
+references), audit-other 0.00 (0 of 12), audit-issue 1.00
+(3 of 3; a small base, published as it stands), closure
+0.00 (0 of 5). The audit-issue hand lists carry 5 further
+bare #-forms that are internal Taxonomy ruling numbers,
+neither PR nor issue, and are outside the density base.
+
+f01 gate 66228f7b3bf690774f047ab09b3f2e2009fb66b24ca2fe0550b1a93f68574fa5 9689 gate-report-cursor-harness-2026-10-26.md
+f02 gate f89971f0f146e7a8a9429bbeba30105cee9fa2e1282e8a6c6ce21b947502d5c3 6373 gate-report-gate-exit-criteria.md
+f03 gate f0563f883d626988032c6edbb99056bb88e670c795c3b01528c8c2b2619d383c 11594 google-wave-canary-2026-11-16.md
+f04 gate 9d97cd72b9854ea8fa57f96227a8c41fc0fb5a365bc0fbc963d8a1fca1c41e90 21340 google-decision1-full-run-2026-11-16.md
+f05 gate 4f8f0f4a435f52328c22e3c4ac192c65e237ca28bf12029557f39699e71a7f11 16950 api-version-refresh-2026-10-23.md
+f06 gate e80f0705c2c7d28c34a470a9e9b09842f32fc504e9fad1306718a1448a7220bc 1467 grok-backup-verification-2026-11-22.md
+f07 audit-other e77b6640d52335b4234f66aa6fef82328b7c8d057797a18451595034299cbb1e 7418 pr326-delta-spec-review-20261001.md
+f08 audit-other 60fb15aa8eb42061c50394db40a7093362ecbfd9559d2ea87ca640c741206aa0 8073 pr326-delta-standards-review-20261001.md
+f09 audit-other a70e1813c5a057a9cde61d45b8be53a6ac2fab841a918385a3ef2809e8cf398b 10002 pr338-redteam-review-20261002.md
+f10 audit-other bd4ad0561f515ba5a58d943a4190871df04ca4397333c322b2b124ecb2954484 7162 display-scaffold-standards-review-20261001.md
+f11 audit-other 5ea374a29f2ecac18ea69c336364880b5b66215b5c5d841edd2d407361fd3956 8216 pr338-standards-review-20261002.md
+f12 audit-other be93ba7e7ae255da4a5fe365a5bcf52e894cecb2797fdc9175094d8c04d5f483 7712 a4-second-review-findings-20260930.md
+f13 audit-issue 805a597ece03901f4858e16b07ca861a573e5c5f18ff81e8784efee5080a58b0 10900 eb27-eb47-standards-review-20261002.md
+f14 audit-issue 3deacdd6658e339b09572225cc4b3a5c1c43aaa55c8ea14ebb6e4a9e906e873d 11203 eb27-eb47-spec-review-20261002.md
+f15 audit-issue 3ea5a4d33b37ecf5b01136ef5660e205e42543cc00903012dc20d0acb4a2b498 12727 eb27-eb47-redteam-review-20261002.md
+f16 audit-issue f2e5728d577ebe3968871c18943fe4dcc59f30016578fb40ac3cef3d2f504038 14965 noise-resweep-spec-review-20261002.md
+f17 audit-issue 615f2e0ff8677fc3e518a3d1048e121068c01fb23f6a08358f290e0485a2f0a2 13385 noise-repair2-spec-review-20261002.md
+f18 audit-issue d586dbe21889b0c9240acf8571be6cec1b15928c7f15b7eec7a5d44d55564c5d 5504 eb-conv-standards-review-20261001.md
+f19 closure d58cf69050a73344429ec65ed917defdab1270b3aa9fccfae16dcf0cf4b7098d 28478 fleet-execution-log-2026-10-23.md
+f20 closure 92c14c7f15ea89fc486c16109197434dad5e425995f4c69d99d933198127fd07 16073 ui-build-round10-2026-10-23.md
+f21 closure 0da030fbf9827e64b3fcea6e835bde4a7b814d5928cf7965e40061d51cfbf443 10740 ui-final-checkpoint-12h-2026-10-23.md
+f22 closure 52d3d3de6fdfe0fee65be45e1d21f3716d91e68bf87a9f258cdba7e6d35ea195 20659 perfection-github-readiness-2026-10-23.md
+f23 closure 710b514152737ed6f1e8605f5fb18acf90ee70e4aaad6e3ad22665204abf3840 8328 ui-convergence-r1-2026-10-23.md
+f24 closure c3485222fd983612be7a07fff912280f07c599fd4c0616ed100d775f3e56d697 11836 ui-build-round11-2026-10-23.md
+
+Total frozen bytes: 280794 across 24 reports.
+
+Yield-floor additions, recorded 2026-11-23 before scoring,
+per the rule above. The frozen 24 yielded 53 bare
+extractions, under the 150 floor, so reserves were drawn
+round-robin (gate, audit-other, audit-issue, closure) in
+stated order until the reserve lists were exhausted:
+f25 gate 610f1aa85f7e96f23a5413a7381deae316ae25e96714f6a6ac4c0c9e94f03029 6113 watchdog_entry_20261006_1905.md
+f26 audit-other 7e12ee331846b0d571ae2100ccaa5a8085bafb9ff854aa63c6d71f8996f75e20 4298 pr326-fixture-delta-review-20261002.md
+f27 audit-issue 9e2365d6021b3559b19268cbef281257d3cfd7c485f3c80da70519eb19d6eba0 7209 eb-fairness-standards-review-20261001.md
+f28 closure 04d10489963eeb83e7bae2f28fea9152ba9acd566bfe562e44dbdacaecd6515d 15410 ui-build-round9-2026-10-23.md
+f29 gate ead000b98869405400682bddd3f59ac603b77775839a565306a63fede8ca00d5 1393 google-wave-deferral-2026-11-19.md
+f30 audit-other f79ce9dd1784da735616d7abd058cd6ea6628728330060d3b9524955c12b5553 8440 dataset-critical-eval-2026-09-24.md
+f31 audit-issue e058339978471d23e273823d1c907fa540bec4d46e5f61a06f74c6d7394ca37a 8657 noise-standards-review-20261001.md
+f32 closure 54d183998f1c0c5f6a0a1b7b5534831eb5416885614e279ff70e17a07e0704ae 8947 ui-live-fix-r1-2026-10-23.md
+f33 audit-issue aa1f5cb893dc83f02909d8eee35ba272f284262cb91beffb5ba6bb320ed8098d 13391 noise-resweep-standards-review-20261002.md
+f34 closure 2efb4ad8b6c865e9253e7b4f1c43d805baa97063514c28b413461812892f87ce 8228 ui-review-package-8h-2026-10-23.md
+f35 closure 97ff9743fcdf9924202e3e55d101eb8906030f3dac616e7e246092baad9a7244 1846 handover-2026-11-19.md
+(The audit-issue reserve eb27-eb47-standards-review was
+not drawn; it already sits in the corpus at f13.) Corpus
+after additions: 35 reports, 364726 bytes. The achieved
+bare yield after additions is reported with the shortfall
+note in the results record; the floor question went to
+Main before adjudication, per the design's rule that a
+shortfall is reported, not repaired quietly.
