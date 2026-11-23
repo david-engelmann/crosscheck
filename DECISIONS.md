@@ -188,3 +188,40 @@ records keep the name they were written under: the M1 corpus and
 results, the M2 plan, the viewer's recorded run, and decisions
 D1 to D12 are history and were not rewritten. From this decision
 forward, crosscheck is the only name in current-state text.
+
+## D14. M3 shapes (2026-11-22)
+
+Recorded run facts. A run-fact claim names one fact and the log
+that records it: run passed in PATH == N, and the same form for
+failed, skipped, and exit. The cited file resolves inside the
+bundle like any cited file. The core scans the log with the tally
+shapes the M1 measurement trusted (a number against passed,
+failed, skipped, or an exit code) and takes the last match in the
+file as the run's record, because logs append and the final
+summary is the authoritative one. The boundary is stated here so
+the implementation has no freedom left in it: when the claimed
+fact's tally is present and disagrees, the claim is contradicted;
+when the cited log does not record that fact at all, the claim is
+unverifiable, whatever else the log records.
+
+Bundled host records. The bundle carries a records directory of
+saved host responses, one JSON object per file, flat fields only.
+A pull request claim names the record by number: pr N state ==
+merged, or == open. The record file records/pr-N.json must carry
+number, state, and merged fields; merged holds when state is
+closed and merged is true, open holds when state is open. A CI
+claim names the head it describes: ci SHA state == success, or
+== failure. The record file records/ci-SHA.json must carry
+head_sha, status, and conclusion; the claim compares against the
+conclusion once status is completed. A missing record file is
+unverifiable, per D4: unbundled means unverifiable. A record whose
+fields disagree with the claim is contradicted. A record that
+does not parse, or lacks the fields its claim needs, is
+malformed evidence and the claim is unverifiable; the distinction
+matters because the report author does not control the record's
+shape, the auditor does.
+
+The core parses these records with a small flat-object reader.
+Nested host payloads are trimmed to the flat record when the
+bundle is assembled, the same trimming the verdict viewer's
+bundled records already use.
