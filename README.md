@@ -71,15 +71,17 @@ A second mode audits reports that carry no markers at all.
 Extraction finds the claims in unmarked prose and checks each one
 against whatever the bundle can answer, and a claim the bundle
 cannot answer is unverifiable. Extraction was measured before it
-was trusted, on three frozen corpora of real fleet reports with
+was trusted, on four frozen corpora of real fleet reports with
 every extracted claim scored by hand against a two percent false
 positive bar. Explicit pull request references, short and full
 commit references, full content hashes, and run tallies measured
 at or under the bar and are trusted. Bare pull request references
 and counts sit in the provisional band above it, so they are
 extracted and printed as provisional and never fail a run on
-their own. Sizes and quotes measured too far above the bar and
-are not extracted.
+their own. A fourth corpus split reports by whether they quote
+an issue tracker and found the bare form clean in the other
+kinds of report and wrong throughout that one. Sizes and quotes
+measured too far above the bar and are not extracted.
 
 Verdicts export as in-toto Statements under --attest, with the
 records behind a verdict pinned by their own digests inside the

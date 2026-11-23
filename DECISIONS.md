@@ -427,3 +427,29 @@ tuning set and a measurement corpus drawn from that
 ecosystem. The v3 measurement proceeds on the design
 record's density-stated corpus with the patterns as they
 stand.
+
+D21. Extraction v3 dispositions (ratified 2026-11-23).
+On the v3 measurement (docs/EXTRACTION-V3-RESULTS.md;
+35 reports, 694 claims adjudicated), Main ratified every
+proposed disposition. The bare pull request form stays
+provisional, and the question D17 left open is closed as
+measured: the form's precision is a property of the
+report's stratum (0 false positives in 51 bare claims
+across the gate, audit-other, and closure strata; 18 in
+18 inside the audit-issue stratum, eleven GitHub issue
+cites and seven internal ruling numbers), and a pattern
+cannot see the stratum. Explicit pull request references
+stay trusted (0 of 36, the control). Commit, gitsha,
+hash256, and tally standings are reconfirmed trusted at
+0.0 percent each, tally at 0 of 168. Count stays
+provisional at 2.6 percent, its third consecutive
+measurement inside the band. Size stays out; its 0 of 79
+on this corpus is a population fact (artifact and machine
+specifications in build and execution reports), not a
+promotion case, and any future size re-measurement
+requires a density-stated design of its own. The record
+also stands that the v3 yield floor of 150 bare
+extractions was not met (69, after the addition rule
+exhausted the reserves) and that Main ruled adjudication
+as frozen with the 1-in-69 resolution disclosed in the
+results note.
