@@ -368,9 +368,15 @@ choices the note left to the build stated here:
   in-toto Statement instead of the usual rendering; the
   exit code is the verdict's either way, and the plain and
   JSON outputs are untouched when the flag is absent.
+  --attest takes precedence over --json when both are
+  given.
 - The subject is the report, named as the caller named it
   on the command line, digested with the SHA-256 of its
-  bytes. The predicate type is the note's versioned URL.
+  bytes. The digest is computed from the report bytes the
+  caller supplies, which is the value a bundle manifest
+  records for that report; the tool does not read a digest
+  out of any manifest. The predicate type is the note's
+  versioned URL.
   The predicate carries the tool name and version, the
   mode, the exit code as data, the summary, the claims in
   line order, the bundle pins, and the semantic limit line
@@ -380,14 +386,15 @@ choices the note left to the build stated here:
 - Summary counts are by status in a fixed key order
   (verified, contradicted, unverifiable, malformed). In
   extract mode the counts split by trust, trusted first.
-- A verify-mode claim entry carries the marker spec text
-  as written; an extract-mode entry carries class and
-  trust. A record-backed claim whose record the bundle
-  carried carries an evidence entry: the record path, the
-  SHA-256 of the record file's exact bytes, and the flat
-  D14 fields the verdict read, typed as they stand in the
-  record. The core attaches the entry when it checks the
-  claim; the read changes no verdict.
+- A verify-mode claim entry carries the marker spec text,
+  trimmed of the whitespace at its edges; an extract-mode
+  entry carries class and trust. A record-backed claim
+  whose record the bundle carried carries an evidence
+  entry: the record path, the SHA-256 of the record file's
+  exact bytes, and the flat D14 fields the verdict read,
+  typed as they stand in the record, with numbers in
+  canonical form. The entry is built from the same bytes
+  the verdict rests on, in the same read.
 - The bundle block pins the evidence set: the manifest
   digest when the bundle carries a manifest.json, and the
   bundled repository's head when it carries a repository.

@@ -10,6 +10,7 @@
 //! Statement instead of the usual rendering (DECISIONS.md
 //! D19): the same verdict, in attestation shape, unsigned,
 //! deterministic. The exit code is the verdict's either way.
+//! --attest takes precedence over --json when both are given.
 //!
 //! Exit codes are the verdict contract in DECISIONS.md D5: 0 verified,
 //! 1 contradicted, 2 malformed, 3 unverifiable, 64 usage, 66 input
@@ -195,7 +196,7 @@ fn evidence_json(ev: &RecordEvidence) -> String {
     let mut out = format!(
         "{{\"path\":\"{}\",\"sha256\":\"{}\",\"fields\":{{",
         json_escape(&ev.path),
-        ev.sha256
+        json_escape(&ev.sha256)
     );
     for (n, (key, value)) in ev.fields.iter().enumerate() {
         if n > 0 {
@@ -223,34 +224,39 @@ fn status_counts(statuses: &[Status]) -> String {
     )
 }
 
+/// Everything a Statement renders, gathered by the caller.
+struct Statement<'a> {
+    mode: &'a str,
+    report_name: &'a str,
+    report_sha256: &'a str,
+    summary: &'a str,
+    claims: &'a [StmtClaim<'a>],
+    manifest_sha256: Option<&'a str>,
+    git_head: Option<&'a str>,
+    exit: i32,
+}
+
 /// Render a verdict as an in-toto Statement (D19). Pure and
 /// deterministic: the same inputs render byte-identically,
 /// and the predicate carries no wall-clock time.
-#[allow(clippy::too_many_arguments)]
-fn build_statement(
-    mode: &str,
-    report_name: &str,
-    report_sha256: &str,
-    summary: &str,
-    claims: &[StmtClaim],
-    manifest_sha256: Option<&str>,
-    git_head: Option<&str>,
-    exit: i32,
-) -> String {
+fn build_statement(stmt: &Statement) -> String {
     let mut out = String::from("{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{");
     out.push_str(&format!(
         "\"name\":\"{}\",\"digest\":{{\"sha256\":\"{}\"}}",
-        json_escape(report_name),
-        report_sha256
+        json_escape(stmt.report_name),
+        json_escape(stmt.report_sha256)
     ));
     out.push_str(&format!(
         "}}],\"predicateType\":\"{PREDICATE_TYPE}\",\"predicate\":{{"
     ));
     out.push_str(&format!(
-        "\"tool\":{{\"name\":\"crosscheck\",\"version\":\"{}\"}},\"mode\":\"{mode}\",\"exitCode\":{exit},\"summary\":{summary},\"claims\":[",
-        env!("CARGO_PKG_VERSION")
+        "\"tool\":{{\"name\":\"crosscheck\",\"version\":\"{}\"}},\"mode\":\"{}\",\"exitCode\":{},\"summary\":{},\"claims\":[",
+        env!("CARGO_PKG_VERSION"),
+        stmt.mode,
+        stmt.exit,
+        stmt.summary
     ));
-    for (n, c) in claims.iter().enumerate() {
+    for (n, c) in stmt.claims.iter().enumerate() {
         if n > 0 {
             out.push(',');
         }
@@ -275,18 +281,18 @@ fn build_statement(
         out.push('}');
     }
     out.push(']');
-    if manifest_sha256.is_some() || git_head.is_some() {
+    if stmt.manifest_sha256.is_some() || stmt.git_head.is_some() {
         out.push_str(",\"bundle\":{");
         let mut first = true;
-        if let Some(m) = manifest_sha256 {
-            out.push_str(&format!("\"manifestSha256\":\"{m}\""));
+        if let Some(m) = stmt.manifest_sha256 {
+            out.push_str(&format!("\"manifestSha256\":\"{}\"", json_escape(m)));
             first = false;
         }
-        if let Some(h) = git_head {
+        if let Some(h) = stmt.git_head {
             if !first {
                 out.push(',');
             }
-            out.push_str(&format!("\"gitHead\":\"{h}\""));
+            out.push_str(&format!("\"gitHead\":\"{}\"", json_escape(h)));
         }
         out.push('}');
     }
@@ -379,13 +385,20 @@ fn main() -> ExitCode {
         None
     };
     let repo_ref = repo.as_ref().map(|r| r as &dyn RepoFacts);
-    // The attestation's pins on the evidence set: the bundle
-    // manifest's digest when the bundle carries one, and the
-    // bundled repository's head when it carries a repository.
-    let manifest_sha = std::fs::read(bundle_dir.join("manifest.json"))
-        .ok()
-        .map(|bytes| sha256_hex(&bytes));
-    let git_head = repo.as_ref().and_then(|r| r.head());
+    // The attestation's pins on the evidence set, computed
+    // only when the export is asked for: the bundle manifest's
+    // digest when the bundle carries one, and the bundled
+    // repository's head when it carries a repository.
+    let (manifest_sha, git_head) = if attest {
+        (
+            std::fs::read(bundle_dir.join("manifest.json"))
+                .ok()
+                .map(|bytes| sha256_hex(&bytes)),
+            repo.as_ref().and_then(|r| r.head()),
+        )
+    } else {
+        (None, None)
+    };
     if extract_mode {
         // When the report file lives inside the bundle, it is
         // excluded from the evidence scans: a claim never
@@ -413,16 +426,16 @@ fn main() -> ExitCode {
             );
             println!(
                 "{}",
-                build_statement(
-                    "extract",
-                    &report_path.display().to_string(),
-                    &sha256_hex(report_text.as_bytes()),
-                    &summary,
-                    &extract_stmt_claims(&extraction.results),
-                    manifest_sha.as_deref(),
-                    git_head.as_deref(),
-                    extraction.exit_code(),
-                )
+                build_statement(&Statement {
+                    mode: "extract",
+                    report_name: &report_path.display().to_string(),
+                    report_sha256: &sha256_hex(report_text.as_bytes()),
+                    summary: &summary,
+                    claims: &extract_stmt_claims(&extraction.results),
+                    manifest_sha256: manifest_sha.as_deref(),
+                    git_head: git_head.as_deref(),
+                    exit: extraction.exit_code(),
+                })
             );
             return ExitCode::from(extraction.exit_code() as u8);
         }
@@ -467,16 +480,16 @@ fn main() -> ExitCode {
         let statuses: Vec<Status> = verdict.results.iter().map(|r| r.status).collect();
         println!(
             "{}",
-            build_statement(
-                "verify",
-                &report_path.display().to_string(),
-                &sha256_hex(report_text.as_bytes()),
-                &status_counts(&statuses),
-                &verify_stmt_claims(&verdict.results),
-                manifest_sha.as_deref(),
-                git_head.as_deref(),
-                verdict.exit_code(),
-            )
+            build_statement(&Statement {
+                mode: "verify",
+                report_name: &report_path.display().to_string(),
+                report_sha256: &sha256_hex(report_text.as_bytes()),
+                summary: &status_counts(&statuses),
+                claims: &verify_stmt_claims(&verdict.results),
+                manifest_sha256: manifest_sha.as_deref(),
+                git_head: git_head.as_deref(),
+                exit: verdict.exit_code(),
+            })
         );
         return ExitCode::from(verdict.exit_code() as u8);
     }
@@ -560,30 +573,29 @@ mod tests {
     }
 
     #[test]
-    fn the_same_verdict_exports_byte_identically() {
-        let (claims, _) = sample_claims();
+    fn statement_renders_byte_identically_for_identical_inputs() {
+        // A tripwire for the D19 determinism claim: the
+        // renderer takes no clock, randomness, or unordered
+        // input today, and this test fails the day one slips
+        // in. The end-to-end claim (the binary printing the
+        // same bytes on repeat runs) is proven by running the
+        // built binary twice, as the D19 gate report records.
+        let (mut claims, ev) = sample_claims();
+        claims[0].evidence = Some(&ev);
         let summary = status_counts(&[Status::Ok, Status::Unverifiable]);
-        let first = build_statement(
-            "verify",
-            "report.md",
-            &"b".repeat(64),
-            &summary,
-            &claims,
-            Some(&"c".repeat(64)),
-            Some("abc1234"),
-            3,
-        );
-        let second = build_statement(
-            "verify",
-            "report.md",
-            &"b".repeat(64),
-            &summary,
-            &claims,
-            Some(&"c".repeat(64)),
-            Some("abc1234"),
-            3,
-        );
-        assert_eq!(first, second);
+        let render = || {
+            build_statement(&Statement {
+                mode: "verify",
+                report_name: "report.md",
+                report_sha256: &"b".repeat(64),
+                summary: &summary,
+                claims: &claims,
+                manifest_sha256: Some(&"c".repeat(64)),
+                git_head: Some("abc1234"),
+                exit: 3,
+            })
+        };
+        assert_eq!(render(), render());
     }
 
     #[test]
@@ -591,16 +603,16 @@ mod tests {
         let (mut claims, ev) = sample_claims();
         claims[0].evidence = Some(&ev);
         let summary = status_counts(&[Status::Ok, Status::Unverifiable]);
-        let out = build_statement(
-            "verify",
-            "report.md",
-            &"b".repeat(64),
-            &summary,
-            &claims,
-            None,
-            None,
-            3,
-        );
+        let out = build_statement(&Statement {
+            mode: "verify",
+            report_name: "report.md",
+            report_sha256: &"b".repeat(64),
+            summary: &summary,
+            claims: &claims,
+            manifest_sha256: None,
+            git_head: None,
+            exit: 3,
+        });
         assert!(out.contains("\"_type\":\"https://in-toto.io/Statement/v1\""));
         assert!(out.contains(&format!("\"predicateType\":\"{PREDICATE_TYPE}\"")));
         assert!(out.contains("\"exitCode\":3"));

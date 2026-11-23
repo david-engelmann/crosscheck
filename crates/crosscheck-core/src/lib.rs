@@ -179,9 +179,10 @@ pub enum EvidenceValue {
 
 /// The bundled host record a claim was checked against: its
 /// path inside the bundle, the SHA-256 of its exact bytes,
-/// and the flat fields the verdict read, in record order.
-/// Carried on results so an export can pin the evidence the
-/// verdict rested on (docs/ATTESTATION-EXPORT.md).
+/// and the flat fields the verdict read, in the order the
+/// record keys are listed. Carried on results so an export
+/// can pin the evidence the verdict rested on
+/// (docs/ATTESTATION-EXPORT.md).
 #[derive(Debug, Clone)]
 pub struct RecordEvidence {
     pub path: String,
@@ -210,7 +211,14 @@ pub(crate) fn record_evidence(path: &str, bytes: &[u8], keys: &[&str]) -> Record
                 match value {
                     FlatVal::Str(s) => EvidenceValue::Text(s),
                     FlatVal::Bool(b) => EvidenceValue::Bool(b),
-                    FlatVal::Num(n) => EvidenceValue::Number(n),
+                    // The flat reader accepts tokens JSON would
+                    // not print (a leading plus, leading zeros);
+                    // the evidence carries the canonical form,
+                    // so an export always renders a valid JSON
+                    // number.
+                    FlatVal::Num(n) => {
+                        EvidenceValue::Number(n.parse::<i64>().map(|v| v.to_string()).unwrap_or(n))
+                    }
                 },
             ));
         }
@@ -628,62 +636,74 @@ pub(crate) fn parse_pr_record(bytes: &[u8]) -> Option<(u64, String, bool)> {
     Some((rec_num, state, merged))
 }
 
-fn check_pr_record(bytes: &[u8], number: u64, want_merged: bool) -> (Status, String) {
-    match parse_pr_record(bytes) {
+fn check_pr_record(
+    cited: &str,
+    bytes: &[u8],
+    number: u64,
+    want_merged: bool,
+) -> (Status, String, Option<RecordEvidence>) {
+    let evidence = Some(record_evidence(cited, bytes, &PR_RECORD_KEYS));
+    let (status, detail) = match parse_pr_record(bytes) {
         Some((n, state, merged)) => {
             if n != number {
-                return (
+                (
                     Status::Unverifiable,
                     format!("bundled record describes PR {n}, not PR {number}"),
-                );
-            }
-            let holds = if want_merged {
-                state == "closed" && merged
-            } else {
-                state == "open"
-            };
-            if holds {
-                (
-                    Status::Ok,
-                    format!(
-                        "record shows the pull request {}",
-                        if want_merged { "merged" } else { "open" }
-                    ),
                 )
             } else {
-                (
-                    Status::Contradicted,
-                    format!("record shows state {state}, merged {merged}"),
-                )
+                let holds = if want_merged {
+                    state == "closed" && merged
+                } else {
+                    state == "open"
+                };
+                if holds {
+                    (
+                        Status::Ok,
+                        format!(
+                            "record shows the pull request {}",
+                            if want_merged { "merged" } else { "open" }
+                        ),
+                    )
+                } else {
+                    (
+                        Status::Contradicted,
+                        format!("record shows state {state}, merged {merged}"),
+                    )
+                }
             }
         }
         _ => (
             Status::Unverifiable,
             "bundled record lacks the fields this claim needs".to_string(),
         ),
-    }
+    };
+    (status, detail, evidence)
 }
 
-fn check_ci_record(bytes: &[u8], sha: &str, want: &str) -> (Status, String) {
+fn check_ci_record(
+    cited: &str,
+    bytes: &[u8],
+    sha: &str,
+    want: &str,
+) -> (Status, String, Option<RecordEvidence>) {
+    let evidence = Some(record_evidence(cited, bytes, &CI_RECORD_KEYS));
     let text = String::from_utf8_lossy(bytes);
     let head = flat_str(&text, "head_sha");
     let status = flat_str(&text, "status");
     let conclusion = flat_str(&text, "conclusion");
-    match (head, status, conclusion) {
+    let (status, detail) = match (head, status, conclusion) {
         (Some(head), Some(status), Some(conclusion)) => {
             if !head.to_lowercase().starts_with(&sha.to_lowercase()) {
-                return (
+                (
                     Status::Unverifiable,
                     "bundled record describes a different head".to_string(),
-                );
-            }
-            if status != "completed" {
-                return (
+                )
+            } else if status != "completed" {
+                (
                     Status::Unverifiable,
                     "the recorded run has not completed".to_string(),
-                );
-            }
-            if conclusion == want {
+                )
+            } else if conclusion == want {
                 (Status::Ok, format!("record shows the run {conclusion}"))
             } else {
                 (
@@ -696,39 +716,46 @@ fn check_ci_record(bytes: &[u8], sha: &str, want: &str) -> (Status, String) {
             Status::Unverifiable,
             "bundled record lacks the fields this claim needs".to_string(),
         ),
+    };
+    (status, detail, evidence)
+}
+
+/// Check a record-backed claim against the record the
+/// bundle carries, building the evidence entry from the same
+/// bytes the verdict rests on: one read, both outcomes.
+fn check_record_claim(spec: &Spec, bundle: &Path) -> (Status, String, Option<RecordEvidence>) {
+    match spec {
+        Spec::PrState {
+            number,
+            want_merged,
+        } => {
+            let cited = format!("records/pr-{number}.json");
+            match read_cited(bundle, &cited) {
+                Ok(bytes) => check_pr_record(&cited, &bytes, *number, *want_merged),
+                Err(e) => (e.0, e.1, None),
+            }
+        }
+        Spec::CiState { sha, want } => {
+            let cited = format!("records/ci-{sha}.json");
+            match read_cited(bundle, &cited) {
+                Ok(bytes) => check_ci_record(&cited, &bytes, sha, want),
+                Err(e) => (e.0, e.1, None),
+            }
+        }
+        _ => (
+            Status::Malformed,
+            "internal error: not a record-backed claim".to_string(),
+            None,
+        ),
     }
 }
 
-/// Check one claim and, for a record-backed claim whose
-/// record the bundle carries, attach the record's evidence
-/// entry. The verdict itself comes from check_verdict; the
-/// evidence read is separate and changes no verdict.
 fn check(
     spec: &Spec,
     bundle: &Path,
     repo: Option<&dyn RepoFacts>,
 ) -> (Status, String, Option<RecordEvidence>) {
-    let evidence = match spec {
-        Spec::PrState { number, .. } => {
-            let cited = format!("records/pr-{number}.json");
-            read_cited(bundle, &cited)
-                .ok()
-                .map(|bytes| record_evidence(&cited, &bytes, &PR_RECORD_KEYS))
-        }
-        Spec::CiState { sha, .. } => {
-            let cited = format!("records/ci-{sha}.json");
-            read_cited(bundle, &cited)
-                .ok()
-                .map(|bytes| record_evidence(&cited, &bytes, &CI_RECORD_KEYS))
-        }
-        _ => None,
-    };
-    let (status, detail) = check_verdict(spec, bundle, repo);
-    (status, detail, evidence)
-}
-
-fn check_verdict(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, String) {
-    match spec {
+    let (status, detail) = match spec {
         Spec::Exists { path } => match contained(bundle, path) {
             Ok(p) if p.is_file() => (Status::Ok, "exists".to_string()),
             Ok(_) => (Status::Unverifiable, "cited file missing".to_string()),
@@ -828,28 +855,15 @@ fn check_verdict(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (S
             }
             Err(e) => e,
         },
-        Spec::PrState {
-            number,
-            want_merged,
-        } => {
-            let cited = format!("records/pr-{number}.json");
-            match read_cited(bundle, &cited) {
-                Ok(bytes) => check_pr_record(&bytes, *number, *want_merged),
-                Err(e) => e,
-            }
-        }
-        Spec::CiState { sha, want } => {
-            let cited = format!("records/ci-{sha}.json");
-            match read_cited(bundle, &cited) {
-                Ok(bytes) => check_ci_record(&bytes, sha, want),
-                Err(e) => e,
-            }
+        Spec::PrState { .. } | Spec::CiState { .. } => {
+            return check_record_claim(spec, bundle);
         }
         Spec::Commit { .. }
         | Spec::Ancestor { .. }
         | Spec::DiffFiles { .. }
         | Spec::DiffTouches { .. } => check_git(spec, repo),
-    }
+    };
+    (status, detail, None)
 }
 
 /// Verify every claim in `report` against the bundle at `bundle`,
@@ -1226,12 +1240,43 @@ mod tests {
         let ev = v.results[0].evidence.as_ref().expect("record evidence");
         assert_eq!(ev.path, "records/ci-abc1234.json");
         assert_eq!(ev.sha256, sha256::sha256_hex(record));
-        assert_eq!(ev.fields.len(), 3);
+        assert_eq!(
+            ev.fields,
+            vec![
+                (
+                    "head_sha".to_string(),
+                    EvidenceValue::Text("abc1234ffff".to_string())
+                ),
+                (
+                    "status".to_string(),
+                    EvidenceValue::Text("completed".to_string())
+                ),
+                (
+                    "conclusion".to_string(),
+                    EvidenceValue::Text("success".to_string())
+                ),
+            ]
+        );
+    }
+
+    #[test]
+    fn evidence_numbers_render_in_canonical_form() {
+        // The flat reader accepts tokens JSON would not print;
+        // the evidence entry carries the canonical number, so
+        // an export stays valid JSON.
+        let record = b"{\"number\":0452,\"state\":\"closed\",\"merged\":true}";
+        let dir = bundle_with(&[("records/pr-452.json", record)]);
+        let v = verify_report(
+            "- CLAIM: the change landed [evidence: pr 452 state == merged]\n",
+            dir.path(),
+        );
+        assert_eq!(v.results[0].status, Status::Ok);
+        let ev = v.results[0].evidence.as_ref().expect("record evidence");
         assert_eq!(
             ev.fields[0],
             (
-                "head_sha".to_string(),
-                EvidenceValue::Text("abc1234ffff".to_string())
+                "number".to_string(),
+                EvidenceValue::Number("452".to_string())
             )
         );
     }

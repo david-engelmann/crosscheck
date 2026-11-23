@@ -954,6 +954,17 @@ pub fn verify_extracted(
 
     let mut results = Vec::new();
     for claim in &claims {
+        // A pull request claim's record is read once, here;
+        // the verdict and the evidence entry both rest on
+        // these bytes.
+        let pr_record = match &claim.kind {
+            XKind::Pr(digits) => {
+                let cited = format!("records/pr-{}.json", normalize_digits(digits));
+                let bytes = read_cited(bundle, &cited).ok();
+                Some((cited, bytes))
+            }
+            _ => None,
+        };
         let (status, detail) = match &claim.kind {
             XKind::Commit(sha) | XKind::GitSha(sha) => match repo {
                 None => (
@@ -981,8 +992,8 @@ pub fn verify_extracted(
             XKind::Pr(digits) => {
                 let number = normalize_digits(digits);
                 let cited = format!("records/pr-{number}.json");
-                match read_cited(bundle, &cited) {
-                    Ok(bytes) => match parse_pr_record(&bytes) {
+                match pr_record.as_ref().and_then(|(_, b)| b.as_deref()) {
+                    Some(bytes) => match parse_pr_record(bytes) {
                         Some((n, state, merged)) if n.to_string() == number => (
                             Status::Ok,
                             format!("bundled record {cited} shows state {state}, merged {merged}"),
@@ -996,7 +1007,7 @@ pub fn verify_extracted(
                             format!("bundled record {cited} lacks the fields this claim needs"),
                         ),
                     },
-                    Err(_) => (
+                    None => (
                         Status::Unverifiable,
                         format!("bundle carries no record for PR {number}"),
                     ),
@@ -1116,18 +1127,13 @@ pub fn verify_extracted(
                 }
             }
         };
-        // A pull request claim checked against a bundled
-        // record carries the record's evidence entry, as in
-        // the marker mode; the read changes no verdict.
-        let evidence = match &claim.kind {
-            XKind::Pr(digits) => {
-                let cited = format!("records/pr-{}.json", normalize_digits(digits));
-                read_cited(bundle, &cited)
-                    .ok()
-                    .map(|bytes| record_evidence(&cited, &bytes, &PR_RECORD_KEYS))
-            }
-            _ => None,
-        };
+        // The evidence entry rests on the same bytes the
+        // verdict read, taken from the single read above.
+        let evidence = pr_record.as_ref().and_then(|(cited, bytes)| {
+            bytes
+                .as_ref()
+                .map(|b| record_evidence(cited, b, &PR_RECORD_KEYS))
+        });
         results.push(ExtractedResult {
             line: claim.line,
             class: claim.class,
@@ -1542,7 +1548,20 @@ mod tests {
         let ev = out.results[0].evidence.as_ref().expect("record evidence");
         assert_eq!(ev.path, "records/pr-452.json");
         assert_eq!(ev.sha256, sha256::sha256_hex(record));
-        assert_eq!(ev.fields.len(), 3);
+        assert_eq!(
+            ev.fields,
+            vec![
+                (
+                    "number".to_string(),
+                    crate::EvidenceValue::Number("452".to_string())
+                ),
+                (
+                    "state".to_string(),
+                    crate::EvidenceValue::Text("closed".to_string())
+                ),
+                ("merged".to_string(), crate::EvidenceValue::Bool(true)),
+            ]
+        );
     }
 
     #[test]
