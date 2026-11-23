@@ -108,3 +108,18 @@ verdicts. The shared part is the envelope and the discipline
 of a versioned predicate type of our own. The predicates
 differ, because the verdicts differ, and neither tool's
 export waits on the other's.
+
+The vendor semantic layers hold the enterprise analogue, as
+the applicability audit's same-day addendum records.
+Databricks Genie spaces carry ground-truth question and SQL
+benchmark pairs in their serialized form, runnable through
+the platform's own API, and Snowflake semantic views carry
+verified queries with verified-at timestamps in theirs. Both
+are stored sets of claims about executed behavior, kept
+beside the thing they describe and checkable by running
+them. A crosscheck verdict predicate is the same shape at
+report scale: claims that were executed against evidence,
+with the outcome recorded. If the export is ever built,
+those ground-truth sets are the precedent for what a
+predicate about executed claims looks like at platform
+scale, and this paragraph is the kinship noted, as charged.
