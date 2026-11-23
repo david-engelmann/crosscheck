@@ -16,19 +16,32 @@ The bundle carries:
   2026-11-23 and trimmed to the D14 flat shape.
 
 Expected, from the banked adjudication of d01 (all 36 of its
-extracted claims were true positives):
+extracted claims were true positives) and the report's own
+lines, checked against the assembled bundle:
 - Extraction finds pr 10, commit 5, gitsha 1, tally 16, and
   no hash256, count, or size claims: the Rust port reproduces
   the measured Python v1 extraction on this report.
-- The 5 commit claims verify against the bundled repository.
+- Four of the 5 commit claims verify against the bundled
+  repository. The fifth (62180cc2, line 22) cites a git TREE
+  in a commit context; a tree does not resolve as a commit,
+  so the claim is unverifiable, honestly reported.
 - The PR claims verify against the bundled records, which
   show both PRs closed and merged.
-- The one gitsha claim is a trial payload fingerprint, not a
-  commit: the bundle cannot answer it and it is unverifiable.
+- The one gitsha claim is the PR's merge commit in full
+  (b3d3f64c, line 94): it resolves in the bundled repository
+  and verifies.
 - No bundled log records the tallies, so every tally claim
   is unverifiable and provisional, and none moves the exit.
-- The exit code is 3: trusted claims stand unverifiable
-  (the fingerprint), none is contradicted.
+- The exit code is 3: one trusted claim stands unverifiable
+  (the tree cite), none is contradicted.
+
+Correction, 2026-11-23: the first run of this script failed
+two of its own expectations, both of them the script's
+errors, not the tool's. It expected every commit claim to
+verify, missing that one cites a tree; and it described the
+gitsha claim as a trial payload fingerprint, which it is
+not. The tool's verdicts were right on both. The
+expectations above are the corrected ones.
 
 Usage: run_demo.py [path-to-crosscheck-binary]
 Default binary: ~/workspace/crosscheck/target/debug/crosscheck
@@ -110,17 +123,19 @@ def main() -> int:
         counts == {"pr": 10, "commit": 5, "gitsha": 1, "tally": 16},
         f"got {counts}",
     )
+    commit_statuses = sorted(c["status"] for c in by_class.get("commit", []))
     check(
-        "all commit claims verify against the bundled repository",
-        all(c["status"] == "OK" for c in by_class.get("commit", [])),
+        "four commit claims verify; the tree cite is unverifiable",
+        commit_statuses == ["OK", "OK", "OK", "OK", "UNVERIFIABLE"],
+        f"got {commit_statuses}",
     )
     check(
         "all PR claims verify against the bundled records",
         all(c["status"] == "OK" for c in by_class.get("pr", [])),
     )
     check(
-        "the payload fingerprint is unverifiable, never contradicted",
-        [c["status"] for c in by_class.get("gitsha", [])] == ["UNVERIFIABLE"],
+        "the merge commit in full verifies against the bundled repository",
+        [c["status"] for c in by_class.get("gitsha", [])] == ["OK"],
     )
     check(
         "every tally is provisional and unverifiable without a bundled log",
