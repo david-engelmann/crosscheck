@@ -31,6 +31,9 @@
 //! spawns no processes and reads no repository directly. A bundle
 //! with no repository makes every git claim unverifiable.
 //!
+//! The [`extract`] module audits reports that carry no markers,
+//! under the bundle-answers rule of DECISIONS.md D16.
+//!
 //! Paths resolve inside the bundle directory only. The count pattern
 //! is a literal string, with a leading `^` anchoring it to the start
 //! of a line; there is no regular expression engine in the core.
@@ -38,6 +41,7 @@
 //! DECISIONS.md and docs/INVARIANTS.md in the repository for the
 //! contract this code implements.
 
+pub mod extract;
 pub mod sha256;
 
 use std::path::{Component, Path, PathBuf};

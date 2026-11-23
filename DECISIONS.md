@@ -250,3 +250,23 @@ the of-form carries the number guard and re-measures at or
 under the bar. Counts and sizes remain out. The tally guard
 work proceeds as pattern set v2, scored from zero on a fresh
 frozen corpus under the same protocol.
+
+## D16. M4 set: extraction mode (2026-11-23)
+
+M4 is set as scoped in docs/M4-DESIGN.md, and the open
+decision is ruled for the proposed rule: the bundle answers
+what it can, in the most specific way available, and the
+rest is unverifiable. A content hash with no match anywhere
+in the bundle is unverifiable, never contradicted, because
+the extractor cannot know which file the author meant. An
+extracted tally is the one claim that can be contradicted on
+evidence the report did not point at, and it is fenced
+twice: by its provisional status, and by the rule that a
+provisional claim never fails a run alone. One condition is
+added: because matching is bundle-wide, every verified or
+contradicted extracted verdict names the evidence it
+matched, the file, record, or log, so the basis stays
+inspectable rather than asserted. The pattern set ported
+into the mode is v1 exactly, with no pattern changes. The
+v2 set enters the mode only after its measurement lands and
+is ratified.

@@ -1,6 +1,10 @@
 //! The crosscheck command line.
 //!
 //! Usage: crosscheck verify REPORT --bundle DIR [--json]
+//!        crosscheck extract REPORT --bundle DIR [--json]
+//!
+//! The extract mode audits a report that carries no evidence
+//! markers, under the bundle-answers rule of DECISIONS.md D16.
 //!
 //! Exit codes are the verdict contract in DECISIONS.md D5: 0 verified,
 //! 1 contradicted, 2 malformed, 3 unverifiable, 64 usage, 66 input
@@ -16,6 +20,7 @@
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
 
+use crosscheck_core::extract::{Trust, verify_extracted};
 use crosscheck_core::{RepoFacts, Status, Tri, verify_report_repo};
 
 /// RepoFacts supplied by the auditor's git, run against the
@@ -81,8 +86,13 @@ impl RepoFacts for GitRepo {
 const LIMIT_LINE: &str = "Note: crosscheck proves that cited spans exist, hashes match, counts \
 recompute, and cited commits resolve. It does not prove a span supports the sentence it is attached to.";
 
+const EXTRACT_LINE: &str = "Note: extraction checks only the claim classes measured trustworthy. \
+The marker convention remains the complete path, and a claim the bundle cannot answer is \
+unverifiable, not false.";
+
 fn usage() -> ExitCode {
     eprintln!("usage: crosscheck verify REPORT --bundle DIR [--json]");
+    eprintln!("       crosscheck extract REPORT --bundle DIR [--json]");
     ExitCode::from(64)
 }
 
@@ -102,9 +112,11 @@ fn json_escape(s: &str) -> String {
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    if args.first().map(String::as_str) != Some("verify") {
+    let mode = args.first().map(String::as_str);
+    if mode != Some("verify") && mode != Some("extract") {
         return usage();
     }
+    let extract_mode = mode == Some("extract");
     let mut report: Option<PathBuf> = None;
     let mut bundle: Option<PathBuf> = None;
     let mut json = false;
@@ -150,6 +162,70 @@ fn main() -> ExitCode {
     } else {
         None
     };
+    let repo_ref = repo.as_ref().map(|r| r as &dyn RepoFacts);
+    if extract_mode {
+        // When the report file lives inside the bundle, it is
+        // excluded from the evidence scans: a claim never
+        // verifies against the report itself.
+        let report_rel = report_path
+            .canonicalize()
+            .ok()
+            .zip(bundle_dir.canonicalize().ok())
+            .and_then(|(r, b)| r.strip_prefix(&b).map(Path::to_path_buf).ok());
+        let extraction = verify_extracted(
+            &report_text,
+            &bundle_dir,
+            repo_ref,
+            report_rel.as_deref(),
+        );
+        if json {
+            let mut out = String::from("{\"claims\":[");
+            for (n, r) in extraction.results.iter().enumerate() {
+                if n > 0 {
+                    out.push(',');
+                }
+                out.push_str(&format!(
+                    "{{\"line\":{},\"class\":\"{}\",\"trust\":\"{}\",\"status\":\"{}\",\"detail\":\"{}\"}}",
+                    r.line,
+                    r.class,
+                    r.trust.label(),
+                    r.status.label(),
+                    json_escape(&r.detail)
+                ));
+            }
+            out.push_str(&format!(
+                "],\"claims_extracted\":{},\"exit_code\":{}}}",
+                extraction.claims_extracted(),
+                extraction.exit_code()
+            ));
+            println!("{out}");
+        } else {
+            for r in &extraction.results {
+                println!(
+                    "line {}: {} {} {} {}",
+                    r.line,
+                    r.class,
+                    r.trust.label(),
+                    r.status.label(),
+                    r.detail
+                );
+            }
+            let bad = extraction
+                .results
+                .iter()
+                .filter(|r| r.trust == Trust::Trusted && r.status != Status::Ok)
+                .count();
+            println!(
+                "claims extracted: {}, trusted not verified: {}, exit {}",
+                extraction.claims_extracted(),
+                bad,
+                extraction.exit_code()
+            );
+            println!("{EXTRACT_LINE}");
+            println!("{LIMIT_LINE}");
+        }
+        return ExitCode::from(extraction.exit_code() as u8);
+    }
     let verdict = verify_report_repo(
         &report_text,
         &bundle_dir,
