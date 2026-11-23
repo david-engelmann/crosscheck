@@ -49,18 +49,56 @@ use std::path::{Component, Path, PathBuf};
 /// The mechanical check a claim asks for.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Spec {
-    Exists { path: String },
-    Size { path: String, want: u64 },
-    Sha256 { path: String, want: String },
-    Quote { span: String, path: String },
-    Count { pattern: String, path: String, want: u64 },
-    Commit { sha: String },
-    Ancestor { anc: String, desc: String },
-    DiffFiles { a: String, b: String, want: u64 },
-    DiffTouches { a: String, b: String, path: String },
-    RunFact { fact: RunFact, path: String, want: u64 },
-    PrState { number: u64, want_merged: bool },
-    CiState { sha: String, want: String },
+    Exists {
+        path: String,
+    },
+    Size {
+        path: String,
+        want: u64,
+    },
+    Sha256 {
+        path: String,
+        want: String,
+    },
+    Quote {
+        span: String,
+        path: String,
+    },
+    Count {
+        pattern: String,
+        path: String,
+        want: u64,
+    },
+    Commit {
+        sha: String,
+    },
+    Ancestor {
+        anc: String,
+        desc: String,
+    },
+    DiffFiles {
+        a: String,
+        b: String,
+        want: u64,
+    },
+    DiffTouches {
+        a: String,
+        b: String,
+        path: String,
+    },
+    RunFact {
+        fact: RunFact,
+        path: String,
+        want: u64,
+    },
+    PrState {
+        number: u64,
+        want_merged: bool,
+    },
+    CiState {
+        sha: String,
+        want: String,
+    },
 }
 
 /// One fact a run log can record, per DECISIONS.md D14.
@@ -152,9 +190,17 @@ impl Verdict {
     }
 
     pub fn exit_code(&self) -> i32 {
-        if self.results.iter().any(|r| r.status == Status::Contradicted) {
+        if self
+            .results
+            .iter()
+            .any(|r| r.status == Status::Contradicted)
+        {
             1
-        } else if self.results.iter().any(|r| r.status == Status::Unverifiable) {
+        } else if self
+            .results
+            .iter()
+            .any(|r| r.status == Status::Unverifiable)
+        {
             3
         } else if self.results.iter().any(|r| r.status == Status::Malformed) {
             2
@@ -167,11 +213,15 @@ impl Verdict {
 fn parse_spec(spec: &str) -> Result<Spec, String> {
     let spec = spec.trim();
     if let Some(path) = spec.strip_prefix("exists ") {
-        return Ok(Spec::Exists { path: path.trim().to_string() });
+        return Ok(Spec::Exists {
+            path: path.trim().to_string(),
+        });
     }
     if let Some(rest) = spec.strip_prefix("size ") {
         let (path, want) = split_eq(rest)?;
-        let want = want.parse::<u64>().map_err(|_| "size is not a number".to_string())?;
+        let want = want
+            .parse::<u64>()
+            .map_err(|_| "size is not a number".to_string())?;
         return Ok(Spec::Size { path, want });
     }
     if let Some(rest) = spec.strip_prefix("sha256 ") {
@@ -179,7 +229,10 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
         if want.len() != 64 || !want.chars().all(|c| c.is_ascii_hexdigit()) {
             return Err("sha256 value is not 64 hex characters".to_string());
         }
-        return Ok(Spec::Sha256 { path, want: want.to_lowercase() });
+        return Ok(Spec::Sha256 {
+            path,
+            want: want.to_lowercase(),
+        });
     }
     if let Some(rest) = spec.strip_prefix("quote ") {
         let (span, path) = split_quoted(rest, " in ")?;
@@ -187,10 +240,18 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
     }
     if let Some(rest) = spec.strip_prefix("count ") {
         let (pattern, rest) = split_quoted_raw(rest)?;
-        let rest = rest.strip_prefix(" in ").ok_or("count marker missing ' in '")?;
+        let rest = rest
+            .strip_prefix(" in ")
+            .ok_or("count marker missing ' in '")?;
         let (path, want) = split_eq(rest)?;
-        let want = want.parse::<u64>().map_err(|_| "count is not a number".to_string())?;
-        return Ok(Spec::Count { pattern, path, want });
+        let want = want
+            .parse::<u64>()
+            .map_err(|_| "count is not a number".to_string())?;
+        return Ok(Spec::Count {
+            pattern,
+            path,
+            want,
+        });
     }
     if let Some(rest) = spec.strip_prefix("commit ") {
         let sha = rest.trim().to_string();
@@ -210,9 +271,7 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
         return Ok(Spec::Ancestor { anc, desc });
     }
     if let Some(rest) = spec.strip_prefix("diff ") {
-        let (a, rest) = rest
-            .split_once("..")
-            .ok_or("diff marker missing '..'")?;
+        let (a, rest) = rest.split_once("..").ok_or("diff marker missing '..'")?;
         let (b, tail) = rest
             .split_once(' ')
             .ok_or("diff marker missing its claim")?;
@@ -231,8 +290,12 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
             let path = path.trim().to_string();
             let p = Path::new(&path);
             if p.is_absolute()
-                || p.components()
-                    .any(|c| matches!(c, Component::ParentDir | Component::RootDir | Component::Prefix(_)))
+                || p.components().any(|c| {
+                    matches!(
+                        c,
+                        Component::ParentDir | Component::RootDir | Component::Prefix(_)
+                    )
+                })
             {
                 return Err("diff path escapes the repository".to_string());
             }
@@ -241,9 +304,7 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
         return Err("diff marker is neither 'files == N' nor 'touches PATH'".to_string());
     }
     if let Some(rest) = spec.strip_prefix("run ") {
-        let (fact_word, rest) = rest
-            .split_once(' ')
-            .ok_or("run marker missing its log")?;
+        let (fact_word, rest) = rest.split_once(' ').ok_or("run marker missing its log")?;
         let fact = match fact_word {
             "passed" => RunFact::Passed,
             "failed" => RunFact::Failed,
@@ -272,7 +333,10 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
             "open" => false,
             _ => return Err(format!("unknown pr state: {want}")),
         };
-        return Ok(Spec::PrState { number, want_merged });
+        return Ok(Spec::PrState {
+            number,
+            want_merged,
+        });
     }
     if let Some(rest) = spec.strip_prefix("ci ") {
         let (sha, want) = split_eq(rest)?;
@@ -319,9 +383,12 @@ fn split_quoted_raw(rest: &str) -> Result<(String, String), String> {
 fn contained(bundle: &Path, cited: &str) -> Result<PathBuf, String> {
     let rel = Path::new(cited);
     if rel.is_absolute()
-        || rel
-            .components()
-            .any(|c| matches!(c, Component::ParentDir | Component::RootDir | Component::Prefix(_)))
+        || rel.components().any(|c| {
+            matches!(
+                c,
+                Component::ParentDir | Component::RootDir | Component::Prefix(_)
+            )
+        })
     {
         return Err("cited path escapes the bundle".to_string());
     }
@@ -483,19 +550,27 @@ fn flat_str(text: &str, key: &str) -> Option<String> {
     }
 }
 
-fn check_pr_record(bytes: &[u8], number: u64, want_merged: bool) -> (Status, String) {
+/// The fields a bundled PR record carries, parsed once for
+/// both modes: the record's number, its state, and whether it
+/// merged. None when the record does not parse or lacks any of
+/// the three fields.
+pub(crate) fn parse_pr_record(bytes: &[u8]) -> Option<(u64, String, bool)> {
     let text = String::from_utf8_lossy(bytes);
     let rec_num = match flat_field(&text, "number") {
         Some(FlatVal::Num(n)) => n.parse::<u64>().ok(),
         _ => None,
-    };
-    let state = flat_str(&text, "state");
+    }?;
+    let state = flat_str(&text, "state")?;
     let merged = match flat_field(&text, "merged") {
         Some(FlatVal::Bool(b)) => Some(b),
         _ => None,
-    };
-    match (rec_num, state, merged) {
-        (Some(n), Some(state), Some(merged)) => {
+    }?;
+    Some((rec_num, state, merged))
+}
+
+fn check_pr_record(bytes: &[u8], number: u64, want_merged: bool) -> (Status, String) {
+    match parse_pr_record(bytes) {
+        Some((n, state, merged)) => {
             if n != number {
                 return (
                     Status::Unverifiable,
@@ -510,7 +585,10 @@ fn check_pr_record(bytes: &[u8], number: u64, want_merged: bool) -> (Status, Str
             if holds {
                 (
                     Status::Ok,
-                    format!("record shows the pull request {}", if want_merged { "merged" } else { "open" }),
+                    format!(
+                        "record shows the pull request {}",
+                        if want_merged { "merged" } else { "open" }
+                    ),
                 )
             } else {
                 (
@@ -614,13 +692,19 @@ fn check(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, S
             }
             Err(e) => e,
         },
-        Spec::Count { pattern, path, want } => match read_cited(bundle, path) {
+        Spec::Count {
+            pattern,
+            path,
+            want,
+        } => match read_cited(bundle, path) {
             Ok(bytes) => {
                 let text = String::from_utf8_lossy(&bytes);
                 let actual = if let Some(prefix) = pattern.strip_prefix('^') {
                     text.lines().filter(|l| l.starts_with(prefix)).count() as u64
                 } else {
-                    text.lines().filter(|l| l.contains(pattern.as_str())).count() as u64
+                    text.lines()
+                        .filter(|l| l.contains(pattern.as_str()))
+                        .count() as u64
                 };
                 if actual == *want {
                     (Status::Ok, format!("count {actual}"))
@@ -637,10 +721,9 @@ fn check(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, S
             Ok(bytes) => {
                 let text = String::from_utf8_lossy(&bytes);
                 match last_tally(&text, *fact) {
-                    Some(actual) if actual == *want => (
-                        Status::Ok,
-                        format!("{} recorded as {actual}", fact.word()),
-                    ),
+                    Some(actual) if actual == *want => {
+                        (Status::Ok, format!("{} recorded as {actual}", fact.word()))
+                    }
                     Some(actual) => (
                         Status::Contradicted,
                         format!(
@@ -657,7 +740,10 @@ fn check(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, S
             }
             Err(e) => e,
         },
-        Spec::PrState { number, want_merged } => {
+        Spec::PrState {
+            number,
+            want_merged,
+        } => {
             let cited = format!("records/pr-{number}.json");
             match read_cited(bundle, &cited) {
                 Ok(bytes) => check_pr_record(&bytes, *number, *want_merged),
@@ -689,11 +775,7 @@ pub fn verify_report(report: &str, bundle: &Path) -> Verdict {
 /// Verify every claim in `report` against the bundle at `bundle`,
 /// with git claims checked against `repo` when the bundle carries
 /// one.
-pub fn verify_report_repo(
-    report: &str,
-    bundle: &Path,
-    repo: Option<&dyn RepoFacts>,
-) -> Verdict {
+pub fn verify_report_repo(report: &str, bundle: &Path, repo: Option<&dyn RepoFacts>) -> Verdict {
     let mut results = Vec::new();
     for (idx, line) in report.lines().enumerate() {
         if !line.starts_with("- CLAIM:") {
@@ -714,9 +796,17 @@ pub fn verify_report_repo(
             Some(spec_text) => match parse_spec(spec_text) {
                 Ok(spec) => {
                     let (status, detail) = check(&spec, bundle, repo);
-                    ClaimResult { line: line_no, status, detail }
+                    ClaimResult {
+                        line: line_no,
+                        status,
+                        detail,
+                    }
                 }
-                Err(e) => ClaimResult { line: line_no, status: Status::Malformed, detail: e },
+                Err(e) => ClaimResult {
+                    line: line_no,
+                    status: Status::Malformed,
+                    detail: e,
+                },
             },
         };
         results.push(result);
@@ -724,13 +814,47 @@ pub fn verify_report_repo(
     Verdict { results }
 }
 
+/// A tiny stand-in for a tempdir so the core test suite needs no
+/// external crate, shared by every test module in the crate.
+/// Directories are created under the system temp dir with a
+/// process-unique suffix and removed on drop.
+#[cfg(test)]
+pub(crate) mod testdir {
+    use std::path::PathBuf;
+
+    pub struct Dir(PathBuf);
+
+    impl Dir {
+        pub fn new() -> Self {
+            use std::sync::atomic::{AtomicU64, Ordering};
+            static NEXT: AtomicU64 = AtomicU64::new(0);
+            let n = NEXT.fetch_add(1, Ordering::Relaxed);
+            let mut p = std::env::temp_dir();
+            p.push(format!("crosscheck-core-test-{}-{n}", std::process::id()));
+            let _ = std::fs::remove_dir_all(&p);
+            std::fs::create_dir_all(&p).unwrap();
+            Dir(p)
+        }
+
+        pub fn path(&self) -> &std::path::Path {
+            &self.0
+        }
+    }
+
+    impl Drop for Dir {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::io::Write;
 
-    fn bundle_with(files: &[(&str, &[u8])]) -> tempfile_like::Dir {
-        let dir = tempfile_like::Dir::new();
+    fn bundle_with(files: &[(&str, &[u8])]) -> crate::testdir::Dir {
+        let dir = crate::testdir::Dir::new();
         for (name, bytes) in files {
             let path = dir.path().join(name);
             if let Some(parent) = path.parent() {
@@ -740,38 +864,6 @@ mod tests {
             f.write_all(bytes).unwrap();
         }
         dir
-    }
-
-    // A tiny stand-in for a tempdir so the core test suite needs no
-    // external crate. Directories are created under the system temp
-    // dir with a process-unique suffix and removed on drop.
-    mod tempfile_like {
-        use std::path::PathBuf;
-
-        pub struct Dir(PathBuf);
-
-        impl Dir {
-            pub fn new() -> Self {
-                use std::sync::atomic::{AtomicU64, Ordering};
-                static NEXT: AtomicU64 = AtomicU64::new(0);
-                let n = NEXT.fetch_add(1, Ordering::Relaxed);
-                let mut p = std::env::temp_dir();
-                p.push(format!("crosscheck-core-test-{}-{n}", std::process::id()));
-                let _ = std::fs::remove_dir_all(&p);
-                std::fs::create_dir_all(&p).unwrap();
-                Dir(p)
-            }
-
-            pub fn path(&self) -> &std::path::Path {
-                &self.0
-            }
-        }
-
-        impl Drop for Dir {
-            fn drop(&mut self) {
-                let _ = std::fs::remove_dir_all(&self.0);
-            }
-        }
     }
 
     #[test]
@@ -935,9 +1027,12 @@ mod tests {
         assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
         let v = git_verdict("- CLAIM: scope [evidence: diff 1111111a..3333333c files == 5]\n");
         assert_eq!(v.exit_code(), 1);
-        let v = git_verdict("- CLAIM: scope [evidence: diff 1111111a..3333333c touches README.md]\n");
+        let v =
+            git_verdict("- CLAIM: scope [evidence: diff 1111111a..3333333c touches README.md]\n");
         assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
-        let v = git_verdict("- CLAIM: scope [evidence: diff 1111111a..3333333c touches src/other.rs]\n");
+        let v = git_verdict(
+            "- CLAIM: scope [evidence: diff 1111111a..3333333c touches src/other.rs]\n",
+        );
         assert_eq!(v.exit_code(), 1);
         assert_eq!(v.results[0].status, Status::Contradicted);
     }
@@ -971,7 +1066,10 @@ mod tests {
     #[test]
     fn run_fact_that_disagrees_is_contradicted() {
         let dir = bundle_with(&[("gate.log", RUN_LOG)]);
-        let v = verify_report("- CLAIM: suite [evidence: run passed in gate.log == 16]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: suite [evidence: run passed in gate.log == 16]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 1);
         assert_eq!(v.results[0].status, Status::Contradicted);
     }
@@ -979,10 +1077,16 @@ mod tests {
     #[test]
     fn run_fact_the_log_does_not_record_is_unverifiable() {
         let dir = bundle_with(&[("gate.log", b"15 passed and nothing else\n")]);
-        let v = verify_report("- CLAIM: suite [evidence: run failed in gate.log == 0]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: suite [evidence: run failed in gate.log == 0]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
         assert_eq!(v.results[0].status, Status::Unverifiable);
-        let v = verify_report("- CLAIM: suite [evidence: run passed in gone.log == 15]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: suite [evidence: run passed in gone.log == 15]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
     }
 
@@ -991,13 +1095,20 @@ mod tests {
         let log = b"first attempt: 10 passed; 5 failed\n\
                     second attempt: 15 passed; 0 failed\n";
         let dir = bundle_with(&[("gate.log", log)]);
-        let v = verify_report("- CLAIM: suite [evidence: run passed in gate.log == 15]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: suite [evidence: run passed in gate.log == 15]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
-        let v = verify_report("- CLAIM: suite [evidence: run passed in gate.log == 10]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: suite [evidence: run passed in gate.log == 10]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 1);
     }
 
-    const PR_MERGED: &[u8] = br#"{"number": 568, "state": "closed", "merged": true, "title": "Publish the study"}"#;
+    const PR_MERGED: &[u8] =
+        br#"{"number": 568, "state": "closed", "merged": true, "title": "Publish the study"}"#;
     const PR_OPEN: &[u8] = br#"{"number": 12, "state": "open", "merged": false}"#;
     const CI_DONE: &[u8] = br#"{"head_sha": "2bb685b82cf8f723c57cfdd2da6946460e50fbfa", "status": "completed", "conclusion": "success"}"#;
 
@@ -1007,26 +1118,44 @@ mod tests {
             ("records/pr-568.json", PR_MERGED),
             ("records/pr-12.json", PR_OPEN),
         ]);
-        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: landed [evidence: pr 568 state == merged]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
-        let v = verify_report("- CLAIM: pending [evidence: pr 12 state == open]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: pending [evidence: pr 12 state == open]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
-        let v = verify_report("- CLAIM: landed [evidence: pr 12 state == merged]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: landed [evidence: pr 12 state == merged]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 1);
         assert_eq!(v.results[0].status, Status::Contradicted);
-        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == open]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: landed [evidence: pr 568 state == open]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 1);
     }
 
     #[test]
     fn pr_claim_without_a_record_is_unverifiable() {
         let dir = bundle_with(&[]);
-        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: landed [evidence: pr 568 state == merged]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
         // A record whose number names a different pull request
         // does not cover the claim.
         let dir = bundle_with(&[("records/pr-568.json", PR_OPEN)]);
-        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: landed [evidence: pr 568 state == merged]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
         assert_eq!(v.results[0].status, Status::Unverifiable);
     }
@@ -1034,7 +1163,10 @@ mod tests {
     #[test]
     fn unusable_record_leaves_the_claim_unverifiable() {
         let dir = bundle_with(&[("records/pr-568.json", b"not a record at all")]);
-        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: landed [evidence: pr 568 state == merged]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
         assert_eq!(v.results[0].status, Status::Unverifiable);
     }
@@ -1042,14 +1174,23 @@ mod tests {
     #[test]
     fn ci_state_checks_against_the_bundled_record() {
         let dir = bundle_with(&[("records/ci-2bb685b8.json", CI_DONE)]);
-        let v = verify_report("- CLAIM: gate [evidence: ci 2bb685b8 state == success]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: gate [evidence: ci 2bb685b8 state == success]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
-        let v = verify_report("- CLAIM: gate [evidence: ci 2bb685b8 state == failure]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: gate [evidence: ci 2bb685b8 state == failure]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 1);
         // A record whose head does not match the claimed head does
         // not cover the claim, even filed under the claimed name.
         let dir = bundle_with(&[("records/ci-1111111a.json", CI_DONE)]);
-        let v = verify_report("- CLAIM: gate [evidence: ci 1111111a state == success]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: gate [evidence: ci 1111111a state == success]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
     }
 
@@ -1057,7 +1198,10 @@ mod tests {
     fn ci_claim_for_an_unfinished_run_is_unverifiable() {
         let rec = br#"{"head_sha": "2bb685b8", "status": "in_progress", "conclusion": null}"#;
         let dir = bundle_with(&[("records/ci-2bb685b8.json", rec)]);
-        let v = verify_report("- CLAIM: gate [evidence: ci 2bb685b8 state == success]\n", dir.path());
+        let v = verify_report(
+            "- CLAIM: gate [evidence: ci 2bb685b8 state == success]\n",
+            dir.path(),
+        );
         assert_eq!(v.exit_code(), 3);
         assert_eq!(v.results[0].status, Status::Unverifiable);
     }

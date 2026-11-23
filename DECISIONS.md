@@ -270,3 +270,90 @@ inspectable rather than asserted. The pattern set ported
 into the mode is v1 exactly, with no pattern changes. The
 v2 set enters the mode only after its measurement lands and
 is ratified.
+
+## D17. Pattern set v2 ratified; the PR class splits by form (2026-11-23)
+
+Pattern set v2 was measured from zero on a fresh frozen
+corpus of 24 reports (docs/M3-EXTRACTION-V2-RESULTS.md,
+artifacts under docs/m3/): 1,138 claims adjudicated. Run
+tallies measured 0.3 percent false positives with every v1
+mechanism absent, and return to the trusted set. Counts
+measured 2.8 percent, inside the provisional band for the
+first time, and move from out to provisional, with the
+slash fusion named as the remaining mechanism. Sizes
+measured 12.9 percent and stay out. Short commits measured
+0.6 percent, full SHAs and content hashes clean again; the
+three stand as trusted.
+
+The merged PR class measured 15.6 percent, and a class at
+that rate does not hold a trusted standing. Every false
+positive is a bare reference to a GitHub issue quoted in an
+audit review; explicit forms scored clean across all 24
+reports, and bare references to genuine pull requests
+scored clean. D15 is therefore amended effective now: the
+class splits by form. The explicit form (PR #N, a pull
+request URL number, owner/repo#N) stays trusted. The bare
+form (#N) is provisional from today, in this record and in
+the extraction mode, which knows the form of every claim it
+extracts and implements the split. Whether the bare form
+can earn trusted back on a corpus built to measure the
+split, and whether issue-tracker context suppression is a
+pattern change worth a v3 set, stands as the v3 design
+question; the bare form returns to trusted only on that
+measurement, at or under the bar.
+
+Ratified by Main on 2026-11-23, with the PR split as
+Main's amendment going further than the seat's proposal,
+on the figures above as its evidence.
+
+## D18. M4 checkpoint repair: the semantics the reviews required stated (2026-11-23)
+
+The M4 checkpoint reviews (red team, spec fidelity,
+standards) found the verdict machinery sound and the D16
+semantics faithful, and found the pattern port short of its
+no-changes claim in small concrete ways, one tally semantics
+the design record did not contain, and an evidence walk that
+could leave the bundle. The repair fixes the port to the
+measured extractor (whitespace and tabs as the patterns
+admit them, plain digits in fractions, literal-text dedupe,
+both sides of the repository form non-empty, numbers of any
+length carried as digit strings), and states here the
+semantics the repair implements, so none of it is silent
+again:
+
+- The mode's tally and count patterns are pattern set v2,
+  the set whose rates D17 ratified; the remaining patterns
+  are unchanged between v1 and v2.
+- Totals, fractions, and of-forms check by comparability: a
+  log records the fact a shape names when it carries a
+  comparable shape (same family for a total, same
+  denominator and family for a fraction, same whole for an
+  of-form), its last comparable shape is its record of that
+  fact, agreement in any log verifies, disagreement in every
+  recording log contradicts, no comparable shape anywhere is
+  unverifiable. This replaces the identical-signature rule
+  the first M4 code shipped with.
+- The evidence walk covers every file the bundle carries,
+  the bundled repository's working tree included. It never
+  follows a symlink, it does not descend into any .git
+  directory, and it bounds its depth at 32. The report's own
+  file, when it lives inside the bundle, is excluded from
+  the scans. Hash evidence comes from every walked file.
+  The log corpus is narrower: the bundle's text files
+  outside the repository subtree. The repository is bundled
+  as git evidence; its documents are not logs of the work
+  under audit, and a tally verdict must not turn on them.
+  The M4 demonstration run is what forced this line: with
+  the whole tree as candidate logs, an unrelated document's
+  tally contradicted a claim no bundled log addressed.
+- A count checks only when it counts lines in a file the
+  report's line names (the measured extractor's first-file
+  target, ported for this class) and the bundle carries
+  that file; the file's line count decides. Every other
+  count is unverifiable.
+- The log scan reads a file as text only when its first
+  8 KiB carry no NUL byte; binary files remain hash
+  evidence.
+- The port is byte-oriented where the measured extractor's
+  patterns are Unicode-aware. Fleet reports are ASCII; the
+  divergence is recorded, not hidden.

@@ -57,9 +57,7 @@ impl RepoFacts for GitRepo {
     }
 
     fn is_ancestor(&self, anc: &str, desc: &str) -> Tri {
-        if self.resolves_to_commit(anc) != Tri::Yes
-            || self.resolves_to_commit(desc) != Tri::Yes
-        {
+        if self.resolves_to_commit(anc) != Tri::Yes || self.resolves_to_commit(desc) != Tri::Yes {
             return Tri::Unknown;
         }
         match self.run(&["merge-base", "--is-ancestor", anc, desc]) {
@@ -86,9 +84,9 @@ impl RepoFacts for GitRepo {
 const LIMIT_LINE: &str = "Note: crosscheck proves that cited spans exist, hashes match, counts \
 recompute, and cited commits resolve. It does not prove a span supports the sentence it is attached to.";
 
-const EXTRACT_LINE: &str = "Note: extraction checks only the claim classes measured trustworthy. \
-The marker convention remains the complete path, and a claim the bundle cannot answer is \
-unverifiable, not false.";
+const EXTRACT_LINE: &str = "Note: extraction checks the claim classes the measurements support, \
+each at its measured standing. The marker convention remains the complete path, and a claim \
+the bundle cannot answer is unverifiable, not false.";
 
 fn usage() -> ExitCode {
     eprintln!("usage: crosscheck verify REPORT --bundle DIR [--json]");
@@ -108,6 +106,55 @@ fn json_escape(s: &str) -> String {
         }
     }
     out
+}
+
+/// One verdict row for output. The extract mode's rows carry
+/// a class and a trust standing; the verify mode's do not.
+struct Row<'a> {
+    line: usize,
+    class: Option<&'a str>,
+    trust: Option<&'a str>,
+    status: Status,
+    detail: &'a str,
+}
+
+fn print_json(rows: &[Row], count_key: &str, count: usize, exit: i32) {
+    let mut out = String::from("{\"claims\":[");
+    for (n, r) in rows.iter().enumerate() {
+        if n > 0 {
+            out.push(',');
+        }
+        out.push_str(&format!("{{\"line\":{}", r.line));
+        if let Some(class) = r.class {
+            out.push_str(&format!(",\"class\":\"{}\"", class));
+        }
+        if let Some(trust) = r.trust {
+            out.push_str(&format!(",\"trust\":\"{}\"", trust));
+        }
+        out.push_str(&format!(
+            ",\"status\":\"{}\",\"detail\":\"{}\"}}",
+            r.status.label(),
+            json_escape(r.detail)
+        ));
+    }
+    out.push_str(&format!("],\"{count_key}\":{count},\"exit_code\":{exit}}}"));
+    println!("{out}");
+}
+
+fn print_text(rows: &[Row]) {
+    for r in rows {
+        match (r.class, r.trust) {
+            (Some(class), Some(trust)) => println!(
+                "line {}: {} {} {} {}",
+                r.line,
+                class,
+                trust,
+                r.status.label(),
+                r.detail
+            ),
+            _ => println!("line {}: {} {}", r.line, r.status.label(), r.detail),
+        }
+    }
 }
 
 fn main() -> ExitCode {
@@ -172,44 +219,28 @@ fn main() -> ExitCode {
             .ok()
             .zip(bundle_dir.canonicalize().ok())
             .and_then(|(r, b)| r.strip_prefix(&b).map(Path::to_path_buf).ok());
-        let extraction = verify_extracted(
-            &report_text,
-            &bundle_dir,
-            repo_ref,
-            report_rel.as_deref(),
-        );
+        let extraction =
+            verify_extracted(&report_text, &bundle_dir, repo_ref, report_rel.as_deref());
+        let rows: Vec<Row> = extraction
+            .results
+            .iter()
+            .map(|r| Row {
+                line: r.line,
+                class: Some(r.class),
+                trust: Some(r.trust.label()),
+                status: r.status,
+                detail: &r.detail,
+            })
+            .collect();
         if json {
-            let mut out = String::from("{\"claims\":[");
-            for (n, r) in extraction.results.iter().enumerate() {
-                if n > 0 {
-                    out.push(',');
-                }
-                out.push_str(&format!(
-                    "{{\"line\":{},\"class\":\"{}\",\"trust\":\"{}\",\"status\":\"{}\",\"detail\":\"{}\"}}",
-                    r.line,
-                    r.class,
-                    r.trust.label(),
-                    r.status.label(),
-                    json_escape(&r.detail)
-                ));
-            }
-            out.push_str(&format!(
-                "],\"claims_extracted\":{},\"exit_code\":{}}}",
+            print_json(
+                &rows,
+                "claims_extracted",
                 extraction.claims_extracted(),
-                extraction.exit_code()
-            ));
-            println!("{out}");
+                extraction.exit_code(),
+            );
         } else {
-            for r in &extraction.results {
-                println!(
-                    "line {}: {} {} {} {}",
-                    r.line,
-                    r.class,
-                    r.trust.label(),
-                    r.status.label(),
-                    r.detail
-                );
-            }
+            print_text(&rows);
             let bad = extraction
                 .results
                 .iter()
@@ -226,34 +257,27 @@ fn main() -> ExitCode {
         }
         return ExitCode::from(extraction.exit_code() as u8);
     }
-    let verdict = verify_report_repo(
-        &report_text,
-        &bundle_dir,
-        repo.as_ref().map(|r| r as &dyn RepoFacts),
-    );
+    let verdict = verify_report_repo(&report_text, &bundle_dir, repo_ref);
+    let rows: Vec<Row> = verdict
+        .results
+        .iter()
+        .map(|r| Row {
+            line: r.line,
+            class: None,
+            trust: None,
+            status: r.status,
+            detail: &r.detail,
+        })
+        .collect();
     if json {
-        let mut out = String::from("{\"claims\":[");
-        for (n, r) in verdict.results.iter().enumerate() {
-            if n > 0 {
-                out.push(',');
-            }
-            out.push_str(&format!(
-                "{{\"line\":{},\"status\":\"{}\",\"detail\":\"{}\"}}",
-                r.line,
-                r.status.label(),
-                json_escape(&r.detail)
-            ));
-        }
-        out.push_str(&format!(
-            "],\"claims_checked\":{},\"exit_code\":{}}}",
+        print_json(
+            &rows,
+            "claims_checked",
             verdict.claims_checked(),
-            verdict.exit_code()
-        ));
-        println!("{out}");
+            verdict.exit_code(),
+        );
     } else {
-        for r in &verdict.results {
-            println!("line {}: {} {}", r.line, r.status.label(), r.detail);
-        }
+        print_text(&rows);
         let bad = verdict
             .results
             .iter()

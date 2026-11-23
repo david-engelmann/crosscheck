@@ -1,34 +1,46 @@
 //! Extraction mode: audit a report that carries no evidence
-//! markers, per DECISIONS.md D16.
+//! markers, per DECISIONS.md D16, with the trust standings
+//! amended by D17 and the checking semantics stated in D18.
 //!
-//! The patterns below are a hand-written port of the pattern set
-//! v1 whose false positive rates the M1 and Track A measurements
-//! established and D15 ratified (banked as docs/m2/extract_v1.py).
-//! The port changes no pattern. It covers the classes the mode
-//! extracts: the merged PR class, short commit references, full
-//! git SHAs, full content hashes, and run tallies. Counts and
-//! sizes are not extracted (both classes are out), and the quote
-//! pattern stays dropped. The measurement's first-file target
-//! diagnostic is not ported; it played no part in any verdict.
+//! The patterns are a hand-written port of the measured
+//! extractor. The tally and count patterns are pattern set v2
+//! (banked as docs/m3/extract_v2.py), whose rates D17 ratified:
+//! tallies trusted at 0.3 percent, counts provisional at 2.8
+//! percent. The remaining patterns are unchanged between v1
+//! and v2. Sizes stay out, and the quote pattern stays
+//! dropped. The measurement's first-file target is ported for
+//! the count class only, because D18 makes it part of one
+//! verdict (a line count against a named file).
+//!
+//! Trust standings after D17: explicit PR references, short
+//! commits, full SHAs, content hashes, and run tallies are
+//! trusted. Bare PR references and counts are provisional and
+//! never move the exit code alone. The exit code follows D5
+//! over trusted claims only.
 //!
 //! Checking follows the D16 rule: the bundle answers what it
 //! can, in the most specific way available, and the rest is
-//! unverifiable. A commit or full SHA checks against the bundled
-//! repository. A PR reference checks against the bundled host
-//! record of that number. A content hash checks against every
-//! file the bundle carries; a match anywhere verifies it, and
-//! no match is unverifiable, never contradicted, because the
-//! extractor cannot know which file the author meant. A tally
-//! checks against every log the bundle carries under the M3
-//! last-tally rule. Every verified or contradicted verdict
-//! names the evidence it matched. Provisional claims (tallies)
-//! never move the exit code alone; the exit code follows D5
-//! over trusted claims only.
+//! unverifiable. A commit or full SHA checks against the
+//! bundled repository. A PR reference checks against the
+//! bundled host record of that number. A content hash checks
+//! against every file the bundle carries; a match anywhere
+//! verifies it, and no match is unverifiable, never
+//! contradicted, because the extractor cannot know which file
+//! the author meant. A tally checks against every log the
+//! bundle carries, meaning its text files outside the
+//! repository subtree: the four run facts under the M3
+//! last-tally rule, and totals, fractions, and of-forms
+//! against the comparable shape each log records last (D18). A count
+//! checks only when it counts lines in a file the report
+//! names and the bundle carries; every other count is
+//! unverifiable, because the bundle cannot answer what was
+//! counted. Every verified or contradicted verdict names the
+//! evidence it matched.
 
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
-use crate::{RepoFacts, RunFact, Status, Tri, flat_field, flat_str, last_tally, sha256, FlatVal};
+use crate::{RepoFacts, RunFact, Status, Tri, last_tally, parse_pr_record, read_cited, sha256};
 
 /// Whether a class's extracted claims can move the exit code.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -46,28 +58,113 @@ impl Trust {
     }
 }
 
+/// A tally shape that is not one of the four run facts: a
+/// tests/checks/subtests total, a fraction, or an of-form.
+/// Values are normalized digit strings (no commas, no leading
+/// zeros), so report-side and log-side shapes compare equal
+/// when they record the same numbers.
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum Shape {
+    Total {
+        fam: &'static str,
+        value: String,
+    },
+    Frac {
+        a: String,
+        b: String,
+        fam: &'static str,
+    },
+    Of {
+        a: String,
+        b: String,
+    },
+}
+
+impl Shape {
+    /// The dedupe and display signature.
+    fn signature(&self) -> String {
+        match self {
+            Shape::Total { fam, value } => format!("total:{value}:{fam}"),
+            Shape::Frac { a, b, fam } => format!("frac:{a}:{b}:{fam}"),
+            Shape::Of { a, b } => format!("of:{a}:{b}"),
+        }
+    }
+
+    /// The recorded answer this shape carries, when `other`
+    /// records the same fact: the same family for a total, the
+    /// same denominator and family for a fraction, the same
+    /// whole for an of-form. None when the two shapes record
+    /// different facts and cannot disagree.
+    fn comparable_answer(&self, other: &Shape) -> Option<String> {
+        match (self, other) {
+            (Shape::Total { fam: f1, .. }, Shape::Total { fam: f2, value }) if f1 == f2 => {
+                Some(value.clone())
+            }
+            (Shape::Frac { b: b1, fam: f1, .. }, Shape::Frac { a, b: b2, fam: f2 })
+                if b1 == b2 && f1 == f2 =>
+            {
+                Some(a.clone())
+            }
+            (Shape::Of { b: b1, .. }, Shape::Of { a, b: b2 }) if b1 == b2 => Some(a.clone()),
+            _ => None,
+        }
+    }
+
+    /// This shape's own answer, in the same terms.
+    fn answer(&self) -> &str {
+        match self {
+            Shape::Total { value, .. } => value,
+            Shape::Frac { a, .. } => a,
+            Shape::Of { a, .. } => a,
+        }
+    }
+
+    /// A short human form for verdict details.
+    fn describe(&self) -> String {
+        match self {
+            Shape::Total { fam, value } => format!("{value} {fam}s"),
+            Shape::Frac { a, b, fam } => format!("{a}/{b} {fam}s"),
+            Shape::Of { a, b } => format!("{a} of {b}"),
+        }
+    }
+}
+
+/// A count claim: a number, the noun it counts, and the first
+/// file the report's line names, if any.
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct CountClaim {
+    digits: String,
+    noun: String,
+    target: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum XKind {
-    Pr(u64),
+    /// The PR number's digits exactly as written. The record
+    /// lookup normalizes them; keeping the literal form keeps
+    /// numbers of any length extractable, as in the measured
+    /// extractor.
+    Pr(String),
     Commit(String),
     GitSha(String),
     Hash256(String),
-    TallyFact(RunFact, u64),
-    /// A tally shape that is not one of the four run facts: a
-    /// tests/checks/subtests total, a fraction, or an of-form.
-    /// Carries its canonical signature; a bundled log verifies it
-    /// only by recording the identical signature, and it is never
-    /// contradicted, because different logs record different runs
-    /// and no canonical record exists for a total.
-    TallyShape(String),
+    /// A run fact and its claimed value as normalized digits.
+    /// String form keeps very long numbers from vanishing at
+    /// a parse bound the measured extractor does not have.
+    TallyFact(RunFact, String),
+    TallyShape(Shape),
+    Count(CountClaim),
 }
 
-/// One extracted claim, before or after checking.
+/// One extracted claim, before checking.
 #[derive(Debug, Clone)]
 pub struct Extracted {
     pub line: usize,
     pub class: &'static str,
     pub trust: Trust,
+    /// The claim as the measured extractor states it (its
+    /// dedupe identity within the line).
+    pub value: String,
     kind: XKind,
 }
 
@@ -121,16 +218,33 @@ fn is_lhex(b: u8) -> bool {
     b.is_ascii_digit() || (b'a'..=b'f').contains(&b)
 }
 
-/// The fused-token guard (v1 change 2 and 5, first clause): the
-/// character before a number must not be a letter, digit, dot,
-/// or underscore.
+/// The fused-token guard, pattern set v2: the character before
+/// a number must not be a letter, digit, dot, underscore, hash,
+/// hyphen, tilde, or equals sign.
 fn guard_ok(line: &[u8], start: usize) -> bool {
-    start == 0 || !(line[start - 1].is_ascii_alphanumeric() || line[start - 1] == b'.' || line[start - 1] == b'_')
+    start == 0
+        || !(line[start - 1].is_ascii_alphanumeric()
+            || matches!(line[start - 1], b'.' | b'_' | b'#' | b'-' | b'~' | b'='))
 }
 
-/// Parse a `\d[\d,]*` token at `i`. Returns the value and the end
-/// index (one past the last digit or comma consumed).
-fn parse_number(line: &[u8], i: usize) -> Option<(u64, usize)> {
+/// Normalize a digit token as written (commas admitted) to the
+/// digit string it names: commas removed, leading zeros
+/// removed, zero itself kept.
+fn normalize_digits(raw: &str) -> String {
+    let digits: String = raw.chars().filter(|c| *c != ',').collect();
+    let trimmed = digits.trim_start_matches('0');
+    if trimmed.is_empty() {
+        "0".to_string()
+    } else {
+        trimmed.to_string()
+    }
+}
+
+/// Scan a `\d[\d,]*` token at `i`. Returns the normalized
+/// digits and the end index (one past the last digit or comma
+/// consumed). Any length is accepted; comparison happens on
+/// the digit string.
+fn scan_number(line: &[u8], i: usize) -> Option<(String, usize)> {
     if i >= line.len() || !line[i].is_ascii_digit() {
         return None;
     }
@@ -138,14 +252,14 @@ fn parse_number(line: &[u8], i: usize) -> Option<(u64, usize)> {
     while j < line.len() && (line[j].is_ascii_digit() || line[j] == b',') {
         j += 1;
     }
-    let text: String = line[i..j].iter().filter(|c| **c != b',').map(|c| *c as char).collect();
-    text.parse::<u64>().ok().map(|v| (v, j))
+    let raw = std::str::from_utf8(&line[i..j]).ok()?;
+    Some((normalize_digits(raw), j))
 }
 
-/// Parse a run of plain digits at `i` (the `\d+` of the PR and
-/// exit patterns, which admit no commas). Returns the value and
-/// the end index.
-fn parse_digits(line: &[u8], i: usize) -> Option<(u64, usize)> {
+/// Scan a run of plain digits at `i` (the `\d+` of the PR,
+/// fraction, and exit patterns, which admit no commas).
+/// Returns the digits exactly as written and the end index.
+fn scan_digits(line: &[u8], i: usize) -> Option<(String, usize)> {
     if i >= line.len() || !line[i].is_ascii_digit() {
         return None;
     }
@@ -153,22 +267,24 @@ fn parse_digits(line: &[u8], i: usize) -> Option<(u64, usize)> {
     while j < line.len() && line[j].is_ascii_digit() {
         j += 1;
     }
-    let text: String = line[i..j].iter().map(|c| *c as char).collect();
-    text.parse::<u64>().ok().map(|v| (v, j))
+    Some((line[i..j].iter().map(|c| *c as char).collect(), j))
 }
 
-/// Skip `\s+` (spaces and tabs) at `i`; returns the new index, or
-/// None when there is no whitespace.
-fn skip_ws(line: &[u8], i: usize) -> Option<usize> {
+/// Skip `\s*` (spaces and tabs) at `i`; returns the index one
+/// past the last space or tab, which may equal `i`.
+fn skip_ws_any(line: &[u8], i: usize) -> usize {
     let mut j = i;
     while j < line.len() && (line[j] == b' ' || line[j] == b'\t') {
         j += 1;
     }
-    if j > i {
-        Some(j)
-    } else {
-        None
-    }
+    j
+}
+
+/// Skip `\s+` (spaces and tabs) at `i`; returns the new index,
+/// or None when there is no whitespace.
+fn skip_ws(line: &[u8], i: usize) -> Option<usize> {
+    let j = skip_ws_any(line, i);
+    if j > i { Some(j) } else { None }
 }
 
 /// Does `line` at `i` start with `word`, followed by a word
@@ -182,19 +298,27 @@ fn word_at(line: &[u8], i: usize, word: &str) -> bool {
     after >= line.len() || !is_word(line[after])
 }
 
-/// The v1 tally guard, second clause: the token immediately
-/// before the number is a commit-like hex token or a single
-/// letter.
-fn tally_blocked(line: &str, start: usize) -> bool {
+/// The token immediately before `start`, in the measured
+/// extractor's terms: the last whitespace-separated token of
+/// the preceding text, stripped of backtick, star, open
+/// paren, pipe, and quote marks.
+fn prev_token(line: &str, start: usize) -> &str {
     let before = line[..start].trim_end();
     if before.is_empty() {
-        return false;
+        return "";
     }
-    let token = before
+    before
         .split_whitespace()
         .last()
         .unwrap_or("")
-        .trim_matches(|c| matches!(c, '`' | '*' | '(' | '|'));
+        .trim_matches(|c| matches!(c, '`' | '*' | '(' | '|' | '"'))
+}
+
+/// The tally guard's second clause: the token immediately
+/// before the number is a commit-like hex token or a single
+/// letter.
+fn tally_blocked(line: &str, start: usize) -> bool {
+    let token = prev_token(line, start);
     let bytes = token.as_bytes();
     if bytes.len() == 1 && bytes[0].is_ascii_alphabetic() {
         return true;
@@ -204,15 +328,108 @@ fn tally_blocked(line: &str, start: usize) -> bool {
         && bytes.iter().any(|b| b.is_ascii_alphabetic())
 }
 
-const COMMIT_WORDS: [&str; 7] = ["commit", "head", "base", "sha", "merge", "reviewed", "branch"];
+/// The of-form's series suppression (pattern set v2): the
+/// word before the number names a document series or a rank,
+/// not a run.
+fn of_blocked(line: &str, start: usize) -> bool {
+    let token = prev_token(line, start).to_lowercase();
+    matches!(
+        token.as_str(),
+        "review" | "rank" | "checkpoint" | "section" | "part" | "step" | "phase"
+    )
+}
 
-fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut HashSet<(usize, &'static str, String)>) {
+const COMMIT_WORDS: [&str; 7] = [
+    "commit", "head", "base", "sha", "merge", "reviewed", "branch",
+];
+
+const FILE_EXTS: [&str; 11] = [
+    "md", "py", "rs", "toml", "json", "jsonl", "txt", "log", "sh", "yaml", "yml",
+];
+
+fn is_file_char(b: u8) -> bool {
+    is_word(b) || matches!(b, b'.' | b'/' | b'~' | b'-')
+}
+
+/// The first file-like token on the line, in the measured
+/// extractor's terms (its FILE_RE): a run of word, dot, slash,
+/// tilde, and hyphen characters carrying a known extension.
+/// Ported for the count class, whose line-count verdict names
+/// its target through it (D18).
+fn first_file(line: &str) -> Option<String> {
     let bytes = line.as_bytes();
-    let mut add = |cls: &'static str, trust: Trust, kind: XKind, key: String, out: &mut Vec<Extracted>| {
-        if seen.insert((line_no, cls, key)) {
-            out.push(Extracted { line: line_no, class: cls, trust, kind });
+    let mut start = 0;
+    while start < bytes.len() {
+        if !is_file_char(bytes[start]) {
+            start += 1;
+            continue;
         }
-    };
+        let mut end = start;
+        while end < bytes.len() && is_file_char(bytes[end]) {
+            end += 1;
+        }
+        // The pattern's run is greedy and backtracks from the
+        // last dot: try each dot in the run, last first.
+        let mut dots: Vec<usize> = (start..end).filter(|&p| bytes[p] == b'.').collect();
+        dots.reverse();
+        for d in dots {
+            let rest = &line[d + 1..end];
+            for ext in FILE_EXTS {
+                if let Some(after) = rest.strip_prefix(ext) {
+                    // The regex's \b after the extension: the
+                    // next character must not be a word char.
+                    if after.is_empty() || !is_word(after.as_bytes()[0]) {
+                        return Some(line[start..d + 1 + ext.len()].to_string());
+                    }
+                }
+            }
+        }
+        start = end;
+    }
+    None
+}
+
+/// Left-to-right scan over the number tokens of a line, the
+/// skeleton the guarded tally and count passes share. At each
+/// digit whose preceding character passes the fused-token
+/// guard, `on_match` receives the number's start, its
+/// normalized digits, and its end; it returns the index to
+/// resume from when it consumes the match, or None to advance
+/// by one character.
+fn scan_numbers(line: &[u8], on_match: &mut dyn FnMut(usize, &str, usize) -> Option<usize>) {
+    let mut i = 0;
+    while i < line.len() {
+        if line[i].is_ascii_digit() && guard_ok(line, i) {
+            if let Some((digits, end)) = scan_number(line, i) {
+                if let Some(resume) = on_match(i, &digits, end) {
+                    i = resume;
+                    continue;
+                }
+            }
+        }
+        i += 1;
+    }
+}
+
+fn extract_line(
+    line_no: usize,
+    line: &str,
+    out: &mut Vec<Extracted>,
+    seen: &mut HashSet<(usize, &'static str, String)>,
+) {
+    let bytes = line.as_bytes();
+    let mut add =
+        |cls: &'static str, trust: Trust, kind: XKind, value: String, out: &mut Vec<Extracted>| {
+            if seen.insert((line_no, cls, value.clone())) {
+                out.push(Extracted {
+                    line: line_no,
+                    class: cls,
+                    trust,
+                    value,
+                    kind,
+                });
+            }
+        };
 
     // Hex runs: full hashes, full SHAs, and (context permitting)
     // short commit references. A run is a maximal run of word
@@ -251,75 +468,60 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
         }
     }
 
-    // Tallies: one left-to-right consuming pass per shape, as the
+    // Run-fact tallies: one left-to-right pass per word, as the
     // measured extractor ran one finditer pass per pattern.
     for (word, fact) in [
         ("passed", RunFact::Passed),
         ("failed", RunFact::Failed),
         ("skipped", RunFact::Skipped),
     ] {
-        let mut i = 0;
-        while i < bytes.len() {
-            if bytes[i].is_ascii_digit() && guard_ok(bytes, i) {
-                if let Some((value, end)) = parse_number(bytes, i) {
-                    if let Some(w) = skip_ws(bytes, end) {
-                        if word_at(bytes, w, word) {
-                            if !tally_blocked(line, i) {
-                                add(
-                                    "tally",
-                                    Trust::Provisional,
-                                    XKind::TallyFact(fact, value),
-                                    format!("{} {value}", fact.word()),
-                                    out,
-                                );
-                            }
-                            i = w + word.len();
-                            continue;
-                        }
-                    }
-                }
+        scan_numbers(bytes, &mut |start, digits, end| {
+            let w = skip_ws(bytes, end)?;
+            if !word_at(bytes, w, word) {
+                return None;
             }
-            i += 1;
-        }
+            if !tally_blocked(line, start) {
+                add(
+                    "tally",
+                    Trust::Trusted,
+                    XKind::TallyFact(fact, digits.to_string()),
+                    format!("{} {}", fact.word(), &line[start..w + word.len()]),
+                    out,
+                );
+            }
+            Some(w + word.len())
+        });
     }
     // Totals: N tests / checks / subtests.
-    {
-        let mut i = 0;
-        while i < bytes.len() {
-            if bytes[i].is_ascii_digit() && guard_ok(bytes, i) {
-                if let Some((value, end)) = parse_number(bytes, i) {
-                    if let Some(w) = skip_ws(bytes, end) {
-                        for (word, fam) in [
-                            ("subtests", "subtest"),
-                            ("tests", "test"),
-                            ("test", "test"),
-                            ("checks", "check"),
-                            ("check", "check"),
-                        ] {
-                            if word_at(bytes, w, word) {
-                                if !tally_blocked(line, i) {
-                                    add(
-                                        "tally",
-                                        Trust::Provisional,
-                                        XKind::TallyShape(format!("total:{value}:{fam}")),
-                                        format!("total {value} {fam}"),
-                                        out,
-                                    );
-                                }
-                                i = w + word.len();
-                                break;
-                            }
-                        }
-                        if i > w {
-                            continue;
-                        }
-                    }
+    scan_numbers(bytes, &mut |start, digits, end| {
+        let w = skip_ws(bytes, end)?;
+        for (word, fam) in [
+            ("subtests", "subtest"),
+            ("tests", "test"),
+            ("test", "test"),
+            ("checks", "check"),
+            ("check", "check"),
+        ] {
+            if word_at(bytes, w, word) {
+                if !tally_blocked(line, start) {
+                    add(
+                        "tally",
+                        Trust::Trusted,
+                        XKind::TallyShape(Shape::Total {
+                            fam,
+                            value: digits.to_string(),
+                        }),
+                        format!("tests {}", &line[start..w + word.len()]),
+                        out,
+                    );
                 }
+                return Some(w + word.len());
             }
-            i += 1;
         }
-    }
-    // Exit tallies: "exit 0" or "exit code 0", unguarded in v1.
+        None
+    });
+    // Exit tallies: "exit 0" or "exit code 0", unguarded in the
+    // measured set.
     {
         let mut i = 0;
         while i + 4 <= bytes.len() {
@@ -329,13 +531,13 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
                     j += 5;
                 }
                 if let Some(d) = skip_ws(bytes, j) {
-                    if let Some((value, end)) = parse_digits(bytes, d) {
+                    if let Some((digits, end)) = scan_digits(bytes, d) {
                         if end >= bytes.len() || !is_word(bytes[end]) {
                             add(
                                 "tally",
-                                Trust::Provisional,
-                                XKind::TallyFact(RunFact::Exit, value),
-                                format!("exit {value}"),
+                                Trust::Trusted,
+                                XKind::TallyFact(RunFact::Exit, normalize_digits(&digits)),
+                                format!("exit {}", &line[i..end]),
                                 out,
                             );
                             i = end;
@@ -347,22 +549,17 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
             i += 1;
         }
     }
-    // Fractions: A/B gates, checks, tests, or calls.
+    // Fractions: A/B gates, checks, tests, or calls. Plain
+    // digits only, no commas, no guard, as measured.
     {
         let mut i = 0;
         while i < bytes.len() {
             if bytes[i].is_ascii_digit() {
-                if let Some((a, e1)) = parse_number(bytes, i) {
-                    let mut j = e1;
-                    while j < bytes.len() && bytes[j] == b' ' {
-                        j += 1;
-                    }
+                if let Some((a, e1)) = scan_digits(bytes, i) {
+                    let j = skip_ws_any(bytes, e1);
                     if j < bytes.len() && bytes[j] == b'/' {
-                        let mut k = j + 1;
-                        while k < bytes.len() && bytes[k] == b' ' {
-                            k += 1;
-                        }
-                        if let Some((b, e2)) = parse_number(bytes, k) {
+                        let k = skip_ws_any(bytes, j + 1);
+                        if let Some((b, e2)) = scan_digits(bytes, k) {
                             if let Some(w) = skip_ws(bytes, e2) {
                                 for (word, fam) in [
                                     ("gates", "gate"),
@@ -377,9 +574,13 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
                                     if word_at(bytes, w, word) {
                                         add(
                                             "tally",
-                                            Trust::Provisional,
-                                            XKind::TallyShape(format!("frac:{a}:{b}:{fam}")),
-                                            format!("frac {a}/{b} {fam}"),
+                                            Trust::Trusted,
+                                            XKind::TallyShape(Shape::Frac {
+                                                a: normalize_digits(&a),
+                                                b: normalize_digits(&b),
+                                                fam,
+                                            }),
+                                            line[i..w + word.len()].to_string(),
                                             out,
                                         );
                                         i = w + word.len();
@@ -397,50 +598,54 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
             i += 1;
         }
     }
-    // Of-forms: A of B.
-    {
-        let mut i = 0;
-        while i < bytes.len() {
-            if bytes[i].is_ascii_digit() {
-                if let Some((a, e1)) = parse_number(bytes, i) {
-                    if let Some(w) = skip_ws(bytes, e1) {
-                        if word_at(bytes, w, "of") {
-                            if let Some(d) = skip_ws(bytes, w + 2) {
-                                if let Some((b, e2)) = parse_number(bytes, d) {
-                                    if e2 >= bytes.len() || !is_word(bytes[e2]) {
-                                        add(
-                                            "tally",
-                                            Trust::Provisional,
-                                            XKind::TallyShape(format!("of:{a}:{b}")),
-                                            format!("of {a} of {b}"),
-                                            out,
-                                        );
-                                        i = e2;
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            i += 1;
+    // Of-forms: A of B, with the v2 fused-token guard and the
+    // series suppression.
+    scan_numbers(bytes, &mut |start, digits, end| {
+        let w = skip_ws(bytes, end)?;
+        if !word_at(bytes, w, "of") {
+            return None;
         }
-    }
+        let d = skip_ws(bytes, w + 2)?;
+        let (b, e2) = scan_number(bytes, d)?;
+        if e2 < bytes.len() && is_word(bytes[e2]) {
+            return None;
+        }
+        if !of_blocked(line, start) {
+            add(
+                "tally",
+                Trust::Trusted,
+                XKind::TallyShape(Shape::Of {
+                    a: digits.to_string(),
+                    b,
+                }),
+                line[start..e2].to_string(),
+                out,
+            );
+        }
+        Some(e2)
+    });
 
     // PR references: explicit shapes first, then bare numbers
-    // not already claimed explicitly on this line.
-    let mut explicit: HashSet<u64> = HashSet::new();
+    // not already claimed explicitly on this line. Explicit
+    // forms are trusted; the bare form is provisional (D17).
+    // Suppression compares the digits as written, as the
+    // measured extractor compares them.
+    let mut explicit: HashSet<String> = HashSet::new();
     {
         let mut i = 0;
         while i + 1 < bytes.len() {
             if &bytes[i..i + 2] == b"PR" && (i == 0 || !is_word(bytes[i - 1])) {
-                if let Some(h) = skip_ws(bytes, i + 2) {
-                    if h < bytes.len() && bytes[h] == b'#' {
-                        if let Some((n, _)) = parse_digits(bytes, h + 1) {
-                            explicit.insert(n);
-                            add("pr", Trust::Trusted, XKind::Pr(n), format!("PR {n}"), out);
-                        }
+                let h = skip_ws_any(bytes, i + 2);
+                if h < bytes.len() && bytes[h] == b'#' {
+                    if let Some((digits, _)) = scan_digits(bytes, h + 1) {
+                        explicit.insert(digits.clone());
+                        add(
+                            "pr",
+                            Trust::Trusted,
+                            XKind::Pr(digits.clone()),
+                            format!("PR {digits}"),
+                            out,
+                        );
                     }
                 }
             }
@@ -451,9 +656,15 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
         let mut i = 0;
         while i + 5 <= bytes.len() {
             if &bytes[i..i + 5] == b"pull/" {
-                if let Some((n, _)) = parse_digits(bytes, i + 5) {
-                    explicit.insert(n);
-                    add("pr", Trust::Trusted, XKind::Pr(n), format!("PR {n}"), out);
+                if let Some((digits, _)) = scan_digits(bytes, i + 5) {
+                    explicit.insert(digits.clone());
+                    add(
+                        "pr",
+                        Trust::Trusted,
+                        XKind::Pr(digits.clone()),
+                        format!("PR {digits}"),
+                        out,
+                    );
                 }
             }
             i += 1;
@@ -463,11 +674,13 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
         if bytes[i] != b'#' {
             continue;
         }
-        let Some((n, _)) = parse_digits(bytes, i + 1) else {
+        let Some((digits, _)) = scan_digits(bytes, i + 1) else {
             continue;
         };
-        // Repository form: a path-like run containing a slash
-        // ends at this hash mark.
+        // Repository form: owner/repo#N, where both sides of
+        // the slash carry at least one name character. The
+        // measured pattern admits no slash inside either side,
+        // so the last slash of the run decides.
         let mut s = i;
         while s > 0
             && (bytes[s - 1].is_ascii_alphanumeric()
@@ -475,9 +688,26 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
         {
             s -= 1;
         }
-        if line[s..i].contains('/') && s < i {
-            explicit.insert(n);
-            add("pr", Trust::Trusted, XKind::Pr(n), format!("PR {n}"), out);
+        let run = &line[s..i];
+        if let Some(slash) = run.rfind('/') {
+            let left = &run[..slash];
+            let left_ok = !left.is_empty()
+                && left
+                    .rsplit('/')
+                    .next()
+                    .map(|seg| !seg.is_empty())
+                    .unwrap_or(false);
+            let right_ok = slash + 1 < run.len();
+            if left_ok && right_ok {
+                explicit.insert(digits.clone());
+                add(
+                    "pr",
+                    Trust::Trusted,
+                    XKind::Pr(digits.clone()),
+                    format!("PR {digits}"),
+                    out,
+                );
+            }
         }
     }
     for i in 0..bytes.len() {
@@ -487,24 +717,106 @@ fn extract_line(line_no: usize, line: &str, out: &mut Vec<Extracted>, seen: &mut
         if i > 0 && (is_word(bytes[i - 1]) || bytes[i - 1] == b'#') {
             continue;
         }
-        let Some((n, end)) = parse_digits(bytes, i + 1) else {
+        let Some((digits, end)) = scan_digits(bytes, i + 1) else {
             continue;
         };
-        if end - (i + 1) < 2 {
+        if digits.len() < 2 {
             continue;
         }
         if end < bytes.len() && is_word(bytes[end]) {
             continue;
         }
-        if explicit.contains(&n) {
+        if explicit.contains(&digits) {
             continue;
         }
-        add("pr", Trust::Trusted, XKind::Pr(n), format!("PR {n}"), out);
+        add(
+            "pr",
+            Trust::Provisional,
+            XKind::Pr(digits.clone()),
+            format!("PR {digits}"),
+            out,
+        );
     }
+
+    // Counts: a number and a count noun, guarded, provisional
+    // (D17). The claim carries the first file the line names,
+    // for the line-count verdict (D18).
+    let target = first_file(line);
+    scan_numbers(bytes, &mut |start, digits, end| {
+        let w = skip_ws(bytes, end)?;
+        for noun in [
+            "files",
+            "file",
+            "findings",
+            "finding",
+            "rounds",
+            "round",
+            "repos",
+            "repo",
+            "crates",
+            "crate",
+            "modules",
+            "module",
+            "headings",
+            "heading",
+            "cases",
+            "case",
+            "commits",
+            "commit",
+            "lines",
+            "line",
+            "errors",
+            "error",
+            "warnings",
+            "warning",
+            "pairs",
+            "pair",
+            "instances",
+            "instance",
+            "defects",
+            "defect",
+            "suites",
+            "suite",
+            "families",
+            "arms",
+            "prompts",
+            "documents",
+            "document",
+            "entries",
+            "items",
+            "comments",
+            "comment",
+            "nits",
+            "violations",
+            "violation",
+        ] {
+            if word_at(bytes, w, noun) {
+                add(
+                    "count",
+                    Trust::Provisional,
+                    XKind::Count(CountClaim {
+                        digits: digits.to_string(),
+                        noun: noun.to_string(),
+                        target: target.clone(),
+                    }),
+                    line[start..w + noun.len()].to_string(),
+                    out,
+                );
+                return Some(w + noun.len());
+            }
+        }
+        None
+    });
 }
 
 /// Extract every claim the ratified pattern set finds in
-/// `report`, in line order. Pure: reads nothing, checks nothing.
+/// `report`, in line order; within a line, claims come out in
+/// pattern-pass order (hex runs in position order), as the
+/// measured extractor emitted them. The port is byte-oriented:
+/// where the measured extractor's patterns are Unicode-aware,
+/// the port reads ASCII, the alphabet of the fleet's reports
+/// (D18).
+/// Pure: reads nothing, checks nothing.
 pub fn extract_claims(report: &str) -> Vec<Extracted> {
     let mut out = Vec::new();
     let mut seen = HashSet::new();
@@ -515,28 +827,40 @@ pub fn extract_claims(report: &str) -> Vec<Extracted> {
 }
 
 /// Every file the bundle carries, as bundle-relative paths in
-/// sorted order, excluding the bundled repository subtree.
+/// sorted order. The walk is the evidence boundary, so it is
+/// strict (D18): it never follows a symlink (a symlinked entry
+/// is skipped whole, so evidence cannot arrive from outside
+/// the bundle and a cyclic link cannot loop the walk), it
+/// does not descend into any `.git` directory (repository
+/// internals are not evidence files), and it bounds its depth
+/// at 32 as a backstop. The bundled repository's working tree
+/// is bundle evidence like any other file.
 fn bundle_files(bundle: &Path) -> Vec<PathBuf> {
+    const MAX_DEPTH: usize = 32;
     let mut files = Vec::new();
-    let mut stack = vec![bundle.to_path_buf()];
-    while let Some(dir) = stack.pop() {
+    let mut stack: Vec<(PathBuf, usize)> = vec![(bundle.to_path_buf(), 0)];
+    while let Some((dir, depth)) = stack.pop() {
+        if depth > MAX_DEPTH {
+            continue;
+        }
         let Ok(entries) = std::fs::read_dir(&dir) else {
             continue;
         };
         for entry in entries.flatten() {
+            let Ok(file_type) = entry.file_type() else {
+                continue;
+            };
+            if file_type.is_symlink() {
+                continue;
+            }
             let path = entry.path();
-            if path.is_dir() {
-                stack.push(path);
-            } else if path.is_file() {
+            if file_type.is_dir() {
+                if entry.file_name().to_string_lossy() != ".git" {
+                    stack.push((path, depth + 1));
+                }
+            } else if file_type.is_file() {
                 if let Ok(rel) = path.strip_prefix(bundle) {
-                    let in_repo = rel
-                        .components()
-                        .next()
-                        .map(|c| c.as_os_str().to_string_lossy() == "repo")
-                        .unwrap_or(false);
-                    if !in_repo {
-                        files.push(rel.to_path_buf());
-                    }
+                    files.push(rel.to_path_buf());
                 }
             }
         }
@@ -545,11 +869,18 @@ fn bundle_files(bundle: &Path) -> Vec<PathBuf> {
     files
 }
 
+/// Does this file read as text? The log scan applies a plain
+/// sniff: no NUL byte in the first 8 KiB. Binary files are
+/// still hash evidence; they are not logs (D18).
+fn looks_like_text(bytes: &[u8]) -> bool {
+    !bytes[..bytes.len().min(8192)].contains(&0)
+}
+
 /// Check every extracted claim in `report` against the bundle at
 /// `bundle`. `report_rel` is the report's own path relative to
 /// the bundle when the report file lives inside it; that file is
 /// excluded from evidence scans so a claim never verifies
-/// against the report itself.
+/// against the report itself (D18).
 pub fn verify_extracted(
     report: &str,
     bundle: &Path,
@@ -564,11 +895,14 @@ pub fn verify_extracted(
         .collect();
 
     // Bundle-wide evidence, gathered once: content hashes by
-    // value, and the text of every file that could be a log.
+    // value, the text of every file that could be a log, and
+    // the tally shapes each log records, in order.
     let mut hash_match: HashMap<String, String> = HashMap::new();
     let mut log_texts: Vec<(String, String)> = Vec::new();
     let need_hash = claims.iter().any(|c| matches!(c.kind, XKind::Hash256(_)));
-    let need_logs = claims.iter().any(|c| matches!(c.kind, XKind::TallyFact(..) | XKind::TallyShape(_)));
+    let need_logs = claims
+        .iter()
+        .any(|c| matches!(c.kind, XKind::TallyFact(..) | XKind::TallyShape(_)));
     if need_hash || need_logs {
         for rel in &files {
             let Ok(bytes) = std::fs::read(bundle.join(rel)) else {
@@ -579,20 +913,35 @@ pub fn verify_extracted(
                 let hex = sha256::sha256_hex(&bytes);
                 hash_match.entry(hex).or_insert_with(|| name.clone());
             }
-            if need_logs {
+            // The log corpus is the bundle's text files outside
+            // the repository subtree: the repository is bundled
+            // as git evidence, and its documents are not logs of
+            // the work under audit (D18). Hash evidence, by
+            // contrast, comes from every file.
+            let in_repo = rel
+                .components()
+                .next()
+                .map(|c| c.as_os_str().to_string_lossy() == "repo")
+                .unwrap_or(false);
+            if need_logs && !in_repo && looks_like_text(&bytes) {
                 log_texts.push((name, String::from_utf8_lossy(&bytes).into_owned()));
             }
         }
     }
-    // Tally shape signatures by the first log that records them.
-    let mut shape_home: HashMap<String, String> = HashMap::new();
-    if claims.iter().any(|c| matches!(c.kind, XKind::TallyShape(_))) {
+    let mut log_shapes: Vec<(String, Vec<Shape>)> = Vec::new();
+    if claims
+        .iter()
+        .any(|c| matches!(c.kind, XKind::TallyShape(_)))
+    {
         for (name, text) in &log_texts {
-            for claim in extract_claims(text) {
-                if let XKind::TallyShape(sig) = &claim.kind {
-                    shape_home.entry(sig.clone()).or_insert_with(|| name.clone());
-                }
-            }
+            let shapes: Vec<Shape> = extract_claims(text)
+                .into_iter()
+                .filter_map(|c| match c.kind {
+                    XKind::TallyShape(s) => Some(s),
+                    _ => None,
+                })
+                .collect();
+            log_shapes.push((name.clone(), shapes));
         }
     }
 
@@ -622,37 +971,24 @@ pub fn verify_extracted(
                     "no file in the bundle hashes to this value".to_string(),
                 ),
             },
-            XKind::Pr(number) => {
+            XKind::Pr(digits) => {
+                let number = normalize_digits(digits);
                 let cited = format!("records/pr-{number}.json");
-                match crate::read_cited(bundle, &cited) {
-                    Ok(bytes) => {
-                        let text = String::from_utf8_lossy(&bytes);
-                        let rec_num = match flat_field(&text, "number") {
-                            Some(FlatVal::Num(n)) => n.parse::<u64>().ok(),
-                            _ => None,
-                        };
-                        let state = flat_str(&text, "state");
-                        let merged = match flat_field(&text, "merged") {
-                            Some(FlatVal::Bool(b)) => Some(b),
-                            _ => None,
-                        };
-                        match (rec_num, state, merged) {
-                            (Some(n), Some(state), Some(merged)) if n == *number => (
-                                Status::Ok,
-                                format!(
-                                    "bundled record {cited} shows state {state}, merged {merged}"
-                                ),
-                            ),
-                            (Some(n), _, _) => (
-                                Status::Unverifiable,
-                                format!("bundled record {cited} describes PR {n}"),
-                            ),
-                            _ => (
-                                Status::Unverifiable,
-                                format!("bundled record {cited} lacks the fields this claim needs"),
-                            ),
-                        }
-                    }
+                match read_cited(bundle, &cited) {
+                    Ok(bytes) => match parse_pr_record(&bytes) {
+                        Some((n, state, merged)) if n.to_string() == number => (
+                            Status::Ok,
+                            format!("bundled record {cited} shows state {state}, merged {merged}"),
+                        ),
+                        Some((n, _, _)) => (
+                            Status::Unverifiable,
+                            format!("bundled record {cited} describes PR {n}"),
+                        ),
+                        None => (
+                            Status::Unverifiable,
+                            format!("bundled record {cited} lacks the fields this claim needs"),
+                        ),
+                    },
                     Err(_) => (
                         Status::Unverifiable,
                         format!("bundle carries no record for PR {number}"),
@@ -664,7 +1000,7 @@ pub fn verify_extracted(
                 let mut disagreeing: Option<(&str, u64)> = None;
                 for (name, text) in &log_texts {
                     match last_tally(text, *fact) {
-                        Some(v) if v == *want => {
+                        Some(v) if v.to_string() == *want => {
                             agreeing = Some(name.as_str());
                             break;
                         }
@@ -694,16 +1030,84 @@ pub fn verify_extracted(
                     ),
                 }
             }
-            XKind::TallyShape(sig) => match shape_home.get(sig) {
-                Some(name) => (
-                    Status::Ok,
-                    format!("bundle log {name} records the same tally"),
-                ),
-                None => (
-                    Status::Unverifiable,
-                    "no bundled log records this tally".to_string(),
-                ),
-            },
+            XKind::TallyShape(shape) => {
+                // Each log's record of this fact is the last
+                // comparable shape it carries (D18), the same
+                // append discipline as the last-tally rule.
+                let mut agreeing: Option<&str> = None;
+                let mut disagreeing: Option<(&str, String)> = None;
+                for (name, shapes) in &log_shapes {
+                    let recorded = shapes.iter().rev().find_map(|s| shape.comparable_answer(s));
+                    match recorded {
+                        Some(ans) if ans == shape.answer() => {
+                            agreeing = Some(name.as_str());
+                            break;
+                        }
+                        Some(ans) => {
+                            if disagreeing.is_none() {
+                                disagreeing = Some((name.as_str(), ans));
+                            }
+                        }
+                        None => {}
+                    }
+                }
+                match (agreeing, disagreeing) {
+                    (Some(name), _) => (
+                        Status::Ok,
+                        format!("bundle log {name} records {}", shape.describe()),
+                    ),
+                    (None, Some((name, actual))) => (
+                        Status::Contradicted,
+                        format!(
+                            "bundle log {name} records a different tally (its last comparable record answers {actual}), the report says {}",
+                            shape.describe()
+                        ),
+                    ),
+                    (None, None) => (
+                        Status::Unverifiable,
+                        "no bundled log records this tally".to_string(),
+                    ),
+                }
+            }
+            XKind::Count(count) => {
+                // The one count the bundle can answer: lines in
+                // a named file it carries (D18).
+                let is_lines = count.noun == "line" || count.noun == "lines";
+                match (is_lines, &count.target) {
+                    (true, Some(target)) => match read_cited(bundle, target) {
+                        Ok(bytes) => {
+                            let text = String::from_utf8_lossy(&bytes);
+                            let actual = text.lines().count().to_string();
+                            if actual == count.digits {
+                                (
+                                    Status::Ok,
+                                    format!("bundle file {target} has {} lines", count.digits),
+                                )
+                            } else {
+                                (
+                                    Status::Contradicted,
+                                    format!(
+                                        "bundle file {target} has {actual} lines, the report says {}",
+                                        count.digits
+                                    ),
+                                )
+                            }
+                        }
+                        Err(_) => (
+                            Status::Unverifiable,
+                            format!("the bundle does not carry {target}"),
+                        ),
+                    },
+                    (true, None) => (
+                        Status::Unverifiable,
+                        "the claim names no file whose lines could be counted".to_string(),
+                    ),
+                    (false, _) => (
+                        Status::Unverifiable,
+                        format!("the bundle cannot answer what was counted ({})", count.noun),
+                    ),
+                }
+            }
         };
         results.push(ExtractedResult {
             line: claim.line,
@@ -719,7 +1123,7 @@ pub fn verify_extracted(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::HashSet;
+    use crate::testdir::Dir;
     use std::io::Write;
 
     struct StubRepo {
@@ -755,34 +1159,15 @@ mod tests {
         dir
     }
 
-    struct Dir(PathBuf);
-
-    impl Dir {
-        fn new() -> Self {
-            let base = std::env::temp_dir().join(format!(
-                "crosscheck-extract-test-{}-{}",
-                std::process::id(),
-                std::time::SystemTime::now()
-                    .duration_since(std::time::UNIX_EPOCH)
-                    .unwrap()
-                    .as_nanos()
-            ));
-            std::fs::create_dir_all(&base).unwrap();
-            Dir(base)
-        }
-        fn path(&self) -> &Path {
-            &self.0
-        }
-    }
-
-    impl Drop for Dir {
-        fn drop(&mut self) {
-            let _ = std::fs::remove_dir_all(&self.0);
-        }
-    }
-
     fn kinds(report: &str) -> Vec<XKind> {
         extract_claims(report).into_iter().map(|c| c.kind).collect()
+    }
+
+    fn trusts(report: &str) -> Vec<Trust> {
+        extract_claims(report)
+            .into_iter()
+            .map(|c| c.trust)
+            .collect()
     }
 
     #[test]
@@ -790,37 +1175,90 @@ mod tests {
         let ks = kinds("PR #450 landed and #450 is cited again\n#451 stands alone");
         assert_eq!(
             ks,
-            vec![XKind::Pr(450), XKind::Pr(451)],
+            vec![XKind::Pr("450".to_string()), XKind::Pr("451".to_string())],
             "the bare repeat of an explicit number adds no claim"
         );
     }
 
     #[test]
-    fn repo_form_pr_extracts() {
-        let ks = kinds("see david-engelmann/peira#309 for the ruling");
-        assert_eq!(ks, vec![XKind::Pr(309)]);
+    fn pr_forms_carry_the_d17_split() {
+        assert_eq!(trusts("PR #450 merged"), vec![Trust::Trusted]);
+        assert_eq!(trusts("see pull/450 for it"), vec![Trust::Trusted]);
+        assert_eq!(
+            trusts("see david-engelmann/peira#309 for the ruling"),
+            vec![Trust::Trusted]
+        );
+        assert_eq!(trusts("the work in #450 landed"), vec![Trust::Provisional]);
+    }
+
+    #[test]
+    fn pr_without_whitespace_extracts() {
+        // The measured pattern is PR\s*# with \s* admitting zero
+        // whitespace.
+        assert_eq!(kinds("PR#450 merged"), vec![XKind::Pr("450".to_string())]);
+    }
+
+    #[test]
+    fn repo_form_needs_a_name_on_both_sides_of_the_slash() {
+        // "owner/#55" is not the repository form; the number is
+        // a bare reference instead, provisional under D17.
+        let claims = extract_claims("the note in owner/#55 explains");
+        assert_eq!(claims.len(), 1);
+        assert_eq!(claims[0].kind, XKind::Pr("55".to_string()));
+        assert_eq!(claims[0].trust, Trust::Provisional);
+    }
+
+    #[test]
+    fn bare_pr_unverifiable_never_moves_the_exit_code() {
+        let dir = bundle_with(&[]);
+        let out = verify_extracted("the work in #450 landed", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+        assert_eq!(out.results[0].trust, Trust::Provisional);
+        assert_eq!(out.exit_code(), 0, "no trusted claim stands unresolved");
     }
 
     #[test]
     fn tally_guard_blocks_fused_label_and_hex_prefix() {
-        assert!(kinds("G5 passed").is_empty(), "a fused gate label is not a tally");
+        assert!(
+            kinds("G5 passed").is_empty(),
+            "a fused gate label is not a tally"
+        );
         assert!(
             kinds("a1cfc044 15 passed").is_empty(),
             "a tally number right after a hex token is not a tally"
         );
         assert_eq!(
             kinds("the suite ran clean: 15 passed"),
-            vec![XKind::TallyFact(RunFact::Passed, 15)]
+            vec![XKind::TallyFact(RunFact::Passed, "15".to_string())]
         );
     }
 
     #[test]
-    fn of_form_decimal_fragment_extracts_as_v1_did() {
-        // The v1 pattern set has no guard on the of-form; the
-        // port must reproduce the measured behavior, not the v2
-        // fix. "0.01 of 1" extracted "01 of 1" in v1.
-        let ks = kinds("the flip rate was 0.01 of 1 in the band");
-        assert_eq!(ks, vec![XKind::TallyShape("of:1:1".to_string())]);
+    fn of_form_decimal_fragment_is_guarded_in_v2() {
+        // Pattern set v2 gives the of-form the fused-token
+        // guard: the "01 of 1" fragment inside "0.01 of 1" no
+        // longer extracts. A clean of-form still does.
+        assert!(
+            kinds("the flip rate was 0.01 of 1 in the band")
+                .iter()
+                .all(|k| !matches!(k, XKind::TallyShape(Shape::Of { .. })))
+        );
+        assert_eq!(
+            kinds("the audit covered 4 of 5 areas"),
+            vec![XKind::TallyShape(Shape::Of {
+                a: "4".to_string(),
+                b: "5".to_string()
+            })]
+        );
+    }
+
+    #[test]
+    fn of_form_series_words_are_suppressed_in_v2() {
+        assert!(
+            kinds("read checkpoint 1 of 3 before signing")
+                .iter()
+                .all(|k| !matches!(k, XKind::TallyShape(Shape::Of { .. })))
+        );
     }
 
     #[test]
@@ -831,7 +1269,9 @@ mod tests {
             vec![XKind::Commit("deadbeef".to_string())]
         );
         assert!(
-            kinds("1234567 commits landed").is_empty(),
+            !kinds("1234567 commits landed")
+                .iter()
+                .any(|k| matches!(k, XKind::Commit(_))),
             "a pure digit token is never a commit reference"
         );
     }
@@ -844,25 +1284,81 @@ mod tests {
         let ks = kinds(&format!("{h40} and {h64} and {h41}"));
         assert_eq!(
             ks,
-            vec![
-                XKind::GitSha(h40),
-                XKind::Hash256(h64),
-            ],
+            vec![XKind::GitSha(h40), XKind::Hash256(h64)],
             "41 hex characters is neither a SHA nor a hash"
         );
     }
 
     #[test]
     fn fraction_and_its_total_both_extract() {
-        // The v1 behavior that produced the measured FP4: the
+        // The measured behavior that produced the v1 FP4: the
         // fraction and the denominator total are separate claims.
         let ks = kinds("32/38 tests green");
         assert_eq!(
             ks,
             vec![
-                XKind::TallyShape("total:38:test".to_string()),
-                XKind::TallyShape("frac:32:38:test".to_string()),
+                XKind::TallyShape(Shape::Total {
+                    fam: "test",
+                    value: "38".to_string()
+                }),
+                XKind::TallyShape(Shape::Frac {
+                    a: "32".to_string(),
+                    b: "38".to_string(),
+                    fam: "test"
+                }),
             ]
+        );
+    }
+
+    #[test]
+    fn fraction_refuses_commas_as_measured() {
+        // The fraction pattern is \d+ on both sides; a comma
+        // number cannot form one. The denominator still reads
+        // as a total.
+        let ks = kinds("1,234/5,678 tests green");
+        assert_eq!(
+            ks,
+            vec![XKind::TallyShape(Shape::Total {
+                fam: "test",
+                value: "5678".to_string()
+            })]
+        );
+    }
+
+    #[test]
+    fn dedupe_identity_is_the_literal_text() {
+        // The measured extractor dedupes on the matched text:
+        // "1,234 passed" and "1234 passed" on one line are two
+        // claims naming the same value.
+        let claims = extract_claims("1,234 passed and later 1234 passed again");
+        let facts: Vec<&Extracted> = claims.iter().filter(|c| c.class == "tally").collect();
+        assert_eq!(facts.len(), 2);
+        assert_ne!(facts[0].value, facts[1].value);
+        assert_eq!(
+            facts[0].kind,
+            XKind::TallyFact(RunFact::Passed, "1234".to_string())
+        );
+        assert_eq!(facts[0].kind, facts[1].kind);
+    }
+
+    #[test]
+    fn oversized_numbers_still_extract() {
+        // The measured extractor's integers are unbounded; a
+        // 25-digit tally number is a claim, not a parse error.
+        let big = "9".repeat(25);
+        let ks = kinds(&format!("the run saw {big} passed"));
+        assert_eq!(ks, vec![XKind::TallyFact(RunFact::Passed, big)]);
+    }
+
+    #[test]
+    fn exit_tallies_extract() {
+        assert_eq!(
+            kinds("the gate ended with exit code 0"),
+            vec![XKind::TallyFact(RunFact::Exit, "0".to_string())]
+        );
+        assert_eq!(
+            kinds("the smoke: exit 2, an environment defect"),
+            vec![XKind::TallyFact(RunFact::Exit, "2".to_string())]
         );
     }
 
@@ -887,6 +1383,56 @@ mod tests {
     }
 
     #[test]
+    fn hash_in_the_repo_working_tree_verifies() {
+        // The bundle walk covers the bundled repository's
+        // working tree (D18); only .git internals are excluded.
+        let content = b"tracked source bytes";
+        let hex = sha256::sha256_hex(content);
+        let dir = bundle_with(&[("repo/src/lib.rs", content)]);
+        let report = format!("the digest is {hex}");
+        let out = verify_extracted(&report, dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Ok);
+    }
+
+    #[test]
+    fn repo_documents_are_not_logs() {
+        // A tally recorded inside the bundled repository's
+        // documents does not contradict a claim: the repository
+        // is git evidence, not a bundled log (D18).
+        let dir = bundle_with(&[("repo/NOTES.md", b"the other suite saw 99 passed\n")]);
+        let out = verify_extracted("the suite saw 15 passed", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
+    fn git_internals_are_not_evidence() {
+        let content = b"a loose object";
+        let hex = sha256::sha256_hex(content);
+        let dir = bundle_with(&[(".git/objects/ab/cdef", content)]);
+        let report = format!("the digest is {hex}");
+        let out = verify_extracted(&report, dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn symlinked_evidence_is_not_followed() {
+        // A bundle assembled from untrusted material must not
+        // pull evidence from outside itself, and a cyclic link
+        // must not loop the walk.
+        let outside = Dir::new();
+        let secret = b"outside the bundle";
+        std::fs::write(outside.path().join("secret.txt"), secret).unwrap();
+        let hex = sha256::sha256_hex(secret);
+        let dir = bundle_with(&[("note.txt", b"inside")]);
+        std::os::unix::fs::symlink(outside.path(), dir.path().join("link")).unwrap();
+        std::os::unix::fs::symlink(dir.path(), dir.path().join("loop")).unwrap();
+        let report = format!("the digest is {hex}");
+        let out = verify_extracted(&report, dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
     fn pr_verifies_against_bundled_record_and_names_it() {
         let dir = bundle_with(&[(
             "records/pr-450.json",
@@ -900,24 +1446,48 @@ mod tests {
     }
 
     #[test]
-    fn commit_verifies_through_the_repo_facts() {
+    fn pr_record_mismatch_and_missing_fields_are_unverifiable() {
+        let dir = bundle_with(&[(
+            "records/pr-450.json",
+            br#"{"number": 451, "state": "closed", "merged": true}"#,
+        )]);
+        let out = verify_extracted("PR #450 merged last night", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+        let dir = bundle_with(&[("records/pr-450.json", br#"{"number": 450}"#)]);
+        let out = verify_extracted("PR #450 merged last night", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
+    fn commit_and_gitsha_verify_through_the_repo_facts() {
+        let full = "a".repeat(40);
         let repo = StubRepo {
-            commits: ["abc1234ffff".to_string()].into_iter().collect(),
+            commits: ["abc1234ffff".to_string(), full.clone()]
+                .into_iter()
+                .collect(),
         };
         let dir = bundle_with(&[]);
+        let out = verify_extracted("the head abc1234 is pushed", dir.path(), Some(&repo), None);
+        assert_eq!(out.results[0].status, Status::Ok);
         let out = verify_extracted(
-            "the head abc1234 is pushed",
+            &format!("merged at {full} last night"),
             dir.path(),
             Some(&repo),
             None,
         );
         assert_eq!(out.results[0].status, Status::Ok);
-        let out = verify_extracted(
-            "the head def5678 is pushed",
-            dir.path(),
-            Some(&repo),
-            None,
-        );
+        let out = verify_extracted("the head def5678 is pushed", dir.path(), Some(&repo), None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
+    fn git_claims_without_a_repository_are_unverifiable() {
+        let dir = bundle_with(&[]);
+        let out = verify_extracted("the head abc1234 is pushed", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+        assert!(out.results[0].detail.contains("no repository"));
+        let full = "a".repeat(40);
+        let out = verify_extracted(&format!("merged at {full}"), dir.path(), None, None);
         assert_eq!(out.results[0].status, Status::Unverifiable);
     }
 
@@ -926,7 +1496,7 @@ mod tests {
         let dir = bundle_with(&[("run.log", b"running\n15 passed\n0 failed\n")]);
         let out = verify_extracted("the suite saw 15 passed", dir.path(), None, None);
         assert_eq!(out.results[0].status, Status::Ok);
-        assert_eq!(out.results[0].trust, Trust::Provisional);
+        assert_eq!(out.results[0].trust, Trust::Trusted);
         assert!(out.results[0].detail.contains("run.log"));
         let out = verify_extracted("the suite saw 14 passed", dir.path(), None, None);
         assert_eq!(out.results[0].status, Status::Contradicted);
@@ -934,16 +1504,79 @@ mod tests {
     }
 
     #[test]
-    fn provisional_contradiction_never_moves_the_exit_code() {
-        let content = b"evidence";
-        let hex = sha256::sha256_hex(content);
-        let dir = bundle_with(&[("run.log", b"15 passed\n"), ("e.bin", content)]);
-        let report = format!("digest {hex}; the suite saw 14 passed");
-        let out = verify_extracted(&report, dir.path(), None, None);
-        assert_eq!(out.exit_code(), 0, "the only failure is provisional");
-        let report = format!("digest {}; the suite saw 15 passed", "0".repeat(64));
-        let out = verify_extracted(&report, dir.path(), None, None);
-        assert_eq!(out.exit_code(), 3, "a trusted unverifiable claim sets the code");
+    fn failed_and_skipped_tallies_check_end_to_end() {
+        let dir = bundle_with(&[("run.log", b"3 failed, 1 skipped\n")]);
+        let out = verify_extracted("the run saw 3 failed", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Ok);
+        let out = verify_extracted("the run saw 2 failed", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Contradicted);
+        let out = verify_extracted("the run saw 1 skipped", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Ok);
+    }
+
+    #[test]
+    fn tally_contradiction_moves_the_exit_code() {
+        // Tallies are trusted after D17: a contradicted tally
+        // is a contradicted claim.
+        let dir = bundle_with(&[("run.log", b"15 passed\n")]);
+        let out = verify_extracted("the suite saw 14 passed", dir.path(), None, None);
+        assert_eq!(out.exit_code(), 1);
+    }
+
+    #[test]
+    fn shape_verdicts_agree_contradict_and_miss() {
+        let dir = bundle_with(&[("run.log", b"30/38 tests green\n4,554 of 4,701 trials\n")]);
+        let out = verify_extracted("the board shows 30/38 tests", dir.path(), None, None);
+        assert!(
+            out.results.iter().all(|r| r.status == Status::Ok),
+            "agreeing shapes verify: {:?}",
+            out.results
+        );
+        let out = verify_extracted("the board shows 32/38 tests", dir.path(), None, None);
+        let frac = out
+            .results
+            .iter()
+            .find(|r| r.detail.contains("different tally"))
+            .expect("the fraction claim is contradicted by the log's 30/38");
+        assert_eq!(frac.status, Status::Contradicted);
+        assert!(frac.detail.contains("run.log"));
+        let out = verify_extracted("the trials ran 4,554 of 4,701", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Ok);
+        let out = verify_extracted("the board shows 41 tests", dir.path(), None, None);
+        assert_eq!(
+            out.results[0].status,
+            Status::Contradicted,
+            "the log records a total for the same family"
+        );
+        let out = verify_extracted("the board shows 9 of 12 areas", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
+    fn count_lines_checks_against_the_named_file() {
+        let dir = bundle_with(&[("doc.md", b"a\nb\nc\n")]);
+        let out = verify_extracted("the doc.md grew to 3 lines", dir.path(), None, None);
+        assert_eq!(out.results.len(), 1);
+        assert_eq!(out.results[0].status, Status::Ok);
+        assert_eq!(out.results[0].trust, Trust::Provisional);
+        let out = verify_extracted("the doc.md grew to 5 lines", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Contradicted);
+        assert_eq!(
+            out.exit_code(),
+            0,
+            "a provisional contradiction moves nothing"
+        );
+    }
+
+    #[test]
+    fn counts_the_bundle_cannot_answer_are_unverifiable() {
+        let dir = bundle_with(&[("doc.md", b"a\nb\nc\n")]);
+        let out = verify_extracted("the doc.md lists 3 files", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+        let out = verify_extracted("the draft grew to 3 lines", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
+        let out = verify_extracted("the other.md grew to 3 lines", dir.path(), None, None);
+        assert_eq!(out.results[0].status, Status::Unverifiable);
     }
 
     #[test]

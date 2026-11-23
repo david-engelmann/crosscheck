@@ -15,12 +15,14 @@ The bundle carries:
   under demo-bundle/records/, fetched from the GitHub API on
   2026-11-23 and trimmed to the D14 flat shape.
 
-Expected, from the banked adjudication of d01 (all 36 of its
-extracted claims were true positives) and the report's own
-lines, checked against the assembled bundle:
+Expected, from the banked adjudication of d01 and the
+report's own lines, checked against the assembled bundle:
 - Extraction finds pr 10, commit 5, gitsha 1, tally 16, and
-  no hash256, count, or size claims: the Rust port reproduces
-  the measured Python v1 extraction on this report.
+  count 3, and no hash256 or size claims: the Rust port
+  reproduces the measured Python extraction on this report
+  (pattern set v2 for tally and count, per D17 and D18;
+  counts joined the extracted classes when D17 moved them
+  to provisional).
 - Four of the 5 commit claims verify against the bundled
   repository. The fifth (62180cc2, line 22) cites a git TREE
   in a commit context; a tree does not resolve as a commit,
@@ -31,9 +33,12 @@ lines, checked against the assembled bundle:
   (b3d3f64c, line 94): it resolves in the bundled repository
   and verifies.
 - No bundled log records the tallies, so every tally claim
-  is unverifiable and provisional, and none moves the exit.
-- The exit code is 3: one trusted claim stands unverifiable
-  (the tree cite), none is contradicted.
+  is unverifiable. Tallies are trusted after D17, so they
+  join the tree cite in setting the exit code.
+- The three count claims are provisional, whatever their
+  verdicts, and never move the exit.
+- The exit code is 3: trusted claims stand unverifiable
+  (the tree cite, the tallies), none is contradicted.
 
 Correction, 2026-11-23: the first run of this script failed
 two of its own expectations, both of them the script's
@@ -119,8 +124,8 @@ def main() -> int:
         by_class.setdefault(c["class"], []).append(c)
     counts = {k: len(v) for k, v in by_class.items()}
     check(
-        "extraction reproduces the measured v1 counts on d01",
-        counts == {"pr": 10, "commit": 5, "gitsha": 1, "tally": 16},
+        "extraction reproduces the measured counts on d01",
+        counts == {"pr": 10, "commit": 5, "gitsha": 1, "tally": 16, "count": 3},
         f"got {counts}",
     )
     commit_statuses = sorted(c["status"] for c in by_class.get("commit", []))
@@ -138,11 +143,15 @@ def main() -> int:
         [c["status"] for c in by_class.get("gitsha", [])] == ["OK"],
     )
     check(
-        "every tally is provisional and unverifiable without a bundled log",
+        "every tally is trusted and unverifiable without a bundled log",
         all(
-            c["trust"] == "provisional" and c["status"] == "UNVERIFIABLE"
+            c["trust"] == "trusted" and c["status"] == "UNVERIFIABLE"
             for c in by_class.get("tally", [])
         ),
+    )
+    check(
+        "every count is provisional",
+        all(c["trust"] == "provisional" for c in by_class.get("count", [])),
     )
     check(
         "every verified verdict names its evidence",

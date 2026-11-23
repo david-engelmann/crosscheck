@@ -39,3 +39,30 @@ passed, 0 failed, run from the core's compiled test binary.
 That is the first local full-suite verdict for this repo on
 this box, and it matches the hosted gate's count on the
 same tree.
+
+## Re-run after the checkpoint repair (2026-11-23)
+
+The M4 checkpoint repair (D17 standings, D18 semantics) ran
+the demonstration again on the repaired tree. Demo PASSED:
+35 claims, exit code 3, every expectation green. The claim
+count rose from 32 to 35 because D17 moved counts to
+provisional and the mode now extracts them (3 in this
+report, all provisional). The tallies are trusted now, so
+their unverifiable verdicts join the tree cite in setting
+exit 3; the verdicts themselves are unchanged.
+
+The repair's first re-run failed, and the failure is part
+of this record: with the evidence walk newly covering the
+bundled repository's working tree, documents inside the
+peira clone read as bundled logs, and one file's tally
+contradicted a claim no real log addressed. The line D18
+now states (the log corpus is the bundle's text files
+outside the repository subtree; hash evidence still comes
+from every file) is the fix, and a core test pins it.
+
+The same repair window ran the port differential: the Rust
+extractor and the measured Python v2 extractor over all 24
+reports of the v2 corpus, 1,076 claims each side once the
+unported size class is set aside, zero claims differing in
+line, class, or value. The harness is banked beside this
+note as difftest.rs.
