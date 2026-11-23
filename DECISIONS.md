@@ -225,3 +225,19 @@ The core parses these records with a small flat-object reader.
 Nested host payloads are trimmed to the flat record when the
 bundle is assembled, the same trimming the verdict viewer's
 bundled records already use.
+
+## D15. Track A measured, dispositions proposed (2026-11-23)
+
+The pattern set v1 was measured on the fresh frozen corpus
+under the M1 protocol, and the full record stands in
+docs/M2-EXTRACTION-V1-RESULTS.md with its artifacts under
+docs/m2/. The merged PR class measured 0.6 percent false
+positives and is proposed to join the trusted set. Short
+commit references measured 1.7 percent and are proposed to
+move from provisional to trusted, with the truncated
+hash-prefix mechanism named as the standing risk. Run tallies
+measured 3.7 percent and are proposed to move from trusted to
+provisional, the movement driven by the newly wired of-form.
+Counts at 7.9 percent and sizes at 23.8 percent stay out.
+These dispositions are proposed, not ratified. They take
+effect on Main's ratification, as D10 did for the v0 set.

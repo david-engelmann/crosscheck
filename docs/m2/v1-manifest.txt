@@ -1,0 +1,35 @@
+V1 re-measurement corpus manifest, frozen by hash 2026-11-21
+Fresh corpus for the pattern set v1 re-measurement (M2 plan,
+Track A). No report here appears in the v0 corpus. Frozen by
+recorded SHA-256 of the source files, measured read-only at
+freeze time, the same method as the v0 freeze. Stratified 8 gate
+reports, 8 audit summaries and red-team reports, 8 closure and
+landing records. The recall hand list is written from five of
+these reports before the v1 extractor runs.
+
+d01 gate    84bcfe7d883c50685b5d6879cdced4e458675667918b23b4428e4f561141d493 9302  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr452-openai-trio-2026-10-13.md
+d02 gate    2747a1397db6e8e412d48ae2b5aec161770dde5a21706e8af2e1d0daeac49d24 4548  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr454-anthropic-families-wire-2026-10-14.md
+d03 gate    d3ebef964c880db83151af241caadab519dc47d7c2def6aad963644e3539508c 7202  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr456-openai-decisions-2026-10-14.md
+d04 gate    2c230655cbfd7231b68d3265778a481dc6617924f6a3f50396ca42ea31980854 5538  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr458-robustness-tax-identity-2026-10-15.md
+d05 gate    638f3043e8b692fba8d4d2e989fc4a7114ceb068b25423d03193201ade086896 4510  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr459-decisions-emdash-2026-10-15.md
+d06 gate    314452a44401bfbb0c9f624b0e35b8cd046b6cc5151bbded20ba9a7cada299d9 6059  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pr461-jev114-2026-10-15.md
+d07 gate    5edba44359081ea8355d9c4b4fe64b9415ed3df2d9da60039d282b8f870b9ccb 26177 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-celeris-adapter-2026-10-15.md
+d08 gate    7bc8b3554dd47cbb9ef85a7f20b3fd4235c784dc767182ad50f12dcacf4afad4 21582 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-cerno-adapter-2026-10-22.md
+d09 audit   c93cb3482a7f3c7d72910643fe7ece969c792f41556eaaa085e5fed1127a6f48 15232 goals/peira-decision-model-robustness-benchmark/hidden_files/a6-run-plan-redteam-report-20261001.md
+d10 audit   dc63179025c4b5fd55b0bd4a9c41d9161984fe02d80d9cb3545b5203864f68f3 8994  goals/peira-decision-model-robustness-benchmark/hidden_files/display-scaffold-redteam-report-20261001.md
+d11 audit   0e2dd12389d97f88351189d63d9945166d12f875368ba557e9d345ece2b6537b 10402 goals/peira-decision-model-robustness-benchmark/hidden_files/eb-conv-redteam-report-20261001.md
+d12 audit   054a1d8bf9ff450e95f043b95427322539ae1ae390ca296e2095a52239476690 17473 goals/peira-decision-model-robustness-benchmark/hidden_files/perfection-data-audit-cycle1-2026-10-23.md
+d13 audit   c2ad0e7443509f8c92a82289fb636182f2f6e926004d45fcce078259c19bc513 18385 goals/peira-decision-model-robustness-benchmark/hidden_files/ui-convergence-reaudit-2026-10-23.md
+d14 audit   30ba5c53a92500d5f4fca652735d91c31df1d833c4e11584bfba1a3c44296792 10055 goals/peira-decision-model-robustness-benchmark/hidden_files/v2-draft-audit-completion-gate-20261001.md
+d15 audit   369240755e4c21148bfcda3086df4a241943ffa2e729423e5d8e9e2e62e28dc8 5122  goals/peira-decision-model-robustness-benchmark/hidden_files/eb-reporting-hygiene-gate-report.md
+d16 audit   b2ad1f44aec8b9efd6f702ad524ea24b0340b89890952faca584d6f838bfe8c6 11513 goals/peira-decision-model-robustness-benchmark/hidden_files/docs-perfection-gate-report-2026-09-30.md
+d17 closure 19d4606249cdc1e52ca474995813135ae6fa0e033aa4a440aebd7551c8c5ce33 4204  goals/peira-decision-model-robustness-benchmark/hidden_files/canary-pod-report-2026-10-15.md
+d18 closure bbf8f93af46a1b269cff7a1c3ec3c91088e0b1384fd56516b0c001d644e130d4 8584  goals/peira-decision-model-robustness-benchmark/hidden_files/von-driver-wiring-report-2026-10-15.md
+d19 closure 0f3a560f46e1147ff96a048b506f454a61ecb12d184dabee03768dbc56a5ee6b 6976  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-pod-repairs-2026-10-23.md
+d20 closure 99f823e1834f74ff6dfcac34463971ebee5840cc4e26c81be5c859db33710066 3164  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-fix-forward-main-red-20260930.md
+d21 closure e6b141f63abea00fd5b06cb0487760c9721d0995a49dd0f0b8c8f373f0ecc36c 11769 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-jev-fallback-fix-2026-10-23.md
+d22 closure 8b541e84c680df7276fd8db62d5a11bf8bb0798db5141e394461b7fa4d9307be 29824 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-score-fallback-fix-2026-10-22.md
+d23 closure 3436838e38ddc71c20922ba690e84ca178ee5eb61badb003b6fb9dd8a1b1049e 12324 goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-score-fallback-followups-2026-10-25.md
+d24 closure 6fc402806223b46514edaa66f3c5d701563d5d191efa9942e985a0b53b601fd0 5797  goals/peira-decision-model-robustness-benchmark/hidden_files/gate-report-lg3-wiring-2026-10-23.md
+
+Paths are relative to ~/workspace. Total 264,736 bytes.
