@@ -8,7 +8,8 @@ choice ruled as proposed in the section below (no wall-clock
 timestamp in the predicate; signing stays the caller's
 step). A build charge waits until the M4 checkpoint closes
 and the v2 measurement lands, so the export is built once
-over the settled verdict shape.
+over the settled verdict shape. Built 2026-11-23 as DECISIONS.md
+D19 records, once both preconditions stood met.
 
 ## The idea
 

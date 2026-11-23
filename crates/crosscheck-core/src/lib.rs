@@ -168,12 +168,72 @@ impl Status {
     }
 }
 
+/// A value in a bundled host record, carried into an
+/// attestation's evidence entry with its JSON type intact.
+#[derive(Debug, Clone, PartialEq)]
+pub enum EvidenceValue {
+    Text(String),
+    Bool(bool),
+    Number(String),
+}
+
+/// The bundled host record a claim was checked against: its
+/// path inside the bundle, the SHA-256 of its exact bytes,
+/// and the flat fields the verdict read, in record order.
+/// Carried on results so an export can pin the evidence the
+/// verdict rested on (docs/ATTESTATION-EXPORT.md).
+#[derive(Debug, Clone)]
+pub struct RecordEvidence {
+    pub path: String,
+    pub sha256: String,
+    pub fields: Vec<(String, EvidenceValue)>,
+}
+
+/// The record fields a pull request verdict reads, in the
+/// order an evidence entry carries them.
+pub(crate) const PR_RECORD_KEYS: [&str; 3] = ["number", "state", "merged"];
+
+/// The record fields a CI verdict reads, in the order an
+/// evidence entry carries them.
+pub(crate) const CI_RECORD_KEYS: [&str; 3] = ["head_sha", "status", "conclusion"];
+
+/// Build the evidence entry for a record file's bytes: the
+/// digest of the exact bytes, plus whichever of `keys` the
+/// record carries, typed as the flat reader found them.
+pub(crate) fn record_evidence(path: &str, bytes: &[u8], keys: &[&str]) -> RecordEvidence {
+    let text = String::from_utf8_lossy(bytes);
+    let mut fields = Vec::new();
+    for key in keys {
+        if let Some(value) = flat_field(&text, key) {
+            fields.push((
+                (*key).to_string(),
+                match value {
+                    FlatVal::Str(s) => EvidenceValue::Text(s),
+                    FlatVal::Bool(b) => EvidenceValue::Bool(b),
+                    FlatVal::Num(n) => EvidenceValue::Number(n),
+                },
+            ));
+        }
+    }
+    RecordEvidence {
+        path: path.to_string(),
+        sha256: sha256::sha256_hex(bytes),
+        fields,
+    }
+}
+
 /// The outcome for one claim line.
 #[derive(Debug, Clone)]
 pub struct ClaimResult {
     pub line: usize,
     pub status: Status,
     pub detail: String,
+    /// The marker's spec text as written, for the attestation
+    /// export; None when the claim carried no marker.
+    pub spec: Option<String>,
+    /// The bundled record the verdict rested on, when the
+    /// claim is record-backed and the record was read.
+    pub evidence: Option<RecordEvidence>,
 }
 
 /// The outcome for a whole report. The exit code follows the
@@ -639,7 +699,35 @@ fn check_ci_record(bytes: &[u8], sha: &str, want: &str) -> (Status, String) {
     }
 }
 
-fn check(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, String) {
+/// Check one claim and, for a record-backed claim whose
+/// record the bundle carries, attach the record's evidence
+/// entry. The verdict itself comes from check_verdict; the
+/// evidence read is separate and changes no verdict.
+fn check(
+    spec: &Spec,
+    bundle: &Path,
+    repo: Option<&dyn RepoFacts>,
+) -> (Status, String, Option<RecordEvidence>) {
+    let evidence = match spec {
+        Spec::PrState { number, .. } => {
+            let cited = format!("records/pr-{number}.json");
+            read_cited(bundle, &cited)
+                .ok()
+                .map(|bytes| record_evidence(&cited, &bytes, &PR_RECORD_KEYS))
+        }
+        Spec::CiState { sha, .. } => {
+            let cited = format!("records/ci-{sha}.json");
+            read_cited(bundle, &cited)
+                .ok()
+                .map(|bytes| record_evidence(&cited, &bytes, &CI_RECORD_KEYS))
+        }
+        _ => None,
+    };
+    let (status, detail) = check_verdict(spec, bundle, repo);
+    (status, detail, evidence)
+}
+
+fn check_verdict(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, String) {
     match spec {
         Spec::Exists { path } => match contained(bundle, path) {
             Ok(p) if p.is_file() => (Status::Ok, "exists".to_string()),
@@ -792,20 +880,26 @@ pub fn verify_report_repo(report: &str, bundle: &Path, repo: Option<&dyn RepoFac
                 line: line_no,
                 status: Status::Malformed,
                 detail: "claim carries no evidence marker".to_string(),
+                spec: None,
+                evidence: None,
             },
             Some(spec_text) => match parse_spec(spec_text) {
                 Ok(spec) => {
-                    let (status, detail) = check(&spec, bundle, repo);
+                    let (status, detail, evidence) = check(&spec, bundle, repo);
                     ClaimResult {
                         line: line_no,
                         status,
                         detail,
+                        spec: Some(spec_text.trim().to_string()),
+                        evidence,
                     }
                 }
                 Err(e) => ClaimResult {
                     line: line_no,
                     status: Status::Malformed,
                     detail: e,
+                    spec: Some(spec_text.trim().to_string()),
+                    evidence: None,
                 },
             },
         };
@@ -1088,6 +1182,73 @@ mod tests {
             dir.path(),
         );
         assert_eq!(v.exit_code(), 3);
+    }
+
+    #[test]
+    fn pr_result_carries_the_record_evidence() {
+        let record = b"{\"number\":452,\"state\":\"closed\",\"merged\":true}";
+        let dir = bundle_with(&[("records/pr-452.json", record)]);
+        let v = verify_report(
+            "- CLAIM: the change landed [evidence: pr 452 state == merged]\n",
+            dir.path(),
+        );
+        assert_eq!(v.results[0].status, Status::Ok);
+        assert_eq!(v.results[0].spec.as_deref(), Some("pr 452 state == merged"));
+        let ev = v.results[0].evidence.as_ref().expect("record evidence");
+        assert_eq!(ev.path, "records/pr-452.json");
+        assert_eq!(ev.sha256, sha256::sha256_hex(record));
+        assert_eq!(
+            ev.fields,
+            vec![
+                (
+                    "number".to_string(),
+                    EvidenceValue::Number("452".to_string())
+                ),
+                (
+                    "state".to_string(),
+                    EvidenceValue::Text("closed".to_string())
+                ),
+                ("merged".to_string(), EvidenceValue::Bool(true)),
+            ]
+        );
+    }
+
+    #[test]
+    fn ci_result_carries_the_record_evidence() {
+        let record =
+            b"{\"head_sha\":\"abc1234ffff\",\"status\":\"completed\",\"conclusion\":\"success\"}";
+        let dir = bundle_with(&[("records/ci-abc1234.json", record)]);
+        let v = verify_report(
+            "- CLAIM: the gate ran [evidence: ci abc1234 state == success]\n",
+            dir.path(),
+        );
+        assert_eq!(v.results[0].status, Status::Ok);
+        let ev = v.results[0].evidence.as_ref().expect("record evidence");
+        assert_eq!(ev.path, "records/ci-abc1234.json");
+        assert_eq!(ev.sha256, sha256::sha256_hex(record));
+        assert_eq!(ev.fields.len(), 3);
+        assert_eq!(
+            ev.fields[0],
+            (
+                "head_sha".to_string(),
+                EvidenceValue::Text("abc1234ffff".to_string())
+            )
+        );
+    }
+
+    #[test]
+    fn missing_record_and_missing_marker_carry_no_evidence() {
+        let dir = bundle_with(&[]);
+        let v = verify_report(
+            "- CLAIM: the change landed [evidence: pr 452 state == merged]\n\
+             - CLAIM: a claim with no marker at all\n",
+            dir.path(),
+        );
+        assert_eq!(v.results[0].status, Status::Unverifiable);
+        assert!(v.results[0].evidence.is_none());
+        assert_eq!(v.results[1].status, Status::Malformed);
+        assert!(v.results[1].spec.is_none());
+        assert!(v.results[1].evidence.is_none());
     }
 
     #[test]

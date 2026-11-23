@@ -357,3 +357,41 @@ again:
 - The port is byte-oriented where the measured extractor's
   patterns are Unicode-aware. Fleet reports are ASCII; the
   divergence is recorded, not hidden.
+
+## D19. Attestation export built (2026-11-23)
+
+The export charged in docs/ATTESTATION-EXPORT.md is built
+as that note and Main's ruling describe, with the shape
+choices the note left to the build stated here:
+
+- Either mode takes --attest. The run then prints the
+  in-toto Statement instead of the usual rendering; the
+  exit code is the verdict's either way, and the plain and
+  JSON outputs are untouched when the flag is absent.
+- The subject is the report, named as the caller named it
+  on the command line, digested with the SHA-256 of its
+  bytes. The predicate type is the note's versioned URL.
+  The predicate carries the tool name and version, the
+  mode, the exit code as data, the summary, the claims in
+  line order, the bundle pins, and the semantic limit line
+  verbatim. No wall-clock timestamp, per the ruling; the
+  same verdict exports byte-identically, and a CLI test
+  proves it.
+- Summary counts are by status in a fixed key order
+  (verified, contradicted, unverifiable, malformed). In
+  extract mode the counts split by trust, trusted first.
+- A verify-mode claim entry carries the marker spec text
+  as written; an extract-mode entry carries class and
+  trust. A record-backed claim whose record the bundle
+  carried carries an evidence entry: the record path, the
+  SHA-256 of the record file's exact bytes, and the flat
+  D14 fields the verdict read, typed as they stand in the
+  record. The core attaches the entry when it checks the
+  claim; the read changes no verdict.
+- The bundle block pins the evidence set: the manifest
+  digest when the bundle carries a manifest.json, and the
+  bundled repository's head when it carries a repository.
+  A pin the bundle cannot supply is omitted, and the block
+  is omitted when neither exists.
+- The statement is emitted unsigned. Signing stays the
+  caller's step, per the note.

@@ -44,6 +44,11 @@ means at least one claim needs evidence the bundle does not carry.
 The printed output names every claim, what kind of claim it is, and
 what the evidence said.
 
+Adding --attest to either mode prints the verdict as an in-toto
+Statement instead. The statement is unsigned and reproducible byte
+for byte from the same report and bundle, ready for the caller to
+wrap and sign with their own tooling.
+
 ## The verdict viewer
 
 The web directory holds a verdict viewer, a Next.js app that

@@ -40,7 +40,10 @@
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
-use crate::{RepoFacts, RunFact, Status, Tri, last_tally, parse_pr_record, read_cited, sha256};
+use crate::{
+    PR_RECORD_KEYS, RecordEvidence, RepoFacts, RunFact, Status, Tri, last_tally, parse_pr_record,
+    read_cited, record_evidence, sha256,
+};
 
 /// Whether a class's extracted claims can move the exit code.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -176,6 +179,10 @@ pub struct ExtractedResult {
     pub trust: Trust,
     pub status: Status,
     pub detail: String,
+    /// The bundled record the verdict rested on, when the
+    /// claim is a pull request reference and the record was
+    /// read; carried for the attestation export.
+    pub evidence: Option<RecordEvidence>,
 }
 
 /// The outcome of an extraction-mode run.
@@ -1109,12 +1116,25 @@ pub fn verify_extracted(
                 }
             }
         };
+        // A pull request claim checked against a bundled
+        // record carries the record's evidence entry, as in
+        // the marker mode; the read changes no verdict.
+        let evidence = match &claim.kind {
+            XKind::Pr(digits) => {
+                let cited = format!("records/pr-{}.json", normalize_digits(digits));
+                read_cited(bundle, &cited)
+                    .ok()
+                    .map(|bytes| record_evidence(&cited, &bytes, &PR_RECORD_KEYS))
+            }
+            _ => None,
+        };
         results.push(ExtractedResult {
             line: claim.line,
             class: claim.class,
             trust: claim.trust,
             status,
             detail,
+            evidence,
         });
     }
     Extraction { results }
@@ -1512,6 +1532,17 @@ mod tests {
         assert_eq!(out.results[0].status, Status::Contradicted);
         let out = verify_extracted("the run saw 1 skipped", dir.path(), None, None);
         assert_eq!(out.results[0].status, Status::Ok);
+    }
+
+    #[test]
+    fn extracted_pr_result_carries_the_record_evidence() {
+        let record = b"{\"number\":452,\"state\":\"closed\",\"merged\":true}";
+        let dir = bundle_with(&[("records/pr-452.json", record)]);
+        let out = verify_extracted("the gate for PR #452 is green", dir.path(), None, None);
+        let ev = out.results[0].evidence.as_ref().expect("record evidence");
+        assert_eq!(ev.path, "records/pr-452.json");
+        assert_eq!(ev.sha256, sha256::sha256_hex(record));
+        assert_eq!(ev.fields.len(), 3);
     }
 
     #[test]
