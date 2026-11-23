@@ -3,6 +3,12 @@
 Status: design note only, written 2026-11-23 under the
 applicability audit charge of the same date. No build is
 charged by this note. Main reviews it before any build.
+Reviewed and accepted by Main on 2026-11-23, with the open
+choice ruled as proposed in the section below (no wall-clock
+timestamp in the predicate; signing stays the caller's
+step). A build charge waits until the M4 checkpoint closes
+and the v2 measurement lands, so the export is built once
+over the settled verdict shape.
 
 ## The idea
 
