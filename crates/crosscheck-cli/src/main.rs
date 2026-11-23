@@ -1,6 +1,6 @@
-//! The retrial command line.
+//! The crosscheck command line.
 //!
-//! Usage: retrial verify REPORT --bundle DIR [--json]
+//! Usage: crosscheck verify REPORT --bundle DIR [--json]
 //!
 //! Exit codes are the verdict contract in DECISIONS.md D5: 0 verified,
 //! 1 contradicted, 2 malformed, 3 unverifiable, 64 usage, 66 input
@@ -16,7 +16,7 @@
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
 
-use retrial_core::{RepoFacts, Status, Tri, verify_report_repo};
+use crosscheck_core::{RepoFacts, Status, Tri, verify_report_repo};
 
 /// RepoFacts supplied by the auditor's git, run against the
 /// repository bundled at `dir`.
@@ -78,11 +78,11 @@ impl RepoFacts for GitRepo {
     }
 }
 
-const LIMIT_LINE: &str = "Note: retrial proves that cited spans exist, hashes match, counts \
+const LIMIT_LINE: &str = "Note: crosscheck proves that cited spans exist, hashes match, counts \
 recompute, and cited commits resolve. It does not prove a span supports the sentence it is attached to.";
 
 fn usage() -> ExitCode {
-    eprintln!("usage: retrial verify REPORT --bundle DIR [--json]");
+    eprintln!("usage: crosscheck verify REPORT --bundle DIR [--json]");
     ExitCode::from(64)
 }
 

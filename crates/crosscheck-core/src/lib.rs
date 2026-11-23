@@ -1,4 +1,4 @@
-//! Retrial core: deterministic verification of agent work reports
+//! Crosscheck core: deterministic verification of agent work reports
 //! against an evidence bundle.
 //!
 //! A report is a Markdown document. A line that begins with
@@ -470,7 +470,7 @@ mod tests {
                 static NEXT: AtomicU64 = AtomicU64::new(0);
                 let n = NEXT.fetch_add(1, Ordering::Relaxed);
                 let mut p = std::env::temp_dir();
-                p.push(format!("retrial-core-test-{}-{n}", std::process::id()));
+                p.push(format!("crosscheck-core-test-{}-{n}", std::process::id()));
                 let _ = std::fs::remove_dir_all(&p);
                 std::fs::create_dir_all(&p).unwrap();
                 Dir(p)

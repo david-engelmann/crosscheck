@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/retrial-core", "crates/retrial-cli"]
+members = ["crates/crosscheck-core", "crates/crosscheck-cli"]
 
 [workspace.package]
 edition = "2024"

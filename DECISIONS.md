@@ -178,3 +178,13 @@ Still owed under the rename: the crate and binary names
 name inside the documentation. That sweep is its own change,
 gated by the hosted suite like any other, and lands after the
 first green verdict on the code as banked.
+
+## D13. The rename sweep (2026-11-22)
+
+The sweep named in D12 is done. The crates are crosscheck-core
+and crosscheck-cli, the binary is crosscheck, and the README and
+the CLI's own text carry the product's final name. The dated
+records keep the name they were written under: the M1 corpus and
+results, the M2 plan, the viewer's recorded run, and decisions
+D1 to D12 are history and were not rewritten. From this decision
+forward, crosscheck is the only name in current-state text.
