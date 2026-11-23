@@ -14,6 +14,17 @@
 //! - `[evidence: ancestor A of B]`
 //! - `[evidence: diff A..B files == N]`
 //! - `[evidence: diff A..B touches PATH]`
+//! - `[evidence: run FACT in PATH == N]`
+//! - `[evidence: pr N state == merged]` or `== open`
+//! - `[evidence: ci SHA state == success]` or `== failure`
+//!
+//! A run fact is one of passed, failed, skipped, or exit, checked
+//! against the tallies recorded in the cited log. The last tally
+//! of that fact in the log is the record. A fact the log does not
+//! record leaves the claim unverifiable; a tally that disagrees
+//! contradicts it (DECISIONS.md D14). Pull request and CI claims
+//! check against flat records the bundle carries under `records/`.
+//! A missing record is unverifiable, never a pass.
 //!
 //! The git forms check against the repository the bundle carries,
 //! reached through the [`RepoFacts`] interface; the core itself
@@ -43,6 +54,29 @@ pub enum Spec {
     Ancestor { anc: String, desc: String },
     DiffFiles { a: String, b: String, want: u64 },
     DiffTouches { a: String, b: String, path: String },
+    RunFact { fact: RunFact, path: String, want: u64 },
+    PrState { number: u64, want_merged: bool },
+    CiState { sha: String, want: String },
+}
+
+/// One fact a run log can record, per DECISIONS.md D14.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RunFact {
+    Passed,
+    Failed,
+    Skipped,
+    Exit,
+}
+
+impl RunFact {
+    fn word(self) -> &'static str {
+        match self {
+            RunFact::Passed => "passed",
+            RunFact::Failed => "failed",
+            RunFact::Skipped => "skipped",
+            RunFact::Exit => "exit",
+        }
+    }
 }
 
 /// A three-way fact from the bundled repository: the fact holds,
@@ -202,6 +236,54 @@ fn parse_spec(spec: &str) -> Result<Spec, String> {
         }
         return Err("diff marker is neither 'files == N' nor 'touches PATH'".to_string());
     }
+    if let Some(rest) = spec.strip_prefix("run ") {
+        let (fact_word, rest) = rest
+            .split_once(' ')
+            .ok_or("run marker missing its log")?;
+        let fact = match fact_word {
+            "passed" => RunFact::Passed,
+            "failed" => RunFact::Failed,
+            "skipped" => RunFact::Skipped,
+            "exit" => RunFact::Exit,
+            _ => return Err(format!("unknown run fact: {fact_word}")),
+        };
+        let rest = rest
+            .strip_prefix("in ")
+            .ok_or("run marker missing ' in '")?;
+        let (path, want) = split_eq(rest)?;
+        let want = want
+            .parse::<u64>()
+            .map_err(|_| "run fact value is not a number".to_string())?;
+        return Ok(Spec::RunFact { fact, path, want });
+    }
+    if let Some(rest) = spec.strip_prefix("pr ") {
+        let (num, want) = split_eq(rest)?;
+        let number = num
+            .strip_suffix(" state")
+            .ok_or("pr marker missing ' state'")?
+            .parse::<u64>()
+            .map_err(|_| "pr number is not a number".to_string())?;
+        let want_merged = match want.as_str() {
+            "merged" => true,
+            "open" => false,
+            _ => return Err(format!("unknown pr state: {want}")),
+        };
+        return Ok(Spec::PrState { number, want_merged });
+    }
+    if let Some(rest) = spec.strip_prefix("ci ") {
+        let (sha, want) = split_eq(rest)?;
+        let sha = sha
+            .strip_suffix(" state")
+            .ok_or("ci marker missing ' state'")?
+            .to_string();
+        if !valid_sha(&sha) {
+            return Err("ci identifier is not 7 to 40 hex characters".to_string());
+        }
+        if want != "success" && want != "failure" {
+            return Err(format!("unknown ci state: {want}"));
+        }
+        return Ok(Spec::CiState { sha, want });
+    }
     Err(format!("unrecognised evidence marker: {spec}"))
 }
 
@@ -313,6 +395,168 @@ fn check_git(spec: &Spec, repo: Option<&dyn RepoFacts>) -> (Status, String) {
     }
 }
 
+/// The last tally of `fact` recorded in a run log, per D14. A
+/// tally is a number token immediately followed by the fact word
+/// (for exit, an `exit` or `exited` token followed by a number,
+/// optionally through the word `code`). Logs append, so the last
+/// match is the run's record.
+fn last_tally(text: &str, fact: RunFact) -> Option<u64> {
+    let mut found = None;
+    for line in text.lines() {
+        let tokens: Vec<&str> = line.split_whitespace().collect();
+        for (i, tok) in tokens.iter().enumerate() {
+            if fact == RunFact::Exit {
+                if *tok == "exit" || *tok == "exited" {
+                    if let Some(v) = tokens.get(i + 1).and_then(|t| t.parse::<u64>().ok()) {
+                        found = Some(v);
+                    } else if tokens.get(i + 1).map(|t| t.trim_end_matches(':')) == Some("code") {
+                        if let Some(v) = tokens.get(i + 2).and_then(|t| t.parse::<u64>().ok()) {
+                            found = Some(v);
+                        }
+                    }
+                }
+            } else if let Ok(v) = tok.parse::<u64>() {
+                if let Some(next) = tokens.get(i + 1) {
+                    let word = next.trim_end_matches(|c| matches!(c, ';' | ',' | '.' | ':'));
+                    if word == fact.word() {
+                        found = Some(v);
+                    }
+                }
+            }
+        }
+    }
+    found
+}
+
+/// One value in a flat host record, per D14. Records are single
+/// JSON objects with flat fields; this reader is deliberately
+/// only that, and a nested payload must be trimmed to a flat
+/// record when the bundle is assembled.
+#[derive(Debug, PartialEq)]
+enum FlatVal {
+    Str(String),
+    Bool(bool),
+    Num(String),
+}
+
+fn flat_field(text: &str, key: &str) -> Option<FlatVal> {
+    let needle = format!("\"{key}\"");
+    let at = text.find(&needle)? + needle.len();
+    let rest = text[at..].trim_start().strip_prefix(':')?.trim_start();
+    if let Some(s) = rest.strip_prefix('"') {
+        let mut out = String::new();
+        let mut chars = s.chars();
+        loop {
+            match chars.next()? {
+                '"' => break,
+                '\\' => {
+                    let e = chars.next()?;
+                    out.push(match e {
+                        'n' => '\n',
+                        't' => '\t',
+                        _ => e,
+                    });
+                }
+                c => out.push(c),
+            }
+        }
+        return Some(FlatVal::Str(out));
+    }
+    let end = rest.find(|c| c == ',' || c == '}').unwrap_or(rest.len());
+    let tok = rest[..end].trim();
+    match tok {
+        "true" => Some(FlatVal::Bool(true)),
+        "false" => Some(FlatVal::Bool(false)),
+        _ if tok.parse::<i64>().is_ok() => Some(FlatVal::Num(tok.to_string())),
+        _ => None,
+    }
+}
+
+fn flat_str(text: &str, key: &str) -> Option<String> {
+    match flat_field(text, key) {
+        Some(FlatVal::Str(s)) => Some(s),
+        _ => None,
+    }
+}
+
+fn check_pr_record(bytes: &[u8], number: u64, want_merged: bool) -> (Status, String) {
+    let text = String::from_utf8_lossy(bytes);
+    let rec_num = match flat_field(&text, "number") {
+        Some(FlatVal::Num(n)) => n.parse::<u64>().ok(),
+        _ => None,
+    };
+    let state = flat_str(&text, "state");
+    let merged = match flat_field(&text, "merged") {
+        Some(FlatVal::Bool(b)) => Some(b),
+        _ => None,
+    };
+    match (rec_num, state, merged) {
+        (Some(n), Some(state), Some(merged)) => {
+            if n != number {
+                return (
+                    Status::Unverifiable,
+                    format!("bundled record describes PR {n}, not PR {number}"),
+                );
+            }
+            let holds = if want_merged {
+                state == "closed" && merged
+            } else {
+                state == "open"
+            };
+            if holds {
+                (
+                    Status::Ok,
+                    format!("record shows the pull request {}", if want_merged { "merged" } else { "open" }),
+                )
+            } else {
+                (
+                    Status::Contradicted,
+                    format!("record shows state {state}, merged {merged}"),
+                )
+            }
+        }
+        _ => (
+            Status::Unverifiable,
+            "bundled record lacks the fields this claim needs".to_string(),
+        ),
+    }
+}
+
+fn check_ci_record(bytes: &[u8], sha: &str, want: &str) -> (Status, String) {
+    let text = String::from_utf8_lossy(bytes);
+    let head = flat_str(&text, "head_sha");
+    let status = flat_str(&text, "status");
+    let conclusion = flat_str(&text, "conclusion");
+    match (head, status, conclusion) {
+        (Some(head), Some(status), Some(conclusion)) => {
+            if !head.to_lowercase().starts_with(&sha.to_lowercase()) {
+                return (
+                    Status::Unverifiable,
+                    "bundled record describes a different head".to_string(),
+                );
+            }
+            if status != "completed" {
+                return (
+                    Status::Unverifiable,
+                    "the recorded run has not completed".to_string(),
+                );
+            }
+            if conclusion == want {
+                (Status::Ok, format!("record shows the run {conclusion}"))
+            } else {
+                (
+                    Status::Contradicted,
+                    format!("record shows the run {conclusion}"),
+                )
+            }
+        }
+        _ => (
+            Status::Unverifiable,
+            "bundled record lacks the fields this claim needs".to_string(),
+        ),
+    }
+}
+
 fn check(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, String) {
     match spec {
         Spec::Exists { path } => match contained(bundle, path) {
@@ -385,6 +629,44 @@ fn check(spec: &Spec, bundle: &Path, repo: Option<&dyn RepoFacts>) -> (Status, S
             }
             Err(e) => e,
         },
+        Spec::RunFact { fact, path, want } => match read_cited(bundle, path) {
+            Ok(bytes) => {
+                let text = String::from_utf8_lossy(&bytes);
+                match last_tally(&text, *fact) {
+                    Some(actual) if actual == *want => (
+                        Status::Ok,
+                        format!("{} recorded as {actual}", fact.word()),
+                    ),
+                    Some(actual) => (
+                        Status::Contradicted,
+                        format!(
+                            "report says {} {}, cited log records {actual}",
+                            want,
+                            fact.word()
+                        ),
+                    ),
+                    None => (
+                        Status::Unverifiable,
+                        format!("cited log records no {} tally", fact.word()),
+                    ),
+                }
+            }
+            Err(e) => e,
+        },
+        Spec::PrState { number, want_merged } => {
+            let cited = format!("records/pr-{number}.json");
+            match read_cited(bundle, &cited) {
+                Ok(bytes) => check_pr_record(&bytes, *number, *want_merged),
+                Err(e) => e,
+            }
+        }
+        Spec::CiState { sha, want } => {
+            let cited = format!("records/ci-{sha}.json");
+            match read_cited(bundle, &cited) {
+                Ok(bytes) => check_ci_record(&bytes, sha, want),
+                Err(e) => e,
+            }
+        }
         Spec::Commit { .. }
         | Spec::Ancestor { .. }
         | Spec::DiffFiles { .. }
@@ -664,5 +946,115 @@ mod tests {
         assert_eq!(v.results[0].status, Status::Malformed);
         let v = git_verdict("- CLAIM: x [evidence: ancestor 1111111a 3333333c]\n");
         assert_eq!(v.results[0].status, Status::Malformed);
+    }
+
+    const RUN_LOG: &[u8] = b"running 15 tests\n\
+                             test result: ok. 15 passed; 0 failed; 0 skipped\n\
+                             process finished, exit code 0\n";
+
+    #[test]
+    fn run_facts_verify_against_the_cited_log() {
+        let dir = bundle_with(&[("gate.log", RUN_LOG)]);
+        let report = "- CLAIM: suite [evidence: run passed in gate.log == 15]\n\
+                      - CLAIM: suite [evidence: run failed in gate.log == 0]\n\
+                      - CLAIM: suite [evidence: run skipped in gate.log == 0]\n\
+                      - CLAIM: suite [evidence: run exit in gate.log == 0]\n";
+        let v = verify_report(report, dir.path());
+        assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
+        assert_eq!(v.claims_checked(), 4);
+    }
+
+    #[test]
+    fn run_fact_that_disagrees_is_contradicted() {
+        let dir = bundle_with(&[("gate.log", RUN_LOG)]);
+        let v = verify_report("- CLAIM: suite [evidence: run passed in gate.log == 16]\n", dir.path());
+        assert_eq!(v.exit_code(), 1);
+        assert_eq!(v.results[0].status, Status::Contradicted);
+    }
+
+    #[test]
+    fn run_fact_the_log_does_not_record_is_unverifiable() {
+        let dir = bundle_with(&[("gate.log", b"15 passed and nothing else\n")]);
+        let v = verify_report("- CLAIM: suite [evidence: run failed in gate.log == 0]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+        assert_eq!(v.results[0].status, Status::Unverifiable);
+        let v = verify_report("- CLAIM: suite [evidence: run passed in gone.log == 15]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+    }
+
+    #[test]
+    fn last_tally_in_the_log_is_the_record() {
+        let log = b"first attempt: 10 passed; 5 failed\n\
+                    second attempt: 15 passed; 0 failed\n";
+        let dir = bundle_with(&[("gate.log", log)]);
+        let v = verify_report("- CLAIM: suite [evidence: run passed in gate.log == 15]\n", dir.path());
+        assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
+        let v = verify_report("- CLAIM: suite [evidence: run passed in gate.log == 10]\n", dir.path());
+        assert_eq!(v.exit_code(), 1);
+    }
+
+    const PR_MERGED: &[u8] = br#"{"number": 568, "state": "closed", "merged": true, "title": "Publish the study"}"#;
+    const PR_OPEN: &[u8] = br#"{"number": 12, "state": "open", "merged": false}"#;
+    const CI_DONE: &[u8] = br#"{"head_sha": "2bb685b82cf8f723c57cfdd2da6946460e50fbfa", "status": "completed", "conclusion": "success"}"#;
+
+    #[test]
+    fn pr_state_checks_against_the_bundled_record() {
+        let dir = bundle_with(&[
+            ("records/pr-568.json", PR_MERGED),
+            ("records/pr-12.json", PR_OPEN),
+        ]);
+        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
+        let v = verify_report("- CLAIM: pending [evidence: pr 12 state == open]\n", dir.path());
+        assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
+        let v = verify_report("- CLAIM: landed [evidence: pr 12 state == merged]\n", dir.path());
+        assert_eq!(v.exit_code(), 1);
+        assert_eq!(v.results[0].status, Status::Contradicted);
+        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == open]\n", dir.path());
+        assert_eq!(v.exit_code(), 1);
+    }
+
+    #[test]
+    fn pr_claim_without_a_record_is_unverifiable() {
+        let dir = bundle_with(&[]);
+        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+        // A record whose number names a different pull request
+        // does not cover the claim.
+        let dir = bundle_with(&[("records/pr-568.json", PR_OPEN)]);
+        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+        assert_eq!(v.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
+    fn unusable_record_leaves_the_claim_unverifiable() {
+        let dir = bundle_with(&[("records/pr-568.json", b"not a record at all")]);
+        let v = verify_report("- CLAIM: landed [evidence: pr 568 state == merged]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+        assert_eq!(v.results[0].status, Status::Unverifiable);
+    }
+
+    #[test]
+    fn ci_state_checks_against_the_bundled_record() {
+        let dir = bundle_with(&[("records/ci-2bb685b8.json", CI_DONE)]);
+        let v = verify_report("- CLAIM: gate [evidence: ci 2bb685b8 state == success]\n", dir.path());
+        assert_eq!(v.exit_code(), 0, "results: {:?}", v.results);
+        let v = verify_report("- CLAIM: gate [evidence: ci 2bb685b8 state == failure]\n", dir.path());
+        assert_eq!(v.exit_code(), 1);
+        // A record whose head does not match the claimed head does
+        // not cover the claim, even filed under the claimed name.
+        let dir = bundle_with(&[("records/ci-1111111a.json", CI_DONE)]);
+        let v = verify_report("- CLAIM: gate [evidence: ci 1111111a state == success]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+    }
+
+    #[test]
+    fn ci_claim_for_an_unfinished_run_is_unverifiable() {
+        let rec = br#"{"head_sha": "2bb685b8", "status": "in_progress", "conclusion": null}"#;
+        let dir = bundle_with(&[("records/ci-2bb685b8.json", rec)]);
+        let v = verify_report("- CLAIM: gate [evidence: ci 2bb685b8 state == success]\n", dir.path());
+        assert_eq!(v.exit_code(), 3);
+        assert_eq!(v.results[0].status, Status::Unverifiable);
     }
 }
